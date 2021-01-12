@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.transport.handler.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
 import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
@@ -30,7 +31,9 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
         Message message = (Message) msg;
         Header header = message.getHeader();
         if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
-
+            //TODO
+            BusinessRequest request = (BusinessRequest) message.getBody();
+            ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, request.getRequest()));
         }
         super.channelRead(ctx, msg);
     }
