@@ -90,7 +90,7 @@ public class Header {
         sb.append(msb.toString());
         sb.append(", version=").append(version);
         sb.append(", length=").append(length);
-        sb.append(", type=").append(MessageTypeEnum.valueOf(type));
+        sb.append(", type=").append(type);
         sb.append(", attachment=").append(attachment);
         sb.append('}');
         return sb.toString();

@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeEnum;
+import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
         Header header = message.getHeader();
-        if (header.getType() == MessageTypeEnum.BUSINESS_REQUEST.type()) {
+        if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
 
         }
         super.channelRead(ctx, msg);
