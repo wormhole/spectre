@@ -65,7 +65,7 @@ public class NettyTransportClient implements TransportClient {
     }
 
     @Override
-    public ResponseFuture sendTo(String ip, int port, BusinessRequest request) {
+    public ResponseFuture sendTo(BusinessRequest request) {
         ResponseFutureContext context = ResponseFutureContext.getInstance();
         ResponseFuture future = context.createFuture(request.getId());
         channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));

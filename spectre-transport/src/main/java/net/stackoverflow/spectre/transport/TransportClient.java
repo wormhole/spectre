@@ -14,5 +14,5 @@ public interface TransportClient {
 
     void connect(String ip, int port, CountDownLatch countDownLatch);
 
-    ResponseFuture sendTo(String ip, int port, BusinessRequest request);
+    ResponseFuture sendTo(BusinessRequest request);
 }

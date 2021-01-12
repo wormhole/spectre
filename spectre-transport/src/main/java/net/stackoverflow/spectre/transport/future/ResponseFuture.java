@@ -40,7 +40,7 @@ public class ResponseFuture {
         this.notifyAll();
     }
 
-    public synchronized Object getResponse(long milliseconds) {
+    public synchronized BusinessResponse getResponse(long milliseconds) {
         if (!success) {
             try {
                 if (milliseconds == -1) {

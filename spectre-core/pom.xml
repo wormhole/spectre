@@ -28,6 +28,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.stackoverflow.spectre</groupId>
+            <artifactId>spectre-transport</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
             <scope>system</scope>

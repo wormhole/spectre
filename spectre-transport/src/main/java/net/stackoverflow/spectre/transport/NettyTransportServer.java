@@ -45,7 +45,9 @@ public class NettyTransportServer implements TransportServer {
                         }
                     });
             ChannelFuture future = bootstrap.bind(ip, port).sync();
-            countDownLatch.countDown();
+            if (countDownLatch != null) {
+                countDownLatch.countDown();
+            }
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("server fail to bind", e);
