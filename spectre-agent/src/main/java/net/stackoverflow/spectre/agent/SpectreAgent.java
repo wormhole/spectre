@@ -1,7 +1,6 @@
 package net.stackoverflow.spectre.agent;
 
 import net.stackoverflow.spectre.transport.NettyTransportServer;
-import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.TransportServer;
 
 import java.lang.instrument.Instrumentation;
