@@ -3,10 +3,13 @@ package net.stackoverflow.spectre.transport;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
@@ -34,14 +37,16 @@ public class NettyTransportServer implements TransportServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workGroup)
                     .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel sc) {
-                            sc.pipeline().addLast(new MessageDecoder());
-                            sc.pipeline().addLast(new MessageEncoder());
-                            sc.pipeline().addLast(new ReadTimeoutHandler(60));
-                            sc.pipeline().addLast(new ServerHeatBeatHandler());
-                            sc.pipeline().addLast(new ServerCommandHandler());
+                            ChannelPipeline pipeline = sc.pipeline();
+                            pipeline.addLast(new MessageDecoder());
+                            pipeline.addLast(new MessageEncoder());
+                            pipeline.addLast(new ReadTimeoutHandler(60));
+                            pipeline.addLast(new ServerHeatBeatHandler());
+                            pipeline.addLast(new ServerCommandHandler());
                         }
                     });
             ChannelFuture future = bootstrap.bind(ip, port).sync();

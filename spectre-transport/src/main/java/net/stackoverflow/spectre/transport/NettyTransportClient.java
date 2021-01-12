@@ -5,17 +5,21 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
 import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
+import net.stackoverflow.spectre.transport.handler.client.ClientCommandHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.Message;
 import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -38,14 +42,16 @@ public class NettyTransportClient implements TransportClient {
             bootstrap.group(eventLoopGroup)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) {
-                            ChannelPipeline pipeline = socketChannel.pipeline();
+                        protected void initChannel(SocketChannel sc) {
+                            ChannelPipeline pipeline = sc.pipeline();
                             pipeline.addLast(new MessageDecoder());
                             pipeline.addLast(new MessageEncoder());
                             pipeline.addLast(new ReadTimeoutHandler(60));
                             pipeline.addLast(new ClientHeatBeatHandler());
+                            pipeline.addLast(new ClientCommandHandler());
                         }
                     });
             ChannelFuture channelFuture = bootstrap.connect(ip, port).sync();
