@@ -15,6 +15,8 @@ import net.stackoverflow.spectre.transport.handler.server.ServerHeatBeatHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * netty服务端实现类
  *
@@ -25,7 +27,7 @@ public class NettyTransportServer implements TransportServer {
     private static final Logger log = LoggerFactory.getLogger(NettyTransportServer.class);
 
     @Override
-    public void bind(String ip, int port) {
+    public void bind(String ip, int port, CountDownLatch countDownLatch) {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
@@ -43,6 +45,7 @@ public class NettyTransportServer implements TransportServer {
                         }
                     });
             ChannelFuture future = bootstrap.bind(ip, port).sync();
+            countDownLatch.countDown();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("server fail to bind", e);

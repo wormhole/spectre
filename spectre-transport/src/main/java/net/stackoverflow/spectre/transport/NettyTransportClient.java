@@ -17,6 +17,8 @@ import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * netty客户端实现
  *
@@ -29,7 +31,7 @@ public class NettyTransportClient implements TransportClient {
     private Channel channel;
 
     @Override
-    public void connect(String ip, int port) {
+    public void connect(String ip, int port, CountDownLatch countDownLatch) {
         Bootstrap bootstrap = new Bootstrap();
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         try {
@@ -48,6 +50,9 @@ public class NettyTransportClient implements TransportClient {
                     });
             ChannelFuture channelFuture = bootstrap.connect(ip, port).sync();
             channel = channelFuture.channel();
+            if (countDownLatch != null) {
+                countDownLatch.countDown();
+            }
             log.info("[L:{} R:{}] client connect success", channel.localAddress(), channel.remoteAddress());
             channel.closeFuture().sync();
         } catch (InterruptedException e) {

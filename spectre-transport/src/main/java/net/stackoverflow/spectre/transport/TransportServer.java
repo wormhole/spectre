@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.transport;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * 服务端接口
  *
@@ -7,5 +9,5 @@ package net.stackoverflow.spectre.transport;
  */
 public interface TransportServer {
 
-    void bind(String ip, int port);
+    void bind(String ip, int port, CountDownLatch countDownLatch);
 }
