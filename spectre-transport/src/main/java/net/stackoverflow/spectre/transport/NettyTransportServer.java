@@ -1,15 +1,10 @@
 package net.stackoverflow.spectre.transport;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
@@ -29,35 +24,57 @@ public class NettyTransportServer implements TransportServer {
 
     private static final Logger log = LoggerFactory.getLogger(NettyTransportServer.class);
 
+    private volatile Channel channel;
+
     @Override
-    public void bind(String ip, int port, CountDownLatch countDownLatch) {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(bossGroup, workGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel sc) {
-                            ChannelPipeline pipeline = sc.pipeline();
-                            pipeline.addLast(new MessageDecoder());
-                            pipeline.addLast(new MessageEncoder());
-                            pipeline.addLast(new ReadTimeoutHandler(60));
-                            pipeline.addLast(new ServerHeatBeatHandler());
-                            pipeline.addLast(new ServerCommandHandler());
-                        }
-                    });
-            ChannelFuture future = bootstrap.bind(ip, port).sync();
-            if (countDownLatch != null) {
+    public void start(int port) {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Thread thread = new Thread(() -> {
+            EventLoopGroup bossGroup = new NioEventLoopGroup();
+            EventLoopGroup workGroup = new NioEventLoopGroup();
+            try {
+                ServerBootstrap bootstrap = new ServerBootstrap();
+                bootstrap.group(bossGroup, workGroup)
+                        .channel(NioServerSocketChannel.class)
+                        .childHandler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            protected void initChannel(SocketChannel sc) {
+                                ChannelPipeline pipeline = sc.pipeline();
+                                pipeline.addLast(new MessageDecoder());
+                                pipeline.addLast(new MessageEncoder());
+                                pipeline.addLast(new ReadTimeoutHandler(60));
+                                pipeline.addLast(new ServerHeatBeatHandler());
+                                pipeline.addLast(new ServerCommandHandler());
+                            }
+                        });
+                ChannelFuture future = bootstrap.bind(port).sync();
+                channel = future.channel();
                 countDownLatch.countDown();
+                log.info("[L:{}] server start success", channel.localAddress());
+                channel.closeFuture().sync();
+            } catch (InterruptedException e) {
+                log.error("server fail to start", e);
+            } finally {
+                bossGroup.shutdownGracefully();
+                workGroup.shutdownGracefully();
+                log.info("[L:{}] server closed", channel.localAddress());
+                channel = null;
             }
-            future.channel().closeFuture().sync();
+        });
+        thread.setDaemon(true);
+        thread.start();
+        try {
+            countDownLatch.await();
         } catch (InterruptedException e) {
-            log.error("server fail to bind", e);
-        } finally {
-            bossGroup.shutdownGracefully();
-            workGroup.shutdownGracefully();
+            log.error("", e);
+        }
+    }
+
+    @Override
+    public void close() {
+        if (channel != null) {
+            channel.close();
+            channel = null;
         }
     }
 }

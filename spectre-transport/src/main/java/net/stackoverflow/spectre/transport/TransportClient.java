@@ -12,7 +12,9 @@ import java.util.concurrent.CountDownLatch;
  */
 public interface TransportClient {
 
-    void connect(String ip, int port, CountDownLatch countDownLatch);
+    void connect(String ip, int port);
 
     ResponseFuture sendTo(BusinessRequest request);
+
+    void close();
 }

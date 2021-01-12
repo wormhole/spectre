@@ -22,8 +22,6 @@ public class SpectreAgent {
 
     private static void main(String agentArgs, Instrumentation inst) {
         TransportServer server = new NettyTransportServer();
-        new Thread(() -> {
-            server.bind("127.0.0.1", 9966, null);
-        }).start();
+        server.start(9966);
     }
 }
