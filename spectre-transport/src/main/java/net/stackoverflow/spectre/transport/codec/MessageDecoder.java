@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageType;
+import net.stackoverflow.spectre.transport.proto.MessageTypeEnum;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -65,12 +65,9 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         if (bodySize > 0) {
             byte[] bodyBytes = new byte[bodySize];
             frame.readBytes(bodyBytes, 0, bodySize);
-            if (header.getType() == MessageType.AUTH_RESPONSE.value()) {
-                byte body = serializeManager.deserialize(bodyBytes, byte.class);
-                message.setBody(body);
-            } else if (header.getType() == MessageType.BUSINESS_REQUEST.value()) {
+            if (header.getType() == MessageTypeEnum.BUSINESS_REQUEST.type()) {
 
-            } else if (header.getType() == MessageType.BUSINESS_RESPONSE.value()) {
+            } else if (header.getType() == MessageTypeEnum.BUSINESS_RESPONSE.type()) {
 
             }
         }

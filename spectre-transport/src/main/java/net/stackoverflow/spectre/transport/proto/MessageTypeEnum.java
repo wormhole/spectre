@@ -5,7 +5,7 @@ package net.stackoverflow.spectre.transport.proto;
  *
  * @author wormhole
  */
-public enum MessageType {
+public enum MessageTypeEnum {
 
     /**
      * 认证请求
@@ -39,27 +39,27 @@ public enum MessageType {
 
     private byte type;
 
-    MessageType(byte type) {
+    MessageTypeEnum(byte type) {
         this.type = type;
     }
 
-    public byte value() {
+    public byte type() {
         return type;
     }
 
-    public static MessageType valueOf(byte type) {
-        MessageType messageType = null;
-        for (MessageType value : values()) {
-            if (value.value() == type) {
-                messageType = value;
+    public static MessageTypeEnum valueOf(byte type) {
+        MessageTypeEnum messageTypeEnum = null;
+        for (MessageTypeEnum value : values()) {
+            if (value.type() == type) {
+                messageTypeEnum = value;
             }
         }
-        return messageType;
+        return messageTypeEnum;
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("MessageType{");
+        final StringBuffer sb = new StringBuffer("MessageTypeEnum{");
         sb.append("type=").append(type);
         sb.append(", name=").append(name());
         sb.append('}');

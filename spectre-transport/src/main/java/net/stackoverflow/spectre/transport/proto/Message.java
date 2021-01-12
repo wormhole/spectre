@@ -21,14 +21,14 @@ public class Message {
 
     }
 
-    public Message(MessageType type) {
+    public Message(MessageTypeEnum type) {
         header = new Header();
-        header.setType(type.value());
+        header.setType(type.type());
     }
 
-    public Message(MessageType type, Object body) {
+    public Message(MessageTypeEnum type, Object body) {
         this.header = new Header();
-        this.header.setType(type.value());
+        this.header.setType(type.type());
         this.body = body;
     }
 

@@ -3,7 +3,7 @@ package net.stackoverflow.spectre.transport.handler.client;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageType;
+import net.stackoverflow.spectre.transport.proto.MessageTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ public class ClientHeatBeatHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (heartBeatFuture == null) {
             heartBeatFuture = ctx.executor().scheduleAtFixedRate(() -> {
-                Message ping = new Message(MessageType.HEARTBEAT_PING);
+                Message ping = new Message(MessageTypeEnum.HEARTBEAT_PING);
                 ctx.writeAndFlush(ping);
             }, 0, 5000, TimeUnit.MILLISECONDS);
         }
