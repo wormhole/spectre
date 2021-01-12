@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
+import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,8 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 
     private final SerializeManager serializeManager;
 
-    public MessageEncoder(SerializeManager serializeManager) {
-        this.serializeManager = serializeManager;
+    public MessageEncoder() {
+        this.serializeManager = new JsonSerializeManager();
     }
 
     @Override
