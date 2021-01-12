@@ -68,7 +68,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
                     BusinessRequest request = serializeManager.deserialize(bodyBytes, BusinessRequest.class);
                     message.setBody(request);
                     break;
-                case MessageTypeConstant.AUTH_RESPONSE:
+                case MessageTypeConstant.BUSINESS_RESPONSE:
                     BusinessResponse response = serializeManager.deserialize(bodyBytes, BusinessResponse.class);
                     message.setBody(response);
                     break;

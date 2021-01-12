@@ -2,10 +2,7 @@ package net.stackoverflow.spectre.transport.handler.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.stackoverflow.spectre.transport.proto.BusinessRequest;
-import net.stackoverflow.spectre.transport.proto.Header;
-import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.*;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -33,7 +30,8 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
         if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
             //TODO
             BusinessRequest request = (BusinessRequest) message.getBody();
-            ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, request.getRequest()));
+            BusinessResponse response = new BusinessResponse(request.getId(), request.getRequest());
+            ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
         }
         super.channelRead(ctx, msg);
     }

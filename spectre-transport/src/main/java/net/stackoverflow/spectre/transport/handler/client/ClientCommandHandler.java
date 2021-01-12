@@ -31,8 +31,10 @@ public class ClientCommandHandler extends ChannelInboundHandlerAdapter {
         if (header.getType() == MessageTypeConstant.BUSINESS_RESPONSE) {
             //TODO
             BusinessResponse response = (BusinessResponse) message.getBody();
-            ResponseFutureContext context = ResponseFutureContext.getInstance();
-            context.setResponse(response);
+            if (response != null) {
+                ResponseFutureContext context = ResponseFutureContext.getInstance();
+                context.setResponse(response);
+            }
         }
         super.channelRead(ctx, msg);
     }
