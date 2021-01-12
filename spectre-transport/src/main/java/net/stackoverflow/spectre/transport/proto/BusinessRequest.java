@@ -11,6 +11,10 @@ public class BusinessRequest {
 
     private byte[] request;
 
+    public BusinessRequest() {
+
+    }
+
     public BusinessRequest(String id, byte[] request) {
         this.id = id;
         this.request = request;

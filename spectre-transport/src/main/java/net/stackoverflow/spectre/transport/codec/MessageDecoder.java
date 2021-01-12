@@ -3,9 +3,7 @@ package net.stackoverflow.spectre.transport.codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import net.stackoverflow.spectre.transport.proto.Header;
-import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.*;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -65,10 +63,17 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         if (bodySize > 0) {
             byte[] bodyBytes = new byte[bodySize];
             frame.readBytes(bodyBytes, 0, bodySize);
-            if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
-
-            } else if (header.getType() == MessageTypeConstant.BUSINESS_RESPONSE) {
-
+            switch (header.getType()) {
+                case MessageTypeConstant.BUSINESS_REQUEST:
+                    BusinessRequest request = serializeManager.deserialize(bodyBytes, BusinessRequest.class);
+                    message.setBody(request);
+                    break;
+                case MessageTypeConstant.AUTH_RESPONSE:
+                    BusinessResponse response = serializeManager.deserialize(bodyBytes, BusinessResponse.class);
+                    message.setBody(response);
+                    break;
+                default:
+                    break;
             }
         }
         log.trace("Receive: {}", message);

@@ -35,9 +35,12 @@ public class SpectreMain {
         VirtualMachine vm = VirtualMachine.attach(pid);
         vm.loadAgent(args[0]);
 
-        CountDownLatch countDownLatch = new CountDownLatch(1);
+
         TransportClient client = new NettyTransportClient();
-        client.connect("127.0.0.1", 9966, countDownLatch);
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(() -> {
+            client.connect("127.0.0.1", 9966, countDownLatch);
+        }).start();
         countDownLatch.await();
         SerializeManager serializeManager = new JsonSerializeManager();
         ResponseFuture future = client.sendTo(new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("hello world")));

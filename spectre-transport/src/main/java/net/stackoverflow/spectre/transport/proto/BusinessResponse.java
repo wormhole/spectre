@@ -11,6 +11,10 @@ public class BusinessResponse {
 
     private byte[] response;
 
+    public BusinessResponse() {
+
+    }
+
     public BusinessResponse(String id, byte[] response) {
         this.id = id;
         this.response = response;
