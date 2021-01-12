@@ -8,7 +8,12 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
+import net.stackoverflow.spectre.transport.future.ResponseFuture;
+import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
+import net.stackoverflow.spectre.transport.proto.BusinessRequest;
+import net.stackoverflow.spectre.transport.proto.Message;
+import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,5 +57,14 @@ public class NettyTransportClient implements TransportClient {
             channel = null;
             eventLoopGroup.shutdownGracefully();
         }
+    }
+
+    @Override
+    public ResponseFuture sendTo(String ip, int port, BusinessRequest request) {
+        ResponseFutureContext context = ResponseFutureContext.getInstance();
+        ResponseFuture future = context.createFuture(request.getId());
+        channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
+        log.trace("[L:{} R:{}] client send request, responseId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
+        return future;
     }
 }
