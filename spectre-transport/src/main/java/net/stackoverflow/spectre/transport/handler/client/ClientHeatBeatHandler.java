@@ -1,9 +1,9 @@
-package net.stackoverflow.spectre.agent.transport.handler.client;
+package net.stackoverflow.spectre.transport.handler.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.stackoverflow.spectre.agent.transport.proto.Message;
-import net.stackoverflow.spectre.agent.transport.proto.MessageType;
+import net.stackoverflow.spectre.transport.proto.Message;
+import net.stackoverflow.spectre.transport.proto.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

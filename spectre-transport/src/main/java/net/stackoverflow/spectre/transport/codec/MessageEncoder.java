@@ -1,11 +1,11 @@
-package net.stackoverflow.spectre.agent.transport.codec;
+package net.stackoverflow.spectre.transport.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import net.stackoverflow.spectre.agent.transport.proto.Header;
-import net.stackoverflow.spectre.agent.transport.proto.Message;
-import net.stackoverflow.spectre.agent.transport.serialize.SerializeManager;
+import net.stackoverflow.spectre.transport.proto.Header;
+import net.stackoverflow.spectre.transport.proto.Message;
+import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

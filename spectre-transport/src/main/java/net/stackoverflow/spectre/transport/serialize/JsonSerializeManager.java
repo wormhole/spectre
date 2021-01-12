@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.transport.serialize;
+package net.stackoverflow.spectre.transport.serialize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

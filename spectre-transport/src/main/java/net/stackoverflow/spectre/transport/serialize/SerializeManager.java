@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.transport.serialize;
+package net.stackoverflow.spectre.transport.serialize;
 
 /**
  * 序列化接口

@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.transport.proto;
+package net.stackoverflow.spectre.transport.proto;
 
 /**
  * 应用层协议报文

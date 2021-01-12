@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.transport.proto;
+package net.stackoverflow.spectre.transport.proto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,9 @@ import java.util.Map;
 public class Header {
 
     /**
-     * 固定魔术字 spectre
+     * 固定魔术字 wormhole
      */
-    private byte[] magic = {'s', 'p', 'e', 'c', 't', 'r', 'e'};
+    private byte[] magic = {'w', 'o', 'r', 'm', 'h', 'o', 'l', 'e'};
 
     /**
      * 协议版本号 0.1
