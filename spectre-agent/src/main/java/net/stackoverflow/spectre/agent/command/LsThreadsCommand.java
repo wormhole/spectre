@@ -26,7 +26,6 @@ public class LsThreadsCommand implements Command {
 
     @Override
     public Object execute(Object... args) {
-        receiver.lsThreads();
-        return null;
+        return receiver.lsThreads();
     }
 }

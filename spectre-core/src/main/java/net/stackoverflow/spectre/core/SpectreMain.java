@@ -53,7 +53,7 @@ public class SpectreMain {
         String cmd = null;
         do {
             cmd = reader.readLine();
-            Object result = invoker.call(cmd);
+            Object result = invoker.call(cmd.trim());
             System.out.println(result);
         } while (!"exit".equals(cmd));
 
