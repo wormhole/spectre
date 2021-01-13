@@ -7,5 +7,7 @@ package net.stackoverflow.spectre.transport.command;
  */
 public interface Command {
 
+    Object getCmd();
+
     Object execute(Object... args);
 }

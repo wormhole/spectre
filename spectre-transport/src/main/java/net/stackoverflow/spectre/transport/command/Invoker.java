@@ -11,5 +11,5 @@ public interface Invoker {
 
     void removeCommand(Command command);
 
-    Object call(Object... args);
+    Object call(Object cmd, Object... args);
 }
