@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.transport.handler.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import net.stackoverflow.spectre.transport.command.Invoker;
 import net.stackoverflow.spectre.transport.proto.*;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
@@ -19,8 +20,11 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
 
     private final SerializeManager serializeManager;
 
-    public ServerCommandHandler() {
+    private final Invoker invoker;
+
+    public ServerCommandHandler(Invoker invoker) {
         this.serializeManager = new JsonSerializeManager();
+        this.invoker = invoker;
     }
 
     @Override
@@ -28,15 +32,11 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
         Message message = (Message) msg;
         Header header = message.getHeader();
         if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
-            //TODO
             BusinessRequest request = (BusinessRequest) message.getBody();
             String command = serializeManager.deserialize(request.getRequest(), String.class);
-            if ("exit".equals(command)) {
-                ctx.channel().parent().close();
-            } else {
-                BusinessResponse response = new BusinessResponse(request.getId(), request.getRequest());
-                ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
-            }
+            Object result = invoker.call(command);
+            BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));
+            ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
         }
         super.channelRead(ctx, msg);
     }
