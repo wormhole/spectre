@@ -53,13 +53,23 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                                    <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                                    <Premain-Class>net.stackoverflow.spectre.agent.SpectreAgent</Premain-Class>
+                                    <Agent-Class>net.stackoverflow.spectre.agent.SpectreAgent</Agent-Class>
+                                </transformer>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
