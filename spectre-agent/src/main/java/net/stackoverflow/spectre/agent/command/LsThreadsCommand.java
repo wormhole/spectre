@@ -1,6 +1,5 @@
 package net.stackoverflow.spectre.agent.command;
 
-import io.netty.channel.ChannelHandlerContext;
 import net.stackoverflow.spectre.transport.command.Command;
 
 /**
@@ -20,12 +19,12 @@ public class LsThreadsCommand implements Command {
     }
 
     @Override
-    public Object getCmd() {
+    public String getCmd() {
         return cmd;
     }
 
     @Override
-    public Object execute(Object... args) {
+    public Object execute(String... args) {
         return receiver.lsThreads();
     }
 }

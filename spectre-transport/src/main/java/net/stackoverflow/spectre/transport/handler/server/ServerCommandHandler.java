@@ -35,7 +35,7 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
             BusinessRequest request = (BusinessRequest) message.getBody();
             String command = serializeManager.deserialize(request.getRequest(), String.class);
             if ("exit".equals(command)) {
-                invoker.call(command, ctx);
+                ctx.channel().parent().close();
             } else {
                 Object result = invoker.call(command);
                 BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));

@@ -1,5 +1,6 @@
 package net.stackoverflow.spectre.core.command;
 
+import net.stackoverflow.spectre.transport.command.AbstractInvoker;
 import net.stackoverflow.spectre.transport.command.Command;
 import net.stackoverflow.spectre.transport.command.Invoker;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author wormhole
  */
-public class SpectreInvoker implements Invoker {
+public class SpectreInvoker extends AbstractInvoker {
 
     private static final Logger log = LoggerFactory.getLogger(SpectreInvoker.class);
 
@@ -25,21 +26,16 @@ public class SpectreInvoker implements Invoker {
 
     @Override
     public void addCommand(Command command) {
-        commands.put((String) command.getCmd(), command);
+        commands.put(command.getCmd(), command);
     }
 
     @Override
-    public void removeCommand(Command command) {
-        commands.remove(command.getCmd());
+    public void removeCommand(String cmd) {
+        commands.remove(cmd);
     }
 
     @Override
-    public Object call(Object cmd, Object... args) {
-        Command command = commands.get(cmd);
-        if (command != null) {
-            return command.execute(args);
-        } else {
-            return null;
-        }
+    public Command getCommand(String cmd) {
+        return commands.get(cmd);
     }
 }

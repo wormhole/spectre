@@ -9,7 +9,7 @@ import net.stackoverflow.spectre.transport.command.Command;
  */
 public class ExitCommand implements Command {
 
-    public final Object cmd;
+    public final String cmd;
 
     private final SpectreReceiver receiver;
 
@@ -19,12 +19,12 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public Object getCmd() {
+    public String getCmd() {
         return cmd;
     }
 
     @Override
-    public Object execute(Object... args) {
+    public Object execute(String... args) {
         receiver.exit();
         return null;
     }

@@ -9,7 +9,9 @@ public interface Invoker {
 
     void addCommand(Command command);
 
-    void removeCommand(Command command);
+    void removeCommand(String cmd);
 
-    Object call(Object cmd, Object... args);
+    Command getCommand(String cmd);
+
+    Object call(String cmd, String... args);
 }
