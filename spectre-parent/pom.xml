@@ -31,7 +31,7 @@
             </dependency>
             <dependency>
                 <groupId>net.stackoverflow.spectre</groupId>
-                <artifactId>spectre-core</artifactId>
+                <artifactId>spectre-shell</artifactId>
                 <version>${spectre.version}</version>
             </dependency>
             <dependency>
