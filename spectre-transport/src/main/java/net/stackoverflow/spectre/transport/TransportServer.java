@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.transport;
 
+import net.stackoverflow.spectre.transport.command.Invoker;
+
 /**
  * 服务端接口
  *
@@ -7,7 +9,7 @@ package net.stackoverflow.spectre.transport;
  */
 public interface TransportServer {
 
-    void start(int port);
+    void start(int port, Invoker invoker);
 
     void close();
 }
