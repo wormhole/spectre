@@ -92,12 +92,15 @@ public class PrintUtils {
      *
      * @param map
      */
-    public static void printThreads(Map<Long, String> map) {
+    public static void printThreads(Map<String, Object> map) {
         titleColor();
-        System.out.printf("%-5s %s %n", "id", "name");
+        System.out.printf("%-5s %-30.29s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", "id", "name", "state", "blocked.count", "blocked.time",
+                "waited.count", "waited.time", "suspended", "native");
         clColor();
-        for (Map.Entry<Long, String> entry : map.entrySet()) {
-            System.out.printf("%-5s %s %n", entry.getKey(), entry.getValue());
+        for (Object value : map.values()) {
+            Map<String, Object> info = (Map<String, Object>) value;
+            System.out.printf("%-5s %-30.29s %-15s %-15s %-15s %-15s %-15s %-15s %-15s %n", info.get("threadId"), info.get("threadName"), info.get("threadState"),
+                    info.get("blockedCount"), info.get("blockedTime"), info.get("waitedCount"), info.get("waitedTime"), info.get("suspended"), info.get("inNative"));
         }
     }
 

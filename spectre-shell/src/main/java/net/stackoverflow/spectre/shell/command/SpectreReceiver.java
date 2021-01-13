@@ -12,6 +12,7 @@ import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.management.ThreadInfo;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,14 +39,14 @@ public class SpectreReceiver implements Receiver {
         client.sendTo(request);
     }
 
-    public Map<Long, String> threads() {
+    public Map<String, Object> threads() {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("threads"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         if (response != null) {
             ResponseFutureContext.getInstance().removeFuture(response.getId());
         }
-        Map<Long, String> result = serializeManager.deserialize(response.getResponse(), Map.class);
+        Map<String, Object> result = serializeManager.deserialize(response.getResponse(), Map.class);
         PrintUtils.printThreads(result);
         return result;
     }

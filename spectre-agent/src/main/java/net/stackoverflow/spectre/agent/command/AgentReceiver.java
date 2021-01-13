@@ -5,8 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -18,11 +19,12 @@ public class AgentReceiver implements Receiver {
 
     private static final Logger log = LoggerFactory.getLogger(AgentReceiver.class);
 
-    public Map<Long, String> threads() {
+    public Map<Long, ThreadInfo> threads() {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        Map<Long, String> result = new HashMap<>();
+        Map<Long, ThreadInfo> result = new LinkedHashMap<>();
         for (Long threadId : threadMXBean.getAllThreadIds()) {
-            result.put(threadId, threadMXBean.getThreadInfo(threadId).getThreadName());
+            ThreadInfo info = threadMXBean.getThreadInfo(threadId);
+            result.put(threadId, info);
         }
         return result;
     }
