@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 /**
  * 主类
@@ -25,11 +24,7 @@ public class Bootstrap {
     private static final Logger log = LoggerFactory.getLogger(Bootstrap.class);
 
     public static void main(String[] args) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
-        List<VirtualMachineDescriptor> list = VirtualMachine.list();
-        for (VirtualMachineDescriptor vmd : list) {
-            System.out.printf("%s %s %n", vmd.id(), vmd.displayName());
-        }
-        System.out.print("input pid:");
+        PrintUtils.printVirtualMachines();
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(isr);
         String pid = reader.readLine();
@@ -44,8 +39,10 @@ public class Bootstrap {
         invoker.addCommand(new LsThreadsCommand("ls threads", receiver));
         invoker.addCommand(new ExitCommand("exit", receiver));
 
+        PrintUtils.printBanner(pid);
         String cmd = null;
         do {
+            PrintUtils.printSession(pid);
             cmd = reader.readLine();
             Object result = invoker.call(cmd.trim());
             System.out.println(result);
