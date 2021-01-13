@@ -1,6 +1,10 @@
 package net.stackoverflow.spectre.core;
 
 import com.sun.tools.attach.*;
+import net.stackoverflow.spectre.core.command.ExitCommand;
+import net.stackoverflow.spectre.core.command.LsThreadsCommand;
+import net.stackoverflow.spectre.core.command.SpectreInvoker;
+import net.stackoverflow.spectre.core.command.SpectreReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -40,13 +44,19 @@ public class SpectreMain {
 
         TransportClient client = new NettyTransportClient();
         client.connect("127.0.0.1", 9966);
-        SerializeManager serializeManager = new JsonSerializeManager();
 
-        ResponseFuture future = client.sendTo(new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("hello world")));
-        BusinessResponse response = future.getResponse(-1);
-        System.out.println(serializeManager.deserialize(response.getResponse(), String.class));
+        SpectreReceiver receiver = new SpectreReceiver(client);
+        SpectreInvoker invoker = new SpectreInvoker();
+        invoker.addCommand(new LsThreadsCommand("ls threads", receiver));
+        invoker.addCommand(new ExitCommand("exit", receiver));
 
-        client.sendTo(new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("exit")));
+        String cmd = null;
+        do {
+            cmd = reader.readLine();
+            Object result = invoker.call(cmd);
+            System.out.println(result);
+        } while (!"exit".equals(cmd));
+
         client.close();
         vm.detach();
     }

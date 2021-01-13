@@ -2,7 +2,9 @@ package net.stackoverflow.spectre.core.command;
 
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
+import net.stackoverflow.spectre.transport.future.ResponseFuture;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
+import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -31,5 +33,12 @@ public class SpectreReceiver implements Receiver {
     public void exit() {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("exit"));
         client.sendTo(request);
+    }
+
+    public String lsThreads() {
+        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("ls threads"));
+        ResponseFuture future = client.sendTo(request);
+        BusinessResponse response = future.getResponse(-1);
+        return serializeManager.deserialize(response.getResponse(), String.class);
     }
 }
