@@ -20,9 +20,9 @@ import java.util.List;
  *
  * @author wormhole
  */
-public class SpectreMain {
+public class Bootstrap {
 
-    private static final Logger log = LoggerFactory.getLogger(SpectreMain.class);
+    private static final Logger log = LoggerFactory.getLogger(Bootstrap.class);
 
     public static void main(String[] args) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
