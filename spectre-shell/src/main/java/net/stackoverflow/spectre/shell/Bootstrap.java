@@ -1,10 +1,7 @@
 package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
-import net.stackoverflow.spectre.shell.command.ExitCommand;
-import net.stackoverflow.spectre.shell.command.ThreadsCommand;
-import net.stackoverflow.spectre.shell.command.SpectreInvoker;
-import net.stackoverflow.spectre.shell.command.SpectreReceiver;
+import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import org.slf4j.Logger;
@@ -15,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 主类
+ * 启动类
  *
  * @author wormhole
  */
@@ -36,6 +33,7 @@ public class Bootstrap {
 
         SpectreReceiver receiver = new SpectreReceiver(client);
         SpectreInvoker invoker = new SpectreInvoker();
+        invoker.addCommand(new HelpCommand("help", receiver));
         invoker.addCommand(new ThreadsCommand("threads", receiver));
         invoker.addCommand(new ExitCommand("exit", receiver));
 

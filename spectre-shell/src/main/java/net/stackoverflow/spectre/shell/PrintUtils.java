@@ -17,6 +17,11 @@ import java.util.Map;
  */
 public class PrintUtils {
 
+    /**
+     * 打印banner
+     *
+     * @param pid
+     */
     public static void printBanner(String pid) {
         InputStream is = ClassLoader.getSystemResourceAsStream("banner.txt");
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -27,7 +32,7 @@ public class PrintUtils {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
-            System.out.print("\033[0m");
+            clColor();
             System.out.println("github : https://github.com/wormhole/spectre");
             System.out.println("author : 凉衫薄");
             System.out.println("version: 1.0.0");
@@ -37,7 +42,7 @@ public class PrintUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            System.out.print("\033[0m");
+            clColor();
             try {
                 reader.close();
             } catch (IOException e) {
@@ -46,26 +51,61 @@ public class PrintUtils {
         }
     }
 
+    /**
+     * 打印虚拟机进程列表
+     */
     public static void printVirtualMachines() {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
         System.out.print("\033[36m");
         for (VirtualMachineDescriptor vmd : list) {
             String id = vmd.id();
             String name = vmd.displayName().split(" ")[0];
-            System.out.println(id + " " + name);
+            System.out.printf("%-6s %s %n", id, name);
         }
-        System.out.print("\033[0m");
+        clColor();
         System.out.print("input pid: ");
     }
 
+    /**
+     * 打印会话提示
+     *
+     * @param pid
+     */
     public static void printSession(String pid) {
         System.out.print("[spectre@" + pid + "]# ");
     }
 
+    /**
+     * 打印帮助信息
+     */
+    public static void printHelp() {
+        titleColor();
+        System.out.printf("%-8s %s %n", "option", "description");
+        clColor();
+        System.out.printf("%-8s %s %n", "help", "print help");
+        System.out.printf("%-8s %s %n", "threads", "print thread information");
+        System.out.printf("%-8s %s %n", "exit", "close session and exit spectre");
+    }
+
+    /**
+     * 打印线程信息
+     *
+     * @param map
+     */
     public static void printThreads(Map<Long, String> map) {
-        System.out.printf("%-10s %s %n", "threadId", "name");
+        titleColor();
+        System.out.printf("%-5s %s %n", "id", "name");
+        clColor();
         for (Map.Entry<Long, String> entry : map.entrySet()) {
-            System.out.printf("%-10s %s %n", entry.getKey(), entry.getValue());
+            System.out.printf("%-5s %s %n", entry.getKey(), entry.getValue());
         }
+    }
+
+    public static void titleColor() {
+        System.out.print("\033[30;47;1m");
+    }
+
+    public static void clColor() {
+        System.out.print("\033[0m");
     }
 }

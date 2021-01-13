@@ -3,17 +3,17 @@ package net.stackoverflow.spectre.shell.command;
 import net.stackoverflow.spectre.transport.command.Command;
 
 /**
- * 退出命令
+ * 帮助命令
  *
  * @author wormhole
  */
-public class ExitCommand implements Command {
+public class HelpCommand implements Command {
 
     private final String cmd;
 
     private final SpectreReceiver receiver;
 
-    public ExitCommand(String cmd, SpectreReceiver receiver) {
+    public HelpCommand(String cmd, SpectreReceiver receiver) {
         this.cmd = cmd;
         this.receiver = receiver;
     }
@@ -24,8 +24,8 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public Object execute(String... args) {
-        receiver.exit();
+    public Object execute(String... strings) {
+        receiver.help();
         return null;
     }
 }

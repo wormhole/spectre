@@ -49,4 +49,8 @@ public class SpectreReceiver implements Receiver {
         PrintUtils.printThreads(result);
         return result;
     }
+
+    public void help() {
+        PrintUtils.printHelp();
+    }
 }
