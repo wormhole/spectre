@@ -10,7 +10,7 @@ import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
 import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
-import net.stackoverflow.spectre.transport.handler.client.ClientCommandHandler;
+import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.Message;
@@ -49,7 +49,7 @@ public class NettyTransportClient implements TransportClient {
                                 pipeline.addLast(new MessageEncoder());
                                 pipeline.addLast(new ReadTimeoutHandler(60));
                                 pipeline.addLast(new ClientHeatBeatHandler());
-                                pipeline.addLast(new ClientCommandHandler());
+                                pipeline.addLast(new ClientResponseHandler());
                             }
                         });
                 ChannelFuture channelFuture = bootstrap.connect(ip, port).sync();

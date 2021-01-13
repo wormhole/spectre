@@ -4,8 +4,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
 import net.stackoverflow.spectre.transport.proto.*;
-import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
-import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,22 +12,15 @@ import org.slf4j.LoggerFactory;
  *
  * @author wormhole
  */
-public class ClientCommandHandler extends ChannelInboundHandlerAdapter {
+public class ClientResponseHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(ClientCommandHandler.class);
-
-    private final SerializeManager serializeManager;
-
-    public ClientCommandHandler() {
-        this.serializeManager = new JsonSerializeManager();
-    }
+    private static final Logger log = LoggerFactory.getLogger(ClientResponseHandler.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
         Header header = message.getHeader();
         if (header.getType() == MessageTypeConstant.BUSINESS_RESPONSE) {
-            //TODO
             BusinessResponse response = (BusinessResponse) message.getBody();
             if (response != null) {
                 ResponseFutureContext context = ResponseFutureContext.getInstance();
