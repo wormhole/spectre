@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
 import net.stackoverflow.spectre.shell.command.ExitCommand;
-import net.stackoverflow.spectre.shell.command.LsThreadsCommand;
+import net.stackoverflow.spectre.shell.command.ThreadsCommand;
 import net.stackoverflow.spectre.shell.command.SpectreInvoker;
 import net.stackoverflow.spectre.shell.command.SpectreReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
@@ -36,7 +36,7 @@ public class Bootstrap {
 
         SpectreReceiver receiver = new SpectreReceiver(client);
         SpectreInvoker invoker = new SpectreInvoker();
-        invoker.addCommand(new LsThreadsCommand("ls threads", receiver));
+        invoker.addCommand(new ThreadsCommand("threads", receiver));
         invoker.addCommand(new ExitCommand("exit", receiver));
 
         PrintUtils.printBanner(pid);
@@ -44,10 +44,8 @@ public class Bootstrap {
         do {
             PrintUtils.printSession(pid);
             cmd = reader.readLine();
-            Object result = invoker.call(cmd.trim());
-            System.out.println(result);
+            invoker.call(cmd.trim());
         } while (!"exit".equals(cmd));
-
         client.close();
         vm.detach();
     }

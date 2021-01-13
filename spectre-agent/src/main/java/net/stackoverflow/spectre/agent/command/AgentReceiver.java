@@ -18,7 +18,7 @@ public class AgentReceiver implements Receiver {
 
     private static final Logger log = LoggerFactory.getLogger(AgentReceiver.class);
 
-    public Map<Long, String> lsThreads() {
+    public Map<Long, String> threads() {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         Map<Long, String> result = new HashMap<>();
         for (Long threadId : threadMXBean.getAllThreadIds()) {

@@ -1,5 +1,6 @@
 package net.stackoverflow.spectre.shell.command;
 
+import net.stackoverflow.spectre.shell.PrintUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -36,10 +37,12 @@ public class SpectreReceiver implements Receiver {
         client.sendTo(request);
     }
 
-    public Map<Long, String> lsThreads() {
-        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("ls threads"));
+    public Map<Long, String> threads() {
+        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("threads"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
-        return serializeManager.deserialize(response.getResponse(), Map.class);
+        Map<Long, String> result = serializeManager.deserialize(response.getResponse(), Map.class);
+        PrintUtils.printThreads(result);
+        return result;
     }
 }

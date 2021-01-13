@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 打印工具类
@@ -59,5 +60,12 @@ public class PrintUtils {
 
     public static void printSession(String pid) {
         System.out.print("[spectre@" + pid + "]# ");
+    }
+
+    public static void printThreads(Map<Long, String> map) {
+        System.out.printf("%-10s %s %n", "threadId", "name");
+        for (Map.Entry<Long, String> entry : map.entrySet()) {
+            System.out.printf("%-10s %s %n", entry.getKey(), entry.getValue());
+        }
     }
 }
