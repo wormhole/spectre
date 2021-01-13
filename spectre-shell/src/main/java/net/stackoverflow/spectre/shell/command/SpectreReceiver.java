@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.core.command;
+package net.stackoverflow.spectre.shell.command;
 
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;

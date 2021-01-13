@@ -1,10 +1,10 @@
-package net.stackoverflow.spectre.core;
+package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
-import net.stackoverflow.spectre.core.command.ExitCommand;
-import net.stackoverflow.spectre.core.command.LsThreadsCommand;
-import net.stackoverflow.spectre.core.command.SpectreInvoker;
-import net.stackoverflow.spectre.core.command.SpectreReceiver;
+import net.stackoverflow.spectre.shell.command.ExitCommand;
+import net.stackoverflow.spectre.shell.command.LsThreadsCommand;
+import net.stackoverflow.spectre.shell.command.SpectreInvoker;
+import net.stackoverflow.spectre.shell.command.SpectreReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import org.slf4j.Logger;

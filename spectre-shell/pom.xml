@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.stackoverflow.spectre</groupId>
-    <artifactId>spectre-core</artifactId>
+    <artifactId>spectre-shell</artifactId>
     <version>1.0.0</version>
 
     <properties>

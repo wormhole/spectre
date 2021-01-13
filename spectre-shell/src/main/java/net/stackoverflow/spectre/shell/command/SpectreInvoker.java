@@ -1,8 +1,7 @@
-package net.stackoverflow.spectre.core.command;
+package net.stackoverflow.spectre.shell.command;
 
 import net.stackoverflow.spectre.transport.command.AbstractInvoker;
 import net.stackoverflow.spectre.transport.command.Command;
-import net.stackoverflow.spectre.transport.command.Invoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
