@@ -4,6 +4,7 @@ import net.stackoverflow.spectre.shell.PrintUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
+import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
@@ -41,6 +42,9 @@ public class SpectreReceiver implements Receiver {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("threads"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
+        if (response != null) {
+            ResponseFutureContext.getInstance().removeFuture(response.getId());
+        }
         Map<Long, String> result = serializeManager.deserialize(response.getResponse(), Map.class);
         PrintUtils.printThreads(result);
         return result;
