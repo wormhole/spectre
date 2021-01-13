@@ -25,12 +25,25 @@ public class PrintUtils {
     public static void printBanner(String pid) {
         InputStream is = ClassLoader.getSystemResourceAsStream("banner.txt");
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        System.out.print("\033[35m");
         String line = null;
         try {
+            System.out.print("\033[35m");
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                System.out.print("\033[31m");
+                System.out.print(line.substring(0, 8));
+                System.out.print("\033[32m");
+                System.out.print(line.substring(8, 16));
+                System.out.print("\033[33m");
+                System.out.print(line.substring(16, 24));
+                System.out.print("\033[34m");
+                System.out.print(line.substring(24, 32));
+                System.out.print("\033[35m");
+                System.out.print(line.substring(32, 41));
+                System.out.print("\033[36m");
+                System.out.print(line.substring(41, 49));
+                System.out.print("\033[37m");
+                System.out.println(line.substring(49));
             }
             clColor();
             System.out.println();
