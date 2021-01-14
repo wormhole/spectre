@@ -31,19 +31,19 @@ public class PrintUtils {
             ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                ColorUtils.color(ColorUtils.F_RED, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_RED, ColorUtils.BOLD);
                 System.out.print(line.substring(0, 8));
-                ColorUtils.color(ColorUtils.F_RED, ColorUtils.F_YELLOW, ColorUtils.BOLD);
+                ColorUtils.color("38", "2", "255", "165", "0", ColorUtils.BOLD);
                 System.out.print(line.substring(8, 16));
-                ColorUtils.color(ColorUtils.F_YELLOW, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_YELLOW, ColorUtils.BOLD);
                 System.out.print(line.substring(16, 24));
-                ColorUtils.color(ColorUtils.F_GREEN, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_GREEN, ColorUtils.BOLD);
                 System.out.print(line.substring(24, 32));
-                ColorUtils.color(ColorUtils.F_CYAN, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_CYAN, ColorUtils.BOLD);
                 System.out.print(line.substring(32, 41));
-                ColorUtils.color(ColorUtils.F_BLUE, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_BLUE, ColorUtils.BOLD);
                 System.out.print(line.substring(41, 49));
-                ColorUtils.color(ColorUtils.F_PURPLE, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_PURPLE, ColorUtils.BOLD);
                 System.out.println(line.substring(49));
             }
             ColorUtils.color(ColorUtils.ORIGINAL);
@@ -94,7 +94,7 @@ public class PrintUtils {
      * 打印帮助信息
      */
     public static void printHelp() {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
+        ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-8s %s", "option", "description");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
@@ -109,7 +109,7 @@ public class PrintUtils {
      * @param infos
      */
     public static void printThreads(List<ThreadInfoDTO> infos) {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
+        ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s",
                 "id", "name", "state", "cpu", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");

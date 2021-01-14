@@ -58,9 +58,9 @@ public class ColorUtils {
     public static final String HIDDEN = "8";
 
     /**
-     * 前景-黑色
+     * 前景-白色
      */
-    public static final String F_BLACK = "30";
+    public static final String F_WHITE = "30";
 
     /**
      * 前景-红色
@@ -93,14 +93,54 @@ public class ColorUtils {
     public static final String F_CYAN = "36";
 
     /**
-     * 前景-白色
+     * 前景-灰色
      */
-    public static final String F_WHITE = "37";
+    public static final String F_GREY = "37";
 
     /**
-     * 背景-黑色
+     * 前景-亮白色
      */
-    public static final String B_BLACK = "40";
+    public static final String F_L_WHITE = "90";
+
+    /**
+     * 前景-红色
+     */
+    public static final String F_L_RED = "91";
+
+    /**
+     * 前景-绿色
+     */
+    public static final String F_L_GREEN = "92";
+
+    /**
+     * 前景-黄色
+     */
+    public static final String F_L_YELLOW = "93";
+
+    /**
+     * 前景-蓝色
+     */
+    public static final String F_L_BLUE = "94";
+
+    /**
+     * 前景-紫色
+     */
+    public static final String F_L_PURPLE = "95";
+
+    /**
+     * 前景-青色
+     */
+    public static final String F_L_CYAN = "96";
+
+    /**
+     * 前景-灰色
+     */
+    public static final String F_L_GREY = "97";
+
+    /**
+     * 背景-白色
+     */
+    public static final String B_WHITE = "40";
 
     /**
      * 背景-红色
@@ -133,9 +173,9 @@ public class ColorUtils {
     public static final String B_CYAN = "46";
 
     /**
-     * 背景-白色
+     * 背景-灰色
      */
-    public static final String B_WHITE = "47";
+    public static final String B_GREY = "47";
 
     public static final void color(String... flags) {
         StringBuilder sb = new StringBuilder(ESC);
