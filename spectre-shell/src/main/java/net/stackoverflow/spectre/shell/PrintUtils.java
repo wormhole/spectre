@@ -45,7 +45,7 @@ public class PrintUtils {
                 System.out.print("\033[37;1m");
                 System.out.println(line.substring(49));
             }
-            clColor();
+            clearColor();
             System.out.println();
             System.out.println("github : https://github.com/wormhole/spectre");
             System.out.println("author : wormhole");
@@ -56,7 +56,7 @@ public class PrintUtils {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            clColor();
+            clearColor();
             try {
                 reader.close();
             } catch (IOException e) {
@@ -76,7 +76,7 @@ public class PrintUtils {
             String name = vmd.displayName().split(" ")[0];
             System.out.printf("%-6s %s %n", id, name);
         }
-        clColor();
+        clearColor();
         System.out.print("input pid: ");
     }
 
@@ -94,8 +94,9 @@ public class PrintUtils {
      */
     public static void printHelp() {
         titleColor();
-        System.out.printf("%-8s %s %n", "option", "description");
-        clColor();
+        System.out.printf("%-8s %s", "option", "description");
+        clearColor();
+        System.out.println();
         System.out.printf("%-8s %s %n", "help", "print help");
         System.out.printf("%-8s %s %n", "threads", "print thread information");
         System.out.printf("%-8s %s %n", "exit", "close session and exit spectre");
@@ -110,7 +111,7 @@ public class PrintUtils {
         titleColor();
         System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s", "id", "name", "state", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");
-        clColor();
+        clearColor();
         System.out.println();
         for (Object value : map.values()) {
             Map<String, Object> info = (Map<String, Object>) value;
@@ -134,7 +135,7 @@ public class PrintUtils {
         System.out.print("\033[30;47;1m");
     }
 
-    public static void clColor() {
+    public static void clearColor() {
         System.out.print("\033[0m");
     }
 }
