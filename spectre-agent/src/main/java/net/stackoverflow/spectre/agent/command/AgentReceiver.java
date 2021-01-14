@@ -48,7 +48,7 @@ public class AgentReceiver implements Receiver {
                 long start = System.currentTimeMillis();
                 long cpuStart = threadMXBean.getThreadCpuTime(threadId);
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
