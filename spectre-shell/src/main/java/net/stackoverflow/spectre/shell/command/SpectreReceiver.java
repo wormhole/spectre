@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.shell.command;
 
-import net.stackoverflow.spectre.shell.PrintUtils;
+import net.stackoverflow.spectre.shell.util.PrintUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -12,7 +12,6 @@ import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.management.ThreadInfo;
 import java.util.Map;
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell;
+package net.stackoverflow.spectre.shell.util;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
@@ -27,36 +27,36 @@ public class PrintUtils {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = null;
         try {
-            System.out.print("\033[35;1m");
+            ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.BOLD);
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                System.out.print("\033[31;1m");
+                ColorUtils.color(ColorUtils.F_RED, ColorUtils.BOLD);
                 System.out.print(line.substring(0, 8));
-                System.out.print("\033[32;1m");
+                ColorUtils.color(ColorUtils.F_RED, ColorUtils.F_YELLOW, ColorUtils.BOLD);
                 System.out.print(line.substring(8, 16));
-                System.out.print("\033[33;1m");
+                ColorUtils.color(ColorUtils.F_YELLOW, ColorUtils.BOLD);
                 System.out.print(line.substring(16, 24));
-                System.out.print("\033[34;1m");
+                ColorUtils.color(ColorUtils.F_GREEN, ColorUtils.BOLD);
                 System.out.print(line.substring(24, 32));
-                System.out.print("\033[35;1m");
+                ColorUtils.color(ColorUtils.F_CYAN, ColorUtils.BOLD);
                 System.out.print(line.substring(32, 41));
-                System.out.print("\033[36;1m");
+                ColorUtils.color(ColorUtils.F_BLUE, ColorUtils.BOLD);
                 System.out.print(line.substring(41, 49));
-                System.out.print("\033[37;1m");
+                ColorUtils.color(ColorUtils.F_PURPLE, ColorUtils.BOLD);
                 System.out.println(line.substring(49));
             }
-            clearColor();
+            ColorUtils.color(ColorUtils.F_WHITE);
             System.out.println();
             System.out.println("github : https://github.com/wormhole/spectre");
             System.out.println("author : wormhole");
             System.out.println("version: 1.0.0");
             System.out.println("pid    : " + pid);
-            System.out.print("\033[35;1m");
+            ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.BOLD);
             System.out.println("==========================================================");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            clearColor();
+            ColorUtils.color(ColorUtils.ORIGINAL);
             try {
                 reader.close();
             } catch (IOException e) {
@@ -70,13 +70,13 @@ public class PrintUtils {
      */
     public static void printVirtualMachines() {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
-        System.out.print("\033[36m");
+        ColorUtils.color(ColorUtils.F_CYAN);
         for (VirtualMachineDescriptor vmd : list) {
             String id = vmd.id();
             String name = vmd.displayName().split(" ")[0];
             System.out.printf("%-6s %s %n", id, name);
         }
-        clearColor();
+        ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.print("input pid: ");
     }
 
@@ -93,9 +93,9 @@ public class PrintUtils {
      * 打印帮助信息
      */
     public static void printHelp() {
-        titleColor();
+        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
         System.out.printf("%-8s %s", "option", "description");
-        clearColor();
+        ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
         System.out.printf("%-8s %s %n", "help", "print help");
         System.out.printf("%-8s %s %n", "threads", "print thread information");
@@ -108,10 +108,10 @@ public class PrintUtils {
      * @param map
      */
     public static void printThreads(Map<String, Object> map) {
-        titleColor();
+        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
         System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s", "id", "name", "state", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");
-        clearColor();
+        ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
         for (Object value : map.values()) {
             Map<String, Object> info = (Map<String, Object>) value;
@@ -129,13 +129,5 @@ public class PrintUtils {
                     info.get("blockedCount"), info.get("blockedTime"), info.get("waitedCount"), info.get("waitedTime"), info.get("suspended"), info.get("inNative"),
                     info.get("lockOwnerId"), lockName);
         }
-    }
-
-    public static void titleColor() {
-        System.out.print("\033[30;47;1m");
-    }
-
-    public static void clearColor() {
-        System.out.print("\033[0m");
     }
 }

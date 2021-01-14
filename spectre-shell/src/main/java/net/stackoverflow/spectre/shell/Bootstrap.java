@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
 import net.stackoverflow.spectre.shell.command.*;
+import net.stackoverflow.spectre.shell.util.PrintUtils;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import org.slf4j.Logger;
