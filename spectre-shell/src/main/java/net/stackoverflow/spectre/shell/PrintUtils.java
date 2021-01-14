@@ -27,22 +27,22 @@ public class PrintUtils {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = null;
         try {
-            System.out.print("\033[35m");
+            System.out.print("\033[35;1m");
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                System.out.print("\033[31m");
+                System.out.print("\033[31;1m");
                 System.out.print(line.substring(0, 8));
-                System.out.print("\033[32m");
+                System.out.print("\033[32;1m");
                 System.out.print(line.substring(8, 16));
-                System.out.print("\033[33m");
+                System.out.print("\033[33;1m");
                 System.out.print(line.substring(16, 24));
-                System.out.print("\033[34m");
+                System.out.print("\033[34;1m");
                 System.out.print(line.substring(24, 32));
-                System.out.print("\033[35m");
+                System.out.print("\033[35;1m");
                 System.out.print(line.substring(32, 41));
-                System.out.print("\033[36m");
+                System.out.print("\033[36;1m");
                 System.out.print(line.substring(41, 49));
-                System.out.print("\033[37m");
+                System.out.print("\033[37;1m");
                 System.out.println(line.substring(49));
             }
             clColor();
@@ -51,7 +51,7 @@ public class PrintUtils {
             System.out.println("author : wormhole");
             System.out.println("version: 1.0.0");
             System.out.println("pid    : " + pid);
-            System.out.print("\033[35m");
+            System.out.print("\033[35;1m");
             System.out.println("==========================================================");
         } catch (Exception e) {
             e.printStackTrace();
