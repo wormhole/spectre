@@ -111,8 +111,8 @@ public class PrintUtils {
      */
     public static void printThreads(List<ThreadInfoDTO> infos) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
-        System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s",
-                "id", "name", "state", "cpu.time", "user.time", "blocked.count", "blocked.time",
+        System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s",
+                "id", "name", "state", "cpu", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
@@ -127,10 +127,9 @@ public class PrintUtils {
                 sb.append(names[names.length - 1]);
                 lockName = sb.toString();
             }
-            System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s%n",
-                    info.getThreadId(), info.getThreadName(), info.getThreadState(), info.getCpuTime(), info.getUserTime(),
-                    info.getBlockedCount(), info.getBlockedTime(), info.getWaitedCount(), info.getWaitedTime(), info.getSuspended(), info.getInNative(),
-                    info.getLockOwnerId(), lockName);
+            System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s%n",
+                    info.getThreadId(), info.getThreadName(), info.getThreadState(), info.getCpuRate() + "%", info.getBlockedCount(), info.getBlockedTime(),
+                    info.getWaitedCount(), info.getWaitedTime(), info.getSuspended(), info.getInNative(), info.getLockOwnerId(), lockName);
         }
     }
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class AgentReceiver implements Receiver {
 
     private static final Logger log = LoggerFactory.getLogger(AgentReceiver.class);
+
+    private final DecimalFormat df = new DecimalFormat("#.00");
 
     public List<ThreadInfoDTO> threads() {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
@@ -37,18 +40,22 @@ public class AgentReceiver implements Receiver {
             dto.setInNative(info.isInNative());
             dto.setLockName(info.getLockName());
             dto.setLockOwnerId(info.getLockOwnerId());
-            dto.setUserTime(threadMXBean.getThreadUserTime(threadId));
-            if (threadMXBean.isThreadCpuTimeSupported()) {
-                if (threadMXBean.isThreadCpuTimeEnabled()) {
-                    dto.setCpuTime(threadMXBean.getThreadCpuTime(threadId));
-                } else {
-                    threadMXBean.setThreadCpuTimeEnabled(true);
-                    dto.setCpuTime(threadMXBean.getThreadCpuTime(threadId));
-                }
-            } else {
-                dto.setCpuTime(-1L);
-            }
 
+            if (threadMXBean.isThreadCpuTimeSupported()) {
+                if (!threadMXBean.isThreadCpuTimeEnabled()) {
+                    threadMXBean.setThreadCpuTimeEnabled(true);
+                }
+                long start = System.currentTimeMillis();
+                long cpuStart = threadMXBean.getThreadCpuTime(threadId);
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                long end = System.currentTimeMillis();
+                long cpuEnd = threadMXBean.getThreadCpuTime(threadId);
+                dto.setCpuRate(df.format((cpuEnd - cpuStart) / 1000.0 / (end - start)));
+            }
             result.add(dto);
         }
         return result;

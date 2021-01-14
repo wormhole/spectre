@@ -29,9 +29,7 @@ public class ThreadInfoDTO {
 
     private Long lockOwnerId;
 
-    private Long cpuTime;
-
-    private Long userTime;
+    private String cpuRate;
 
     public Long getThreadId() {
         return threadId;
@@ -121,19 +119,11 @@ public class ThreadInfoDTO {
         this.lockOwnerId = lockOwnerId;
     }
 
-    public Long getCpuTime() {
-        return cpuTime;
+    public String getCpuRate() {
+        return cpuRate;
     }
 
-    public void setCpuTime(Long cpuTime) {
-        this.cpuTime = cpuTime;
-    }
-
-    public Long getUserTime() {
-        return userTime;
-    }
-
-    public void setUserTime(Long userTime) {
-        this.userTime = userTime;
+    public void setCpuRate(String cpuRate) {
+        this.cpuRate = cpuRate;
     }
 }
