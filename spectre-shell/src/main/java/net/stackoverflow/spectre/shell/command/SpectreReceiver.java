@@ -45,9 +45,7 @@ public class SpectreReceiver implements Receiver {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("thread"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
-        if (response != null) {
-            ResponseFutureContext.getInstance().removeFuture(response.getId());
-        }
+        ResponseFutureContext.getInstance().removeFuture(request.getId());
         List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>() {
         });
         PrintUtils.printThreads(result);
