@@ -13,23 +13,27 @@ public class ThreadInfoDTO {
 
     private String threadState;
 
-    private Long blockedCount;
+    private Double cpuRate;
 
-    private Long blockedTime;
+    private String group;
 
-    private Long waitedCount;
+    private Integer priority;
 
-    private Long waitedTime;
+    private Boolean active;
+
+    private Boolean daemon;
+
+    private Boolean interrupted;
 
     private Boolean suspended;
 
-    private Boolean inNative;
+    private Long blockedCount;
 
-    private String lockName;
+    private Long waitedCount;
 
     private Long lockOwnerId;
 
-    private Double cpuRate;
+    private String lockName;
 
     public Long getThreadId() {
         return threadId;
@@ -55,36 +59,52 @@ public class ThreadInfoDTO {
         this.threadState = threadState;
     }
 
-    public Long getBlockedCount() {
-        return blockedCount;
+    public Double getCpuRate() {
+        return cpuRate;
     }
 
-    public void setBlockedCount(Long blockedCount) {
-        this.blockedCount = blockedCount;
+    public void setCpuRate(Double cpuRate) {
+        this.cpuRate = cpuRate;
     }
 
-    public Long getBlockedTime() {
-        return blockedTime;
+    public String getGroup() {
+        return group;
     }
 
-    public void setBlockedTime(Long blockedTime) {
-        this.blockedTime = blockedTime;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
-    public Long getWaitedCount() {
-        return waitedCount;
+    public Integer getPriority() {
+        return priority;
     }
 
-    public void setWaitedCount(Long waitedCount) {
-        this.waitedCount = waitedCount;
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
-    public Long getWaitedTime() {
-        return waitedTime;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setWaitedTime(Long waitedTime) {
-        this.waitedTime = waitedTime;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getDaemon() {
+        return daemon;
+    }
+
+    public void setDaemon(Boolean daemon) {
+        this.daemon = daemon;
+    }
+
+    public Boolean getInterrupted() {
+        return interrupted;
+    }
+
+    public void setInterrupted(Boolean interrupted) {
+        this.interrupted = interrupted;
     }
 
     public Boolean getSuspended() {
@@ -95,20 +115,20 @@ public class ThreadInfoDTO {
         this.suspended = suspended;
     }
 
-    public Boolean getInNative() {
-        return inNative;
+    public Long getBlockedCount() {
+        return blockedCount;
     }
 
-    public void setInNative(Boolean inNative) {
-        this.inNative = inNative;
+    public void setBlockedCount(Long blockedCount) {
+        this.blockedCount = blockedCount;
     }
 
-    public String getLockName() {
-        return lockName;
+    public Long getWaitedCount() {
+        return waitedCount;
     }
 
-    public void setLockName(String lockName) {
-        this.lockName = lockName;
+    public void setWaitedCount(Long waitedCount) {
+        this.waitedCount = waitedCount;
     }
 
     public Long getLockOwnerId() {
@@ -119,11 +139,11 @@ public class ThreadInfoDTO {
         this.lockOwnerId = lockOwnerId;
     }
 
-    public Double getCpuRate() {
-        return cpuRate;
+    public String getLockName() {
+        return lockName;
     }
 
-    public void setCpuRate(Double cpuRate) {
-        this.cpuRate = cpuRate;
+    public void setLockName(String lockName) {
+        this.lockName = lockName;
     }
 }

@@ -1,6 +1,7 @@
 package net.stackoverflow.spectre.agent.command;
 
 import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
+import net.stackoverflow.spectre.common.util.ThreadUtils;
 import net.stackoverflow.spectre.transport.command.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,28 +24,37 @@ public class AgentReceiver implements Receiver {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfoDTO> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
-        for (Long threadId : threadMXBean.getAllThreadIds()) {
+
+        if (threadMXBean.isThreadCpuTimeSupported()) {
+            if (!threadMXBean.isThreadCpuTimeEnabled()) {
+                threadMXBean.setThreadCpuTimeEnabled(true);
+            }
+        }
+        long[] threadIds = threadMXBean.getAllThreadIds();
+        for (Long threadId : threadIds) {
             ThreadInfo info = threadMXBean.getThreadInfo(threadId);
             ThreadInfoDTO dto = new ThreadInfoDTO();
             dto.setThreadId(info.getThreadId());
             dto.setThreadName(info.getThreadName());
             dto.setThreadState(info.getThreadState().name());
             dto.setBlockedCount(info.getBlockedCount());
-            dto.setBlockedTime(info.getBlockedTime());
             dto.setWaitedCount(info.getWaitedCount());
-            dto.setWaitedTime(info.getWaitedTime());
             dto.setSuspended(info.isSuspended());
-            dto.setInNative(info.isInNative());
             dto.setLockName(info.getLockName());
             dto.setLockOwnerId(info.getLockOwnerId());
 
-            if (threadMXBean.isThreadCpuTimeSupported()) {
-                if (!threadMXBean.isThreadCpuTimeEnabled()) {
-                    threadMXBean.setThreadCpuTimeEnabled(true);
-                }
-                times.put(threadId, threadMXBean.getThreadCpuTime(threadId));
+            Thread thread = ThreadUtils.findThread(threadId);
+            if (thread != null) {
+                dto.setGroup(thread.getThreadGroup().getName());
+                dto.setPriority(thread.getPriority());
+                dto.setActive(thread.isAlive());
+                dto.setDaemon(thread.isDaemon());
+                dto.setInterrupted(thread.isInterrupted());
             }
             result.add(dto);
+        }
+        for (Long threadId : threadIds) {
+            times.put(threadId, threadMXBean.getThreadCpuTime(threadId));
         }
         long start = System.currentTimeMillis();
         try {
