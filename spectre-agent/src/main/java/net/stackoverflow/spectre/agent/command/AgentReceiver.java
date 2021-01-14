@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 命令接收者实现
@@ -21,11 +19,10 @@ public class AgentReceiver implements Receiver {
 
     private static final Logger log = LoggerFactory.getLogger(AgentReceiver.class);
 
-    private final DecimalFormat df = new DecimalFormat("#.00");
-
     public List<ThreadInfoDTO> threads() {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfoDTO> result = new ArrayList<>();
+        Map<Long, Long> times = new HashMap<>();
         for (Long threadId : threadMXBean.getAllThreadIds()) {
             ThreadInfo info = threadMXBean.getThreadInfo(threadId);
             ThreadInfoDTO dto = new ThreadInfoDTO();
@@ -45,19 +42,23 @@ public class AgentReceiver implements Receiver {
                 if (!threadMXBean.isThreadCpuTimeEnabled()) {
                     threadMXBean.setThreadCpuTimeEnabled(true);
                 }
-                long start = System.currentTimeMillis();
-                long cpuStart = threadMXBean.getThreadCpuTime(threadId);
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                long end = System.currentTimeMillis();
-                long cpuEnd = threadMXBean.getThreadCpuTime(threadId);
-                dto.setCpuRate(df.format((cpuEnd - cpuStart) / 1000.0 / (end - start)));
+                times.put(threadId, threadMXBean.getThreadCpuTime(threadId));
             }
             result.add(dto);
         }
+        long start = System.currentTimeMillis();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        for (ThreadInfoDTO dto : result) {
+            long cpuEnd = threadMXBean.getThreadCpuTime(dto.getThreadId());
+            dto.setCpuRate((double) ((cpuEnd - times.get(dto.getThreadId())) / ((end - start) * 1000)));
+        }
+        Collections.sort(result, Comparator.comparingDouble(ThreadInfoDTO::getCpuRate));
+        Collections.reverse(result);
         return result;
     }
 }
