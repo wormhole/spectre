@@ -1,5 +1,6 @@
 package net.stackoverflow.spectre.transport.serialize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,17 @@ public class JsonSerializeManager implements SerializeManager {
         try {
             ObjectMapper mapper = new ObjectMapper();
             obj = mapper.readValue(bytes, clazz);
+        } catch (Exception e) {
+            log.error("SerializeManager fail to deserialize", e);
+        }
+        return obj;
+    }
+
+    public <T> T deserialize(byte[] bytes, TypeReference<T> reference) {
+        T obj = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            obj = mapper.readValue(bytes, reference);
         } catch (Exception e) {
             log.error("SerializeManager fail to deserialize", e);
         }

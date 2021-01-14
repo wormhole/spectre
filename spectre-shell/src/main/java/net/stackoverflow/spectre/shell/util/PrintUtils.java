@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.shell.util;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
+import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 
 import java.io.BufferedReader;
@@ -106,17 +107,17 @@ public class PrintUtils {
     /**
      * 打印线程信息
      *
-     * @param map
+     * @param infos
      */
-    public static void printThreads(Map<String, Object> map) {
+    public static void printThreads(List<ThreadInfoDTO> infos) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_WHITE, ColorUtils.BOLD);
-        System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s", "id", "name", "state", "blocked.count", "blocked.time",
+        System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s",
+                "id", "name", "state", "cpu.time", "user.time", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
-        for (Object value : map.values()) {
-            Map<String, Object> info = (Map<String, Object>) value;
-            String lockName = (String) info.get("lockName");
+        for (ThreadInfoDTO info : infos) {
+            String lockName = info.getLockName();
             if (lockName != null) {
                 String[] names = lockName.split("\\.");
                 StringBuilder sb = new StringBuilder();
@@ -126,9 +127,10 @@ public class PrintUtils {
                 sb.append(names[names.length - 1]);
                 lockName = sb.toString();
             }
-            System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s%n", info.get("threadId"), info.get("threadName"), info.get("threadState"),
-                    info.get("blockedCount"), info.get("blockedTime"), info.get("waitedCount"), info.get("waitedTime"), info.get("suspended"), info.get("inNative"),
-                    info.get("lockOwnerId"), lockName);
+            System.out.printf("%-5s  %-25.25s  %-15s  %-10s  %-10s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s%n",
+                    info.getThreadId(), info.getThreadName(), info.getThreadState(), info.getCpuTime(), info.getUserTime(),
+                    info.getBlockedCount(), info.getBlockedTime(), info.getWaitedCount(), info.getWaitedTime(), info.getSuspended(), info.getInNative(),
+                    info.getLockOwnerId(), lockName);
         }
     }
 }

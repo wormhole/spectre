@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.transport.serialize;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 /**
  * 序列化接口
  *
@@ -24,4 +26,14 @@ public interface SerializeManager {
      * @return
      */
     <T> T deserialize(byte[] bytes, Class<T> clazz);
+
+    /**
+     * 泛型反序列化
+     *
+     * @param bytes
+     * @param reference
+     * @param <T>
+     * @return
+     */
+    <T> T deserialize(byte[] bytes, TypeReference<T> reference);
 }

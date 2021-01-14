@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.shell.command;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
 import net.stackoverflow.spectre.shell.util.PrintUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
@@ -12,6 +14,7 @@ import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,14 +41,14 @@ public class SpectreReceiver implements Receiver {
         client.sendTo(request);
     }
 
-    public Map<String, Object> threads() {
+    public List<ThreadInfoDTO> threads() {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("threads"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         if (response != null) {
             ResponseFutureContext.getInstance().removeFuture(response.getId());
         }
-        Map<String, Object> result = serializeManager.deserialize(response.getResponse(), Map.class);
+        List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>(){});
         PrintUtils.printThreads(result);
         return result;
     }
