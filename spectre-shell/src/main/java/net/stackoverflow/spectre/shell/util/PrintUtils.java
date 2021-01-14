@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 打印工具类
@@ -49,10 +48,10 @@ public class PrintUtils {
             }
             ColorUtils.color(ColorUtils.ORIGINAL);
             System.out.println();
-            System.out.println("github : https://github.com/wormhole/spectre");
-            System.out.println("author : wormhole");
-            System.out.println("version: 1.0.0");
-            System.out.println("pid    : " + pid);
+            System.out.println("github  : https://github.com/wormhole/spectre");
+            System.out.println("author  : wormhole");
+            System.out.println("version : 1.0.0");
+            System.out.println("attached: " + pid);
             ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
         } catch (Exception e) {
