@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.shell.util;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
+import net.stackoverflow.spectre.common.util.ColorUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

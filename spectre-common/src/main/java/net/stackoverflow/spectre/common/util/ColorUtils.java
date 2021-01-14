@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell.util;
+package net.stackoverflow.spectre.common.util;
 
 /**
  * 控制台颜色工具类
