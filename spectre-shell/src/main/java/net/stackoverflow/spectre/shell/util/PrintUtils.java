@@ -29,7 +29,7 @@ public class PrintUtils {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = null;
         try {
-            ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.BOLD);
+            ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
                 ColorUtils.color(ColorUtils.F_RED, ColorUtils.BOLD);
@@ -47,13 +47,13 @@ public class PrintUtils {
                 ColorUtils.color(ColorUtils.F_PURPLE, ColorUtils.BOLD);
                 System.out.println(line.substring(49));
             }
-            ColorUtils.color(ColorUtils.F_WHITE);
+            ColorUtils.color(ColorUtils.ORIGINAL);
             System.out.println();
             System.out.println("github : https://github.com/wormhole/spectre");
             System.out.println("author : wormhole");
             System.out.println("version: 1.0.0");
             System.out.println("pid    : " + pid);
-            ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.BOLD);
+            ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
         } catch (Exception e) {
             e.printStackTrace();
