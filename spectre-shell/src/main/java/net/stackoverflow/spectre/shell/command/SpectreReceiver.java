@@ -42,13 +42,14 @@ public class SpectreReceiver implements Receiver {
     }
 
     public List<ThreadInfoDTO> threads() {
-        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("threads"));
+        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("thread"));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         if (response != null) {
             ResponseFutureContext.getInstance().removeFuture(response.getId());
         }
-        List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>(){});
+        List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>() {
+        });
         PrintUtils.printThreads(result);
         return result;
     }

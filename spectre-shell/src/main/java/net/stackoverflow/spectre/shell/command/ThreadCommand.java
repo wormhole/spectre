@@ -7,13 +7,13 @@ import net.stackoverflow.spectre.transport.command.Command;
  *
  * @author wormhole
  */
-public class ThreadsCommand implements Command {
+public class ThreadCommand implements Command {
 
     private final String cmd;
 
     private final SpectreReceiver receiver;
 
-    public ThreadsCommand(String cmd, SpectreReceiver receiver) {
+    public ThreadCommand(String cmd, SpectreReceiver receiver) {
         this.cmd = cmd;
         this.receiver = receiver;
     }

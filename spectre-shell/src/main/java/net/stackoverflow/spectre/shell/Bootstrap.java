@@ -35,7 +35,7 @@ public class Bootstrap {
         SpectreReceiver receiver = new SpectreReceiver(client);
         SpectreInvoker invoker = new SpectreInvoker();
         invoker.addCommand(new HelpCommand("help", receiver));
-        invoker.addCommand(new ThreadsCommand("threads", receiver));
+        invoker.addCommand(new ThreadCommand("thread", receiver));
         invoker.addCommand(new ExitCommand("exit", receiver));
 
         PrintUtils.printBanner(pid);
