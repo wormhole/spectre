@@ -108,9 +108,10 @@ public class PrintUtils {
      */
     public static void printThreads(Map<String, Object> map) {
         titleColor();
-        System.out.printf("%-5s %-25.25s %-15s %-13s %-12s %-12s %-11s %-9s %-6s %-13s %-50.50s %n", "id", "name", "state", "blocked.count", "blocked.time",
+        System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s", "id", "name", "state", "blocked.count", "blocked.time",
                 "waited.count", "waited.time", "suspended", "native", "lock.owner.id", "lock");
         clColor();
+        System.out.println();
         for (Object value : map.values()) {
             Map<String, Object> info = (Map<String, Object>) value;
             String lockName = (String) info.get("lockName");
@@ -123,7 +124,7 @@ public class PrintUtils {
                 sb.append(names[names.length - 1]);
                 lockName = sb.toString();
             }
-            System.out.printf("%-5s %-25.25s %-15s %-13s %-12s %-12s %-11s %-9s %-6s %-13s %-50.50s %n", info.get("threadId"), info.get("threadName"), info.get("threadState"),
+            System.out.printf("%-5s  %-25.25s  %-15s  %-13s  %-12s  %-12s  %-11s  %-9s  %-6s  %-13s  %-50.50s%n", info.get("threadId"), info.get("threadName"), info.get("threadState"),
                     info.get("blockedCount"), info.get("blockedTime"), info.get("waitedCount"), info.get("waitedTime"), info.get("suspended"), info.get("inNative"),
                     info.get("lockOwnerId"), lockName);
         }
