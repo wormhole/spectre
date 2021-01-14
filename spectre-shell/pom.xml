@@ -35,6 +35,8 @@
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
             <version>1.8</version>
+            <scope>system</scope>
+            <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
         </dependency>
     </dependencies>
 
