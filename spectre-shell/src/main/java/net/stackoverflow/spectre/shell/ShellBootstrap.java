@@ -17,7 +17,11 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 启动类
@@ -46,6 +50,11 @@ public class ShellBootstrap {
             shellBootstrap.exit(-1);
         }
         shellBootstrap.exit(0);
+    }
+
+    protected static String bytesToMB(long bytes) {
+        NumberFormat fmtI = new DecimalFormat("###,###", new DecimalFormatSymbols(Locale.ENGLISH));
+        return fmtI.format((long)(bytes / 1024 / 1024)) + " MB";
     }
 
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {

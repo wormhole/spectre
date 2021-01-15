@@ -20,25 +20,25 @@ public class FormatUtils {
     public static String formatNanoSecond(Long ns) {
         StringBuilder sb = new StringBuilder();
         if (ns > NS_OF_DAY) {
-            sb.append(ns / NS_OF_DAY).append(":");
+            sb.append(String.format("%03d", ns / NS_OF_DAY)).append(":");
             ns = ns % NS_OF_DAY;
         } else {
             sb.append("00:");
         }
         if (ns > NS_OF_HOUR) {
-            sb.append(ns / NS_OF_HOUR).append(":");
+            sb.append(String.format("%02d", ns / NS_OF_HOUR)).append(":");
             ns = ns % NS_OF_HOUR;
         } else {
             sb.append("00:");
         }
         if (ns > NS_OF_MINUTES) {
-            sb.append(ns / NS_OF_MINUTES).append(":");
+            sb.append(String.format("%02d", ns / NS_OF_MINUTES)).append(":");
             ns = ns % NS_OF_MINUTES;
         } else {
             sb.append("00:");
         }
         if (ns > NS_OF_SECOND) {
-            sb.append(ns / NS_OF_SECOND);
+            sb.append(String.format("%02d", ns / NS_OF_SECOND));
         } else {
             sb.append("00");
         }
