@@ -1,32 +1,28 @@
-package net.stackoverflow.spectre.shell.util;
+package net.stackoverflow.spectre.shell;
 
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
- * 打印工具类
+ * banner类
  *
  * @author wormhole
  */
-public class RenderUtils {
+public class Banner {
 
-    /**
-     * 打印banner
-     *
-     * @param pid
-     */
-    public static void renderBanner(String pid) {
+    public void render() {
         InputStream is = ClassLoader.getSystemResourceAsStream("banner.txt");
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = null;
         try {
+            Properties properties = new Properties();
+            properties.load(Banner.class.getClassLoader().getResourceAsStream("spectre.properties"));
             ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
@@ -47,10 +43,9 @@ public class RenderUtils {
             }
             ColorUtils.color(ColorUtils.ORIGINAL);
             System.out.println();
-            System.out.println("github  : https://github.com/wormhole/spectre");
-            System.out.println("author  : wormhole");
-            System.out.println("version : 1.0.0");
-            System.out.println("attached: " + pid);
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                System.out.printf("%-7s : %s%n", entry.getKey(), entry.getValue());
+            }
             ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
         } catch (Exception e) {
@@ -63,29 +58,5 @@ public class RenderUtils {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * 打印虚拟机进程列表
-     */
-    public static void renderVirtualMachines() {
-        List<VirtualMachineDescriptor> list = VirtualMachine.list();
-        ColorUtils.color(ColorUtils.F_CYAN);
-        for (VirtualMachineDescriptor vmd : list) {
-            String id = vmd.id();
-            String name = vmd.displayName().split(" ")[0];
-            System.out.printf("%-6s %s%n", id, name);
-        }
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.print("input pid: ");
-    }
-
-    /**
-     * 打印会话提示
-     *
-     * @param pid
-     */
-    public static void renderSession(String pid) {
-        System.out.print("[spectre@" + pid + "]# ");
     }
 }

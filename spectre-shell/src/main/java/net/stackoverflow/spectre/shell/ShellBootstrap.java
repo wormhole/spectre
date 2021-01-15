@@ -1,23 +1,23 @@
 package net.stackoverflow.spectre.shell;
 
-import com.sun.tools.attach.AgentInitializationException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.VirtualMachine;
-import net.stackoverflow.spectre.shell.command.*;
+import com.sun.tools.attach.*;
+import net.stackoverflow.spectre.common.command.Invoker;
+import net.stackoverflow.spectre.common.util.ColorUtils;
+import net.stackoverflow.spectre.shell.command.ExitCommand;
+import net.stackoverflow.spectre.shell.command.HelpCommand;
+import net.stackoverflow.spectre.shell.command.ThreadCommand;
 import net.stackoverflow.spectre.shell.receiver.ExitReceiver;
 import net.stackoverflow.spectre.shell.receiver.HelpReceiver;
 import net.stackoverflow.spectre.shell.receiver.ThreadReceiver;
-import net.stackoverflow.spectre.shell.util.RenderUtils;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
-import net.stackoverflow.spectre.common.command.Invoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * 启动类
@@ -31,8 +31,6 @@ public class ShellBootstrap {
     private final BufferedReader reader;
 
     private VirtualMachine vm;
-
-    private TransportClient client;
 
     public ShellBootstrap() {
         InputStreamReader isr = new InputStreamReader(System.in);
@@ -51,7 +49,15 @@ public class ShellBootstrap {
     }
 
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
-        RenderUtils.renderVirtualMachines();
+        List<VirtualMachineDescriptor> list = VirtualMachine.list();
+        ColorUtils.color(ColorUtils.F_CYAN);
+        for (VirtualMachineDescriptor vmd : list) {
+            String id = vmd.id();
+            String name = vmd.displayName().split(" ")[0];
+            System.out.printf("%-6s %s%n", id, name);
+        }
+        ColorUtils.color(ColorUtils.ORIGINAL);
+        System.out.print("input pid: ");
         String pid = reader.readLine();
         VirtualMachine vm = VirtualMachine.attach(pid);
         vm.loadAgent(agentJar);
@@ -74,19 +80,19 @@ public class ShellBootstrap {
 
     public void loop(String agentJar, String ip, int port) throws AgentInitializationException, AgentLoadException, AttachNotSupportedException, IOException {
         this.vm = attach(agentJar);
-        this.client = connect(ip, port);
-        Invoker invoker = initCommand(this.client);
+        TransportClient client = connect(ip, port);
+        Invoker invoker = initCommand(client);
 
-        RenderUtils.renderBanner(vm.id());
+        new Banner().render();
         String cmd = null;
         do {
-            RenderUtils.renderSession(vm.id());
+            System.out.print("[spectre@" + vm.id() + "]# ");
             cmd = reader.readLine();
             invoker.call(cmd.trim());
         } while (!"exit".equals(cmd));
     }
 
-    public void exit(int status) {
+    private void exit(int status) {
         if (this.vm != null) {
             try {
                 this.vm.detach();
