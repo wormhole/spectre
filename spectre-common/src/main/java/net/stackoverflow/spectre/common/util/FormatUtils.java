@@ -20,7 +20,7 @@ public class FormatUtils {
     public static String formatNanoSecond(Long ns) {
         StringBuilder sb = new StringBuilder();
         if (ns > NS_OF_DAY) {
-            sb.append(String.format("%03d", ns / NS_OF_DAY)).append(":");
+            sb.append(String.format("%02d", ns / NS_OF_DAY)).append(":");
             ns = ns % NS_OF_DAY;
         } else {
             sb.append("00:");
