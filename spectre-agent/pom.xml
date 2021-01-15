@@ -68,8 +68,8 @@
                         <manifestEntries>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
-                            <Premain-Class>net.stackoverflow.spectre.agent.SpectreAgent</Premain-Class>
-                            <Agent-Class>net.stackoverflow.spectre.agent.SpectreAgent</Agent-Class>
+                            <Premain-Class>net.stackoverflow.spectre.agent.AgentBootstrap</Premain-Class>
+                            <Agent-Class>net.stackoverflow.spectre.agent.AgentBootstrap</Agent-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>

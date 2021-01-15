@@ -21,9 +21,9 @@ import java.io.InputStreamReader;
  *
  * @author wormhole
  */
-public class Bootstrap {
+public class ShellBootstrap {
 
-    private static final Logger log = LoggerFactory.getLogger(Bootstrap.class);
+    private static final Logger log = LoggerFactory.getLogger(ShellBootstrap.class);
 
     private final BufferedReader reader;
 
@@ -31,20 +31,20 @@ public class Bootstrap {
 
     private TransportClient client;
 
-    public Bootstrap() {
+    public ShellBootstrap() {
         InputStreamReader isr = new InputStreamReader(System.in);
         this.reader = new BufferedReader(isr);
     }
 
     public static void main(String[] args) {
-        Bootstrap bootstrap = new Bootstrap();
+        ShellBootstrap shellBootstrap = new ShellBootstrap();
         try {
-            bootstrap.loop(args[0], "127.0.0.1", 9966);
+            shellBootstrap.loop(args[0], "127.0.0.1", 9966);
         } catch (Exception e) {
             e.printStackTrace();
-            bootstrap.exit(-1);
+            shellBootstrap.exit(-1);
         }
-        bootstrap.exit(0);
+        shellBootstrap.exit(0);
     }
 
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {

@@ -15,9 +15,9 @@ import java.lang.instrument.Instrumentation;
  *
  * @author wormhole
  */
-public class SpectreAgent {
+public class AgentBootstrap {
 
-    private static final Logger log = LoggerFactory.getLogger(SpectreAgent.class);
+    private static final Logger log = LoggerFactory.getLogger(AgentBootstrap.class);
 
     public static void premain(String agentArgs, Instrumentation inst) {
         main(agentArgs, inst);
