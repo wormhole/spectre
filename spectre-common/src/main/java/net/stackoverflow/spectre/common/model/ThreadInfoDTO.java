@@ -15,6 +15,10 @@ public class ThreadInfoDTO {
 
     private Double cpuRate;
 
+    private Long userTime;
+
+    private Long cpuTime;
+
     private String group;
 
     private Integer priority;
@@ -65,6 +69,22 @@ public class ThreadInfoDTO {
 
     public void setCpuRate(Double cpuRate) {
         this.cpuRate = cpuRate;
+    }
+
+    public Long getUserTime() {
+        return userTime;
+    }
+
+    public void setUserTime(Long userTime) {
+        this.userTime = userTime;
+    }
+
+    public Long getCpuTime() {
+        return cpuTime;
+    }
+
+    public void setCpuTime(Long cpuTime) {
+        this.cpuTime = cpuTime;
     }
 
     public String getGroup() {

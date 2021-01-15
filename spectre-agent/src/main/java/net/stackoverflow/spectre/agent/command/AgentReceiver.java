@@ -65,7 +65,9 @@ public class AgentReceiver implements Receiver {
         long end = System.currentTimeMillis();
         for (ThreadInfoDTO dto : result) {
             long cpuEnd = threadMXBean.getThreadCpuTime(dto.getThreadId());
-            dto.setCpuRate((double) ((cpuEnd - times.get(dto.getThreadId())) / ((end - start) * 1000)));
+            dto.setCpuRate(((cpuEnd - times.get(dto.getThreadId())) / 1000000.0) / (end - start) * 100);
+            dto.setUserTime(threadMXBean.getThreadUserTime(dto.getThreadId()));
+            dto.setCpuTime(cpuEnd);
         }
         Collections.sort(result, Comparator.comparingDouble(ThreadInfoDTO::getCpuRate));
         Collections.reverse(result);
