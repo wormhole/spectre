@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.agent;
 
-import net.stackoverflow.spectre.transport.command.AbstractInvoker;
-import net.stackoverflow.spectre.transport.command.Command;
+import net.stackoverflow.spectre.common.command.AbstractInvoker;
+import net.stackoverflow.spectre.common.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

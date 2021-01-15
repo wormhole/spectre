@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.agent.receiver;
 
 import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
 import net.stackoverflow.spectre.common.util.ThreadUtils;
-import net.stackoverflow.spectre.transport.command.Receiver;
+import net.stackoverflow.spectre.common.command.Receiver;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;

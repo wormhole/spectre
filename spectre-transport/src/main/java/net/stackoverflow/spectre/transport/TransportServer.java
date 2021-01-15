@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.transport;
 
-import net.stackoverflow.spectre.transport.command.Invoker;
+import net.stackoverflow.spectre.common.command.Invoker;
 
 /**
  * 服务端接口

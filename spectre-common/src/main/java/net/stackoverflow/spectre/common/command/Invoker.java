@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.transport.command;
+package net.stackoverflow.spectre.common.command;
 
 import java.util.Collection;
 

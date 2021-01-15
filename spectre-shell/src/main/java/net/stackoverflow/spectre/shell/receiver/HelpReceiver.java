@@ -2,14 +2,10 @@ package net.stackoverflow.spectre.shell.receiver;
 
 
 import net.stackoverflow.spectre.common.util.ColorUtils;
-import net.stackoverflow.spectre.shell.command.HelpCommand;
-import net.stackoverflow.spectre.transport.command.Command;
-import net.stackoverflow.spectre.transport.command.Receiver;
+import net.stackoverflow.spectre.common.command.Command;
+import net.stackoverflow.spectre.common.command.Receiver;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * help命令接收者

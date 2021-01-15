@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.agent.command;
 
-import net.stackoverflow.spectre.transport.command.AbstractCommand;
-import net.stackoverflow.spectre.transport.command.Receiver;
+import net.stackoverflow.spectre.common.command.AbstractCommand;
+import net.stackoverflow.spectre.common.command.Receiver;
 
 /**
  * 列出线程命令

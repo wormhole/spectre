@@ -1,6 +1,4 @@
-package net.stackoverflow.spectre.transport.command;
-
-import java.util.Comparator;
+package net.stackoverflow.spectre.common.command;
 
 /**
  * 命令抽象类

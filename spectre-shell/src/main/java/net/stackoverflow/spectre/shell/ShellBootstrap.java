@@ -11,7 +11,7 @@ import net.stackoverflow.spectre.shell.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.shell.util.RenderUtils;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
-import net.stackoverflow.spectre.transport.command.Invoker;
+import net.stackoverflow.spectre.common.command.Invoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

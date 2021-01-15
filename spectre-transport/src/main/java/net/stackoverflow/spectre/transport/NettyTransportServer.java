@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
-import net.stackoverflow.spectre.transport.command.Invoker;
+import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.transport.handler.server.ServerCommandHandler;
 import net.stackoverflow.spectre.transport.handler.server.ServerHeatBeatHandler;
 import org.slf4j.Logger;

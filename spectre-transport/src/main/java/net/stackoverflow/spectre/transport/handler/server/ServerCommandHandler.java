@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.transport.handler.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.stackoverflow.spectre.transport.command.Invoker;
+import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.transport.proto.*;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;

@@ -28,6 +28,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.stackoverflow.spectre</groupId>
+            <artifactId>spectre-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
