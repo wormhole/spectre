@@ -46,13 +46,13 @@ public class ThreadReceiver implements Receiver {
 
     private void renderThreads(List<ThreadInfoDTO> infos) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
-        System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %-13s  %-13s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
-                "id", "name", "state", "cpu.rate", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",
+        System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-13s  %-10s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
+                "id", "name", "state", "cpu.rate(%)", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",
                 "suspended", "blocked.count", "waited.count", "lock.owner.id");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
         for (ThreadInfoDTO info : infos) {
-            System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %-13s  %-13s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s%n",
+            System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-13s  %-10s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s%n",
                     info.getThreadId(), info.getThreadName(), info.getThreadState(), String.format("%.2f", info.getCpuRate()), FormatUtils.formatNanoSecond(info.getCpuTime()),
                     FormatUtils.formatNanoSecond(info.getUserTime()), info.getGroup(), info.getPriority(), info.getActive(), info.getDaemon(), info.getInterrupted(), info.getSuspended(),
                     info.getBlockedCount(), info.getWaitedCount(), info.getLockOwnerId());

@@ -1,6 +1,8 @@
 package net.stackoverflow.spectre.agent;
 
+import net.stackoverflow.spectre.agent.command.MemoryCommand;
 import net.stackoverflow.spectre.agent.command.ThreadCommand;
+import net.stackoverflow.spectre.agent.receiver.MemoryReceiver;
 import net.stackoverflow.spectre.agent.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
@@ -33,6 +35,7 @@ public class AgentBootstrap {
         }
         AgentInvoker invoker = new AgentInvoker();
         invoker.addCommand(new ThreadCommand("thread", "Fetch thread information", new ThreadReceiver()));
+        invoker.addCommand(new MemoryCommand("memory", "Fetch memory information", new MemoryReceiver()));
         TransportServer server = new NettyTransportServer();
         server.start(9966, invoker);
     }

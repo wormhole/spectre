@@ -5,9 +5,11 @@ import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.shell.command.ExitCommand;
 import net.stackoverflow.spectre.shell.command.HelpCommand;
+import net.stackoverflow.spectre.shell.command.MemoryCommand;
 import net.stackoverflow.spectre.shell.command.ThreadCommand;
 import net.stackoverflow.spectre.shell.receiver.ExitReceiver;
 import net.stackoverflow.spectre.shell.receiver.HelpReceiver;
+import net.stackoverflow.spectre.shell.receiver.MemoryReceiver;
 import net.stackoverflow.spectre.shell.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -17,11 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * 启动类
@@ -52,11 +50,6 @@ public class ShellBootstrap {
         shellBootstrap.exit(0);
     }
 
-    protected static String bytesToMB(long bytes) {
-        NumberFormat fmtI = new DecimalFormat("###,###", new DecimalFormatSymbols(Locale.ENGLISH));
-        return fmtI.format((long)(bytes / 1024 / 1024)) + " MB";
-    }
-
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
         ColorUtils.color(ColorUtils.F_CYAN);
@@ -83,6 +76,7 @@ public class ShellBootstrap {
         Invoker invoker = new SpectreInvoker();
         invoker.addCommand(new HelpCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
         invoker.addCommand(new ThreadCommand("thread", "Print thread information", new ThreadReceiver(client)));
+        invoker.addCommand(new MemoryCommand("memory", "Print memory information", new MemoryReceiver(client)));
         invoker.addCommand(new ExitCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         return invoker;
     }

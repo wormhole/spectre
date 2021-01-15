@@ -17,6 +17,12 @@ public class FormatUtils {
 
     public static final Long NS_OF_DAY = 24 * NS_OF_HOUR;
 
+    public static final Long MB = 1024 * 1024L;
+
+    public static Long bytesToMB(long bytes) {
+        return bytes / MB;
+    }
+
     public static String formatNanoSecond(Long ns) {
         StringBuilder sb = new StringBuilder();
         if (ns > NS_OF_DAY) {
