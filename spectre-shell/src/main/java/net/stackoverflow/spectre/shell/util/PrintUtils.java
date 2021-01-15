@@ -31,9 +31,9 @@ public class PrintUtils {
             ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                ColorUtils.color(ColorUtils.F_L_RED, ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_RED, ColorUtils.BOLD);
                 System.out.print(line.substring(0, 8));
-                ColorUtils.color("38", "2", "255", "165", "0", ColorUtils.BOLD);
+                ColorUtils.color(ColorUtils.F_L_RED, ColorUtils.BOLD);
                 System.out.print(line.substring(8, 16));
                 ColorUtils.color(ColorUtils.F_L_YELLOW, ColorUtils.BOLD);
                 System.out.print(line.substring(16, 24));
