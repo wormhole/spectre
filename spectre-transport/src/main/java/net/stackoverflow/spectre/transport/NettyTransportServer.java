@@ -27,6 +27,8 @@ public class NettyTransportServer implements TransportServer {
 
     private volatile Channel channel;
 
+    public static Boolean isBind = false;
+
     @Override
     public void start(int port, Invoker invoker) {
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -50,6 +52,7 @@ public class NettyTransportServer implements TransportServer {
                         });
                 ChannelFuture future = bootstrap.bind(port).sync();
                 channel = future.channel();
+                isBind = true;
                 countDownLatch.countDown();
                 log.info("[L:{}] server start success", channel.localAddress());
                 channel.closeFuture().sync();
@@ -59,6 +62,7 @@ public class NettyTransportServer implements TransportServer {
                 bossGroup.shutdownGracefully();
                 workGroup.shutdownGracefully();
                 log.info("[L:{}] server closed", channel.localAddress());
+                isBind = false;
                 channel = null;
             }
         });
