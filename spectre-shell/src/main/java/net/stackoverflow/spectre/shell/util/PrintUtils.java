@@ -99,7 +99,7 @@ public class PrintUtils {
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
         System.out.printf("%-8s %s %n", "help", "print help");
-        System.out.printf("%-8s %s %n", "threads", "print thread information");
+        System.out.printf("%-8s %s %n", "thread", "print thread information");
         System.out.printf("%-8s %s %n", "exit", "close session and exit spectre");
     }
 
