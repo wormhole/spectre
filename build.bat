@@ -10,7 +10,8 @@ cd../spectre-shell
 call mvn clean install
 cd ..
 
+del /a /f /q build
 md build
-copy %~dp0\spectre-agent\target\spectre-agent-1.0.0.jar %~dp0\build\spectre-agent.jar
-copy %~dp0\spectre-shell\target\spectre-shell-1.0.0.jar %~dp0\build\spectre-shell.jar
-copy %~dp0\spectre-shell.bat %~dp0\build\spectre-shell.bat
+copy %~sdp0\spectre-agent\target\spectre-agent-1.0.0.jar %~sdp0\build\spectre-agent.jar
+copy %~sdp0\spectre-shell\target\spectre-shell-1.0.0.jar %~sdp0\build\spectre-shell.jar
+copy %~sdp0\spectre-shell.* %~sdp0\build\
