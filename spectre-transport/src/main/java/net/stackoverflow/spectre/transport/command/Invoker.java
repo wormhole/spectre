@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.transport.command;
 
+import java.util.Collection;
+
 /**
  * 命令调用抽象类
  *
@@ -9,9 +11,11 @@ public interface Invoker {
 
     void addCommand(Command command);
 
-    void removeCommand(String cmd);
+    void removeCommand(String key);
 
-    Command getCommand(String cmd);
+    Command getCommand(String key);
 
-    Object call(String cmd, String... args);
+    Collection<Command> getCommands();
+
+    Object call(String key, String... args);
 }

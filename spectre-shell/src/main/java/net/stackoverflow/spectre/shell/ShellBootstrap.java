@@ -5,6 +5,9 @@ import com.sun.tools.attach.AgentLoadException;
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 import net.stackoverflow.spectre.shell.command.*;
+import net.stackoverflow.spectre.shell.receiver.ExitReceiver;
+import net.stackoverflow.spectre.shell.receiver.HelpReceiver;
+import net.stackoverflow.spectre.shell.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.shell.util.RenderUtils;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -63,10 +66,9 @@ public class ShellBootstrap {
 
     private Invoker initCommand(TransportClient client) {
         Invoker invoker = new SpectreInvoker();
-        SpectreReceiver receiver = new SpectreReceiver(client);
-        invoker.addCommand(new HelpCommand("help", receiver));
-        invoker.addCommand(new ThreadCommand("thread", receiver));
-        invoker.addCommand(new ExitCommand("exit", receiver));
+        invoker.addCommand(new HelpCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
+        invoker.addCommand(new ThreadCommand("thread", "Print thread information", new ThreadReceiver(client)));
+        invoker.addCommand(new ExitCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         return invoker;
     }
 

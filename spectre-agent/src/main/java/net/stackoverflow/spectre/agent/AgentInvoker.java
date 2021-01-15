@@ -1,10 +1,11 @@
-package net.stackoverflow.spectre.agent.command;
+package net.stackoverflow.spectre.agent;
 
 import net.stackoverflow.spectre.transport.command.AbstractInvoker;
 import net.stackoverflow.spectre.transport.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,16 +26,21 @@ public class AgentInvoker extends AbstractInvoker {
 
     @Override
     public void addCommand(Command command) {
-        commands.put(command.getCmd(), command);
+        commands.put(command.key(), command);
     }
 
     @Override
-    public void removeCommand(String cmd) {
-        commands.remove(cmd);
+    public void removeCommand(String key) {
+        commands.remove(key);
     }
 
     @Override
-    public Command getCommand(String cmd) {
-        return commands.get(cmd);
+    public Command getCommand(String key) {
+        return commands.get(key);
+    }
+
+    @Override
+    public Collection<Command> getCommands() {
+        return commands.values();
     }
 }

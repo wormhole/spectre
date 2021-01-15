@@ -1,31 +1,16 @@
 package net.stackoverflow.spectre.shell.command;
 
-import net.stackoverflow.spectre.transport.command.Command;
+import net.stackoverflow.spectre.transport.command.AbstractCommand;
+import net.stackoverflow.spectre.transport.command.Receiver;
 
 /**
  * 帮助命令
  *
  * @author wormhole
  */
-public class HelpCommand implements Command {
+public class HelpCommand extends AbstractCommand {
 
-    private final String cmd;
-
-    private final SpectreReceiver receiver;
-
-    public HelpCommand(String cmd, SpectreReceiver receiver) {
-        this.cmd = cmd;
-        this.receiver = receiver;
-    }
-
-    @Override
-    public String getCmd() {
-        return cmd;
-    }
-
-    @Override
-    public Object execute(String... strings) {
-        receiver.help();
-        return null;
+    public HelpCommand(String key, String description, Receiver receiver) {
+        super(key, description, receiver);
     }
 }

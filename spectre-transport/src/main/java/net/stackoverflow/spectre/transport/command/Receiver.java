@@ -7,4 +7,5 @@ package net.stackoverflow.spectre.transport.command;
  */
 public interface Receiver {
 
+    Object action(String... args);
 }

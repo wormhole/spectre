@@ -1,30 +1,21 @@
 package net.stackoverflow.spectre.shell.command;
 
-import net.stackoverflow.spectre.transport.command.Command;
+import net.stackoverflow.spectre.transport.command.AbstractCommand;
+import net.stackoverflow.spectre.transport.command.Receiver;
 
 /**
  * 列出线程命令
  *
  * @author wormhole
  */
-public class ThreadCommand implements Command {
+public class ThreadCommand extends AbstractCommand {
 
-    private final String cmd;
-
-    private final SpectreReceiver receiver;
-
-    public ThreadCommand(String cmd, SpectreReceiver receiver) {
-        this.cmd = cmd;
-        this.receiver = receiver;
-    }
-
-    @Override
-    public String getCmd() {
-        return cmd;
+    public ThreadCommand(String key, String description, Receiver receiver) {
+        super(key, description, receiver);
     }
 
     @Override
     public Object execute(String... args) {
-        return receiver.threads();
+        return super.execute(key);
     }
 }

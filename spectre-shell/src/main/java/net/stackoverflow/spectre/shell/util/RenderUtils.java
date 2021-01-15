@@ -2,9 +2,7 @@ package net.stackoverflow.spectre.shell.util;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
-import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
 import net.stackoverflow.spectre.common.util.ColorUtils;
-import net.stackoverflow.spectre.common.util.FormatUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,7 +74,7 @@ public class RenderUtils {
         for (VirtualMachineDescriptor vmd : list) {
             String id = vmd.id();
             String name = vmd.displayName().split(" ")[0];
-            System.out.printf("%-6s %s %n", id, name);
+            System.out.printf("%-6s %s%n", id, name);
         }
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.print("input pid: ");
@@ -89,38 +87,5 @@ public class RenderUtils {
      */
     public static void renderSession(String pid) {
         System.out.print("[spectre@" + pid + "]# ");
-    }
-
-    /**
-     * 打印帮助信息
-     */
-    public static void renderHelp() {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
-        System.out.printf("%-8s %s", "option", "description");
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.println();
-        System.out.printf("%-8s %s %n", "help", "print help");
-        System.out.printf("%-8s %s %n", "thread", "print thread information");
-        System.out.printf("%-8s %s %n", "exit", "close session and exit spectre");
-    }
-
-    /**
-     * 打印线程信息
-     *
-     * @param infos
-     */
-    public static void renderThreads(List<ThreadInfoDTO> infos) {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
-        System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %13s  %13s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
-                "id", "name", "state", "cpu.rate", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",
-                "suspended", "blocked.count", "waited.count", "lock.owner.id");
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.println();
-        for (ThreadInfoDTO info : infos) {
-            System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %13s  %13s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s%n",
-                    info.getThreadId(), info.getThreadName(), info.getThreadState(), String.format("%.2f", info.getCpuRate()), FormatUtils.formatNanoSecond(info.getCpuTime()),
-                    FormatUtils.formatNanoSecond(info.getUserTime()), info.getGroup(), info.getPriority(), info.getActive(), info.getDaemon(), info.getInterrupted(), info.getSuspended(),
-                    info.getBlockedCount(), info.getWaitedCount(), info.getLockOwnerId());
-        }
     }
 }

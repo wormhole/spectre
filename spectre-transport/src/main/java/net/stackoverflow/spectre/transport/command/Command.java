@@ -7,7 +7,9 @@ package net.stackoverflow.spectre.transport.command;
  */
 public interface Command {
 
-    String getCmd();
+    String key();
+
+    String description();
 
     Object execute(String... args);
 }

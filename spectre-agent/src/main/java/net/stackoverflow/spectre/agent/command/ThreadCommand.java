@@ -1,30 +1,16 @@
 package net.stackoverflow.spectre.agent.command;
 
-import net.stackoverflow.spectre.transport.command.Command;
+import net.stackoverflow.spectre.transport.command.AbstractCommand;
+import net.stackoverflow.spectre.transport.command.Receiver;
 
 /**
  * 列出线程命令
  *
  * @author wormhole
  */
-public class ThreadCommand implements Command {
+public class ThreadCommand extends AbstractCommand {
 
-    private final String cmd;
-
-    private final AgentReceiver receiver;
-
-    public ThreadCommand(String cmd, AgentReceiver receiver) {
-        this.cmd = cmd;
-        this.receiver = receiver;
-    }
-
-    @Override
-    public String getCmd() {
-        return cmd;
-    }
-
-    @Override
-    public Object execute(String... args) {
-        return receiver.threads();
+    public ThreadCommand(String key, String description, Receiver receiver) {
+        super(key, description, receiver);
     }
 }

@@ -1,8 +1,7 @@
 package net.stackoverflow.spectre.agent;
 
-import net.stackoverflow.spectre.agent.command.AgentInvoker;
-import net.stackoverflow.spectre.agent.command.AgentReceiver;
 import net.stackoverflow.spectre.agent.command.ThreadCommand;
+import net.stackoverflow.spectre.agent.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
 import org.slf4j.Logger;
@@ -33,8 +32,7 @@ public class AgentBootstrap {
             return;
         }
         AgentInvoker invoker = new AgentInvoker();
-        AgentReceiver receiver = new AgentReceiver();
-        invoker.addCommand(new ThreadCommand("thread", receiver));
+        invoker.addCommand(new ThreadCommand("thread", "Fetch thread information", new ThreadReceiver()));
         TransportServer server = new NettyTransportServer();
         server.start(9966, invoker);
     }

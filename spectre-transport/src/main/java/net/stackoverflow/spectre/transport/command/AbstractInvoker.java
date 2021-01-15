@@ -7,8 +7,8 @@ package net.stackoverflow.spectre.transport.command;
  */
 public abstract class AbstractInvoker implements Invoker {
 
-    public Object call(String cmd, String... args) {
-        Command command = getCommand(cmd);
+    public Object call(String key, String... args) {
+        Command command = getCommand(key);
         if (command != null) {
             return command.execute(args);
         } else {

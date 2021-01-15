@@ -1,10 +1,8 @@
-package net.stackoverflow.spectre.agent.command;
+package net.stackoverflow.spectre.agent.receiver;
 
 import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
 import net.stackoverflow.spectre.common.util.ThreadUtils;
 import net.stackoverflow.spectre.transport.command.Receiver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
@@ -12,15 +10,14 @@ import java.lang.management.ThreadMXBean;
 import java.util.*;
 
 /**
- * 命令接收者实现
+ * 线程命令接收者
  *
  * @author wormhole
  */
-public class AgentReceiver implements Receiver {
+public class ThreadReceiver implements Receiver {
 
-    private static final Logger log = LoggerFactory.getLogger(AgentReceiver.class);
-
-    public List<ThreadInfoDTO> threads() {
+    @Override
+    public Object action(String... args) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfoDTO> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
