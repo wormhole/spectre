@@ -17,14 +17,14 @@ import java.util.List;
  *
  * @author wormhole
  */
-public class PrintUtils {
+public class RenderUtils {
 
     /**
      * 打印banner
      *
      * @param pid
      */
-    public static void printBanner(String pid) {
+    public static void renderBanner(String pid) {
         InputStream is = ClassLoader.getSystemResourceAsStream("banner.txt");
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = null;
@@ -70,7 +70,7 @@ public class PrintUtils {
     /**
      * 打印虚拟机进程列表
      */
-    public static void printVirtualMachines() {
+    public static void renderVirtualMachines() {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
         ColorUtils.color(ColorUtils.F_CYAN);
         for (VirtualMachineDescriptor vmd : list) {
@@ -87,14 +87,14 @@ public class PrintUtils {
      *
      * @param pid
      */
-    public static void printSession(String pid) {
+    public static void renderSession(String pid) {
         System.out.print("[spectre@" + pid + "]# ");
     }
 
     /**
      * 打印帮助信息
      */
-    public static void printHelp() {
+    public static void renderHelp() {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-8s %s", "option", "description");
         ColorUtils.color(ColorUtils.ORIGINAL);
@@ -109,7 +109,7 @@ public class PrintUtils {
      *
      * @param infos
      */
-    public static void printThreads(List<ThreadInfoDTO> infos) {
+    public static void renderThreads(List<ThreadInfoDTO> infos) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %13s  %13s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
                 "id", "name", "state", "cpu.rate", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",

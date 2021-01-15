@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.shell.command;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
-import net.stackoverflow.spectre.shell.util.PrintUtils;
+import net.stackoverflow.spectre.shell.util.RenderUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Receiver;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -46,11 +46,11 @@ public class SpectreReceiver implements Receiver {
         ResponseFutureContext.getInstance().removeFuture(request.getId());
         List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>() {
         });
-        PrintUtils.printThreads(result);
+        RenderUtils.renderThreads(result);
         return result;
     }
 
     public void help() {
-        PrintUtils.printHelp();
+        RenderUtils.renderHelp();
     }
 }

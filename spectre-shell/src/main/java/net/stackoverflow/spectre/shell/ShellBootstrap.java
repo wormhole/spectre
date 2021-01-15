@@ -5,7 +5,7 @@ import com.sun.tools.attach.AgentLoadException;
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 import net.stackoverflow.spectre.shell.command.*;
-import net.stackoverflow.spectre.shell.util.PrintUtils;
+import net.stackoverflow.spectre.shell.util.RenderUtils;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.command.Invoker;
@@ -48,7 +48,7 @@ public class ShellBootstrap {
     }
 
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
-        PrintUtils.printVirtualMachines();
+        RenderUtils.renderVirtualMachines();
         String pid = reader.readLine();
         VirtualMachine vm = VirtualMachine.attach(pid);
         vm.loadAgent(agentJar);
@@ -75,10 +75,10 @@ public class ShellBootstrap {
         this.client = connect(ip, port);
         Invoker invoker = initCommand(this.client);
 
-        PrintUtils.printBanner(vm.id());
+        RenderUtils.renderBanner(vm.id());
         String cmd = null;
         do {
-            PrintUtils.printSession(vm.id());
+            RenderUtils.renderSession(vm.id());
             cmd = reader.readLine();
             invoker.call(cmd.trim());
         } while (!"exit".equals(cmd));
