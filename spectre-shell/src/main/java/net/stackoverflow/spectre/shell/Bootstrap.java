@@ -85,11 +85,6 @@ public class Bootstrap {
     }
 
     public void exit(int status) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (this.vm != null) {
             try {
                 this.vm.detach();

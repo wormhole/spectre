@@ -34,13 +34,9 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
         if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
             BusinessRequest request = (BusinessRequest) message.getBody();
             String command = serializeManager.deserialize(request.getRequest(), String.class);
-            if ("exit".equals(command)) {
-                ctx.channel().parent().close();
-            } else {
-                Object result = invoker.call(command);
-                BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));
-                ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
-            }
+            Object result = invoker.call(command);
+            BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));
+            ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
         }
         super.channelRead(ctx, msg);
     }

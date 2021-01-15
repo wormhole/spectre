@@ -36,8 +36,7 @@ public class SpectreReceiver implements Receiver {
     }
 
     public void exit() {
-        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize("exit"));
-        client.sendTo(request);
+        client.close();
     }
 
     public List<ThreadInfoDTO> threads() {
