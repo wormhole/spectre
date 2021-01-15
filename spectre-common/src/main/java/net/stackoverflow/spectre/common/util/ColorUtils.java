@@ -58,9 +58,9 @@ public class ColorUtils {
     public static final String HIDDEN = "8";
 
     /**
-     * 前景-白色
+     * 前景-黑色
      */
-    public static final String F_WHITE = "30";
+    public static final String F_BLACK = "30";
 
     /**
      * 前景-红色
@@ -98,9 +98,9 @@ public class ColorUtils {
     public static final String F_GREY = "37";
 
     /**
-     * 前景-亮白色
+     * 前景-亮黑色
      */
-    public static final String F_L_WHITE = "90";
+    public static final String F_L_BLACK = "90";
 
     /**
      * 前景-红色
@@ -138,9 +138,9 @@ public class ColorUtils {
     public static final String F_L_GREY = "97";
 
     /**
-     * 背景-白色
+     * 背景-黑色
      */
-    public static final String B_WHITE = "40";
+    public static final String B_BLACK = "40";
 
     /**
      * 背景-红色

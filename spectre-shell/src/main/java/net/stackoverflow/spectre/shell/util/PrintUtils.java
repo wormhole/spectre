@@ -94,7 +94,7 @@ public class PrintUtils {
      * 打印帮助信息
      */
     public static void printHelp() {
-        ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.B_GREY, ColorUtils.BOLD);
+        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-8s %s", "option", "description");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
@@ -109,7 +109,7 @@ public class PrintUtils {
      * @param infos
      */
     public static void printThreads(List<ThreadInfoDTO> infos) {
-        ColorUtils.color(ColorUtils.F_WHITE, ColorUtils.B_GREY, ColorUtils.BOLD);
+        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-5s  %-25.25s  %-13s  %-10s  %-15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s  %-50.50s",
                 "id", "name", "state", "cpu", "group", "priority", "active", "daemon", "interrupted", "suspended", "blocked.count", "waited.count", "lock.owner.id", "lock");
         ColorUtils.color(ColorUtils.ORIGINAL);
