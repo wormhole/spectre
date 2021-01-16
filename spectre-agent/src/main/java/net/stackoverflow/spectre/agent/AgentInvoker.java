@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.agent;
 
-import net.stackoverflow.spectre.common.command.AbstractInvoker;
 import net.stackoverflow.spectre.common.command.Command;
+import net.stackoverflow.spectre.common.command.Invoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author wormhole
  */
-public class AgentInvoker extends AbstractInvoker {
+public class AgentInvoker implements Invoker {
 
     private static final Logger log = LoggerFactory.getLogger(AgentInvoker.class);
 
-    private final Map<String, Command> commands;
+    private final Map<String, AgentCommand> commands;
 
     public AgentInvoker() {
         commands = new ConcurrentHashMap<>();
@@ -26,21 +26,22 @@ public class AgentInvoker extends AbstractInvoker {
 
     @Override
     public void addCommand(Command command) {
-        commands.put(command.key(), command);
+        AgentCommand agentCommand = (AgentCommand) command;
+        commands.put(agentCommand.command, agentCommand);
     }
 
     @Override
-    public void removeCommand(String key) {
-        commands.remove(key);
-    }
-
-    @Override
-    public Command getCommand(String key) {
-        return commands.get(key);
-    }
-
-    @Override
-    public Collection<Command> getCommands() {
+    public Collection<? extends Command> getCommands() {
         return commands.values();
+    }
+
+    @Override
+    public Object call(Object... args) {
+        Command command = commands.get(args[0]);
+        if (command != null) {
+            return command.execute(args);
+        } else {
+            return null;
+        }
     }
 }

@@ -3,7 +3,6 @@ package net.stackoverflow.spectre.shell;
 import com.sun.tools.attach.*;
 import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.common.util.ColorUtils;
-import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.shell.receiver.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -67,12 +67,12 @@ public class ShellBootstrap {
     }
 
     private Invoker initCommand(TransportClient client) {
-        Invoker invoker = new ShellInvoker();
-        invoker.addCommand(new HelpCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
-        invoker.addCommand(new ThreadCommand("thread", "Print thread information", new ThreadReceiver(client)));
-        invoker.addCommand(new MemoryCommand("memory", "Print memory information", new MemoryReceiver(client)));
-        invoker.addCommand(new OsCommand("os", "Print operating system information", new OsReceiver(client)));
-        invoker.addCommand(new ExitCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
+        ShellInvoker invoker = new ShellInvoker();
+        invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver((Collection<ShellCommand>) invoker.getCommands())));
+        invoker.addCommand(new ShellCommand("thread", "Print thread information", new ThreadReceiver(client)));
+        invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client)));
+        invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client)));
+        invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         return invoker;
     }
 

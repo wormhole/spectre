@@ -33,7 +33,7 @@ public class ThreadReceiver implements Receiver {
     }
 
     @Override
-    public Object action(String... args) {
+    public Object action(Object... args) {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args[0]));
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);

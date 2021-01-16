@@ -1,24 +1,20 @@
 package net.stackoverflow.spectre.shell;
 
-import net.stackoverflow.spectre.common.command.AbstractInvoker;
 import net.stackoverflow.spectre.common.command.Command;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.stackoverflow.spectre.common.command.Invoker;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 命令调用者实现
+ * 调用者抽象类
  *
  * @author wormhole
  */
-public class ShellInvoker extends AbstractInvoker {
+public class ShellInvoker implements Invoker {
 
-    private static final Logger log = LoggerFactory.getLogger(ShellInvoker.class);
-
-    private final Map<String, Command> commands;
+    private final Map<String, ShellCommand> commands;
 
     public ShellInvoker() {
         commands = new ConcurrentHashMap<>();
@@ -26,21 +22,20 @@ public class ShellInvoker extends AbstractInvoker {
 
     @Override
     public void addCommand(Command command) {
-        commands.put(command.key(), command);
+        ShellCommand shellCommand = (ShellCommand) command;
+        commands.put(shellCommand.command, shellCommand);
     }
 
-    @Override
-    public void removeCommand(String key) {
-        commands.remove(key);
-    }
-
-    @Override
-    public Command getCommand(String key) {
-        return commands.get(key);
-    }
-
-    @Override
-    public Collection<Command> getCommands() {
+    public Collection<? extends Command> getCommands() {
         return commands.values();
+    }
+
+    public Object call(Object... args) {
+        Command command = commands.get(args[0]);
+        if (command != null) {
+            return command.execute(args);
+        } else {
+            return null;
+        }
     }
 }

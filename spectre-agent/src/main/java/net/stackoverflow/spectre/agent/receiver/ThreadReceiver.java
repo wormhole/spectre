@@ -17,7 +17,7 @@ import java.util.*;
 public class ThreadReceiver implements Receiver {
 
     @Override
-    public Object action(String... args) {
+    public Object action(Object... args) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfoDTO> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();

@@ -7,9 +7,5 @@ package net.stackoverflow.spectre.common.command;
  */
 public interface Command {
 
-    String key();
-
-    String description();
-
-    Object execute(String... args);
+    Object execute(Object... args);
 }

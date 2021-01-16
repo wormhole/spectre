@@ -1,9 +1,9 @@
 package net.stackoverflow.spectre.shell.receiver;
 
 
-import net.stackoverflow.spectre.common.util.ColorUtils;
-import net.stackoverflow.spectre.common.command.Command;
 import net.stackoverflow.spectre.common.command.Receiver;
+import net.stackoverflow.spectre.shell.ShellCommand;
+import net.stackoverflow.spectre.common.util.ColorUtils;
 
 import java.util.Collection;
 
@@ -14,20 +14,20 @@ import java.util.Collection;
  */
 public class HelpReceiver implements Receiver {
 
-    private final Collection<Command> commands;
+    private final Collection<ShellCommand> commands;
 
-    public HelpReceiver(Collection<Command> commands) {
+    public HelpReceiver(Collection<ShellCommand> commands) {
         this.commands = commands;
     }
 
     @Override
-    public Object action(String... args) {
+    public Object action(Object... args) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
-        System.out.printf("%-8s %s", "key", "description");
+        System.out.printf("%-8s %s", "command", "description");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
-        for (Command command : commands) {
-            System.out.printf("%-8s %s%n", command.key(), command.description());
+        for (ShellCommand command : commands) {
+            System.out.printf("%-8s %s%n", command.command(), command.description());
         }
         return null;
     }

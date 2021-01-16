@@ -14,7 +14,7 @@ import java.lang.management.OperatingSystemMXBean;
 public class OsReceiver implements Receiver {
 
     @Override
-    public Object action(String... args) {
+    public Object action(Object... args) {
         OperatingSystemMXBean osMXBean = ManagementFactory.getOperatingSystemMXBean();
         OsInfoDTO dto = new OsInfoDTO();
         dto.setName(osMXBean.getName());

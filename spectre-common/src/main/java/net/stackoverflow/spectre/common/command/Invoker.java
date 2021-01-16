@@ -11,11 +11,7 @@ public interface Invoker {
 
     void addCommand(Command command);
 
-    void removeCommand(String key);
+    Collection<? extends Command> getCommands();
 
-    Command getCommand(String key);
-
-    Collection<Command> getCommands();
-
-    Object call(String key, String... args);
+    Object call(Object... args);
 }
