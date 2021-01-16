@@ -2,8 +2,8 @@ package net.stackoverflow.spectre.shell.receiver;
 
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.shell.ShellCommand;
 import net.stackoverflow.spectre.common.util.ColorUtils;
+import net.stackoverflow.spectre.shell.ShellCommand;
 
 import java.util.Collection;
 

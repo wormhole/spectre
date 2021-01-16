@@ -26,7 +26,7 @@ public class ShellInvoker implements Invoker {
         commands.put(shellCommand.command, shellCommand);
     }
 
-    public Collection<? extends Command> getCommands() {
+    public Collection<ShellCommand> getCommands() {
         return commands.values();
     }
 

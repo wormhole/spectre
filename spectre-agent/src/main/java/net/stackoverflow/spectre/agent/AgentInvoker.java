@@ -5,7 +5,6 @@ import net.stackoverflow.spectre.common.command.Invoker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,11 +27,6 @@ public class AgentInvoker implements Invoker {
     public void addCommand(Command command) {
         AgentCommand agentCommand = (AgentCommand) command;
         commands.put(agentCommand.command, agentCommand);
-    }
-
-    @Override
-    public Collection<? extends Command> getCommands() {
-        return commands.values();
     }
 
     @Override

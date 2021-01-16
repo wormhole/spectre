@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -68,7 +67,7 @@ public class ShellBootstrap {
 
     private Invoker initCommand(TransportClient client) {
         ShellInvoker invoker = new ShellInvoker();
-        invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver((Collection<ShellCommand>) invoker.getCommands())));
+        invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
         invoker.addCommand(new ShellCommand("thread", "Print thread information", new ThreadReceiver(client)));
         invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client)));
         invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client)));
