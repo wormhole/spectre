@@ -14,13 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author wormhole
  */
-public class SpectreInvoker extends AbstractInvoker {
+public class ShellInvoker extends AbstractInvoker {
 
-    private static final Logger log = LoggerFactory.getLogger(SpectreInvoker.class);
+    private static final Logger log = LoggerFactory.getLogger(ShellInvoker.class);
 
     private final Map<String, Command> commands;
 
-    public SpectreInvoker() {
+    public ShellInvoker() {
         commands = new ConcurrentHashMap<>();
     }
 
