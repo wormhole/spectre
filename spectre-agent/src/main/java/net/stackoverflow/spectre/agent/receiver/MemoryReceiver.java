@@ -10,6 +10,7 @@ import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class MemoryReceiver implements Receiver {
         for (MemoryPoolMXBean pool : pools) {
             pool.getMemoryManagerNames();
             MemoryUsage usage = pool.getUsage();
-            poolInfoDTOs.add(new MemoryPoolInfo(pool.getName(), pool.getType().toString(), usage.getInit(), usage.getUsed(), usage.getCommitted(), usage.getMax()));
+            poolInfoDTOs.add(new MemoryPoolInfo(pool.getName(), pool.getType().toString(), usage.getInit(), usage.getUsed(), usage.getCommitted(), usage.getMax(), Arrays.asList(pool.getMemoryManagerNames())));
         }
         dto.setPools(poolInfoDTOs);
         return dto;

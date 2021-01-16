@@ -13,6 +13,7 @@ import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,22 +43,31 @@ public class MemoryReceiver implements Receiver {
         return null;
     }
 
-    public void renderMemory(MemoryInfo result) {
+    private void renderMemory(MemoryInfo result) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
-        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s",
-                "name", "type", "init(MB)", "used(MB)", "committed(MB)", "max(MB)");
+        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s",
+                "name", "type", "init(MB)", "used(MB)", "committed(MB)", "max(MB)", "memory.manager");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
-        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s%n",
+        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s%n",
                 "Heap total", "Heap memory", FormatUtils.bytesToMB(result.getHeap().getInit()), FormatUtils.bytesToMB(result.getHeap().getUsed()),
-                FormatUtils.bytesToMB(result.getHeap().getCommitted()), FormatUtils.bytesToMB(result.getHeap().getMax()));
-        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s%n",
+                FormatUtils.bytesToMB(result.getHeap().getCommitted()), FormatUtils.bytesToMB(result.getHeap().getMax()), "-");
+        System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s%n",
                 "Non-Heap total", "Non-heap memory", FormatUtils.bytesToMB(result.getNoHeap().getInit()), FormatUtils.bytesToMB(result.getNoHeap().getUsed()),
-                FormatUtils.bytesToMB(result.getNoHeap().getCommitted()), FormatUtils.bytesToMB(result.getNoHeap().getMax()));
+                FormatUtils.bytesToMB(result.getNoHeap().getCommitted()), FormatUtils.bytesToMB(result.getNoHeap().getMax()), "-");
         for (MemoryPoolInfo pool : result.getPools()) {
-            System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s%n",
+            System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s%n",
                     pool.getName(), pool.getType(), FormatUtils.bytesToMB(pool.getInit()), FormatUtils.bytesToMB(pool.getUsed()),
-                    FormatUtils.bytesToMB(pool.getCommitted()), FormatUtils.bytesToMB(pool.getMax()));
+                    FormatUtils.bytesToMB(pool.getCommitted()), FormatUtils.bytesToMB(pool.getMax()), memoryManager(pool.getManager()));
         }
+    }
+
+    private String memoryManager(List<String> managers) {
+        StringBuilder sb = new StringBuilder();
+        for (String manager : managers) {
+            sb.append(manager).append(",");
+        }
+
+        return sb.substring(0, sb.length() - 1);
     }
 }
