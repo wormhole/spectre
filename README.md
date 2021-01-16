@@ -1,4 +1,4 @@
-![logo](image/logo.png)
+<div align=center><img src="image/logo.png"/></div>
 
 [![release](https://img.shields.io/github/v/release/wormhole/spectre)](https://github.com/wormhole/spectre/releases)
 [![build status](https://www.travis-ci.org/wormhole/spectre.svg?branch=master)](https://www.travis-ci.org/wormhole/spectre)
