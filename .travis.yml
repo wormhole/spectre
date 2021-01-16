@@ -6,7 +6,7 @@ jdk:
 install:
   - cd spectre-parent
   - mvn clean install
-  - cd spectre-common
+  - cd ../spectre-common
   - mvn clean install
   - cd ../spectre-transport
   - mvn clean install
