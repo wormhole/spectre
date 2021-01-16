@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.agent;
 
 import net.stackoverflow.spectre.agent.receiver.MemoryReceiver;
 import net.stackoverflow.spectre.agent.receiver.OsReceiver;
+import net.stackoverflow.spectre.agent.receiver.RuntimeReceiver;
 import net.stackoverflow.spectre.agent.receiver.ThreadReceiver;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
@@ -36,6 +37,7 @@ public class AgentBootstrap {
         invoker.addCommand(new AgentCommand("thread", new ThreadReceiver()));
         invoker.addCommand(new AgentCommand("memory", new MemoryReceiver()));
         invoker.addCommand(new AgentCommand("os", new OsReceiver()));
+        invoker.addCommand(new AgentCommand("runtime", new RuntimeReceiver()));
         TransportServer server = new NettyTransportServer();
         server.start(9966, invoker);
     }

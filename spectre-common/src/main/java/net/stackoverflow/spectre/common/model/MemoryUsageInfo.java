@@ -5,7 +5,7 @@ package net.stackoverflow.spectre.common.model;
  *
  * @author wormhole
  */
-public class MemoryUsageInfoDTO {
+public class MemoryUsageInfo {
 
     private Long init;
 
@@ -15,11 +15,11 @@ public class MemoryUsageInfoDTO {
 
     private Long max;
 
-    public MemoryUsageInfoDTO(){
+    public MemoryUsageInfo(){
 
     }
 
-    public MemoryUsageInfoDTO(Long init, Long used, Long committed, Long max) {
+    public MemoryUsageInfo(Long init, Long used, Long committed, Long max) {
         this.init = init;
         this.used = used;
         this.committed = committed;

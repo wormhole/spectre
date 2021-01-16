@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.shell.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.OsInfoDTO;
+import net.stackoverflow.spectre.common.model.OsInfo;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -35,12 +35,12 @@ public class OsReceiver implements Receiver {
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         ResponseFutureContext.getInstance().removeFuture(request.getId());
-        OsInfoDTO dto = serializeManager.deserialize(response.getResponse(), OsInfoDTO.class);
+        OsInfo dto = serializeManager.deserialize(response.getResponse(), OsInfo.class);
         renderOsInfo(dto);
         return null;
     }
 
-    private void renderOsInfo(OsInfoDTO dto) {
+    private void renderOsInfo(OsInfo dto) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-10s  %-10s", "option", "value");
         ColorUtils.color(ColorUtils.ORIGINAL);

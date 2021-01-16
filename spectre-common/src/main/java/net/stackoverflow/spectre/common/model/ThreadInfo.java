@@ -5,7 +5,7 @@ package net.stackoverflow.spectre.common.model;
  *
  * @author wormhole
  */
-public class ThreadInfoDTO {
+public class ThreadInfo {
 
     private Long threadId;
 

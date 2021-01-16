@@ -5,7 +5,7 @@ package net.stackoverflow.spectre.common.model;
  *
  * @author wormhole
  */
-public class MemoryPoolInfoDTO {
+public class MemoryPoolInfo {
 
     private String name;
 
@@ -19,11 +19,11 @@ public class MemoryPoolInfoDTO {
 
     private Long max;
 
-    public MemoryPoolInfoDTO() {
+    public MemoryPoolInfo() {
 
     }
 
-    public MemoryPoolInfoDTO(String name, String type, Long init, Long used, Long committed, Long max) {
+    public MemoryPoolInfo(String name, String type, Long init, Long used, Long committed, Long max) {
         this.name = name;
         this.type = type;
         this.init = init;

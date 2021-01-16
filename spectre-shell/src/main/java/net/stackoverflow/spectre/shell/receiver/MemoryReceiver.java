@@ -1,8 +1,8 @@
 package net.stackoverflow.spectre.shell.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.MemoryInfoDTO;
-import net.stackoverflow.spectre.common.model.MemoryPoolInfoDTO;
+import net.stackoverflow.spectre.common.model.MemoryInfo;
+import net.stackoverflow.spectre.common.model.MemoryPoolInfo;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.common.util.FormatUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -37,12 +37,12 @@ public class MemoryReceiver implements Receiver {
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         ResponseFutureContext.getInstance().removeFuture(request.getId());
-        MemoryInfoDTO result = serializeManager.deserialize(response.getResponse(), MemoryInfoDTO.class);
+        MemoryInfo result = serializeManager.deserialize(response.getResponse(), MemoryInfo.class);
         renderMemory(result);
         return null;
     }
 
-    public void renderMemory(MemoryInfoDTO result) {
+    public void renderMemory(MemoryInfo result) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s",
                 "name", "type", "init(MB)", "used(MB)", "committed(MB)", "max(MB)");
@@ -54,7 +54,7 @@ public class MemoryReceiver implements Receiver {
         System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s%n",
                 "Non-Heap total", "Non-heap memory", FormatUtils.bytesToMB(result.getNoHeap().getInit()), FormatUtils.bytesToMB(result.getNoHeap().getUsed()),
                 FormatUtils.bytesToMB(result.getNoHeap().getCommitted()), FormatUtils.bytesToMB(result.getNoHeap().getMax()));
-        for (MemoryPoolInfoDTO pool : result.getPools()) {
+        for (MemoryPoolInfo pool : result.getPools()) {
             System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s%n",
                     pool.getName(), pool.getType(), FormatUtils.bytesToMB(pool.getInit()), FormatUtils.bytesToMB(pool.getUsed()),
                     FormatUtils.bytesToMB(pool.getCommitted()), FormatUtils.bytesToMB(pool.getMax()));

@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.agent.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.OsInfoDTO;
+import net.stackoverflow.spectre.common.model.OsInfo;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -16,7 +16,7 @@ public class OsReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
         OperatingSystemMXBean osMXBean = ManagementFactory.getOperatingSystemMXBean();
-        OsInfoDTO dto = new OsInfoDTO();
+        OsInfo dto = new OsInfo();
         dto.setName(osMXBean.getName());
         dto.setVersion(osMXBean.getVersion());
         dto.setArch(osMXBean.getArch());

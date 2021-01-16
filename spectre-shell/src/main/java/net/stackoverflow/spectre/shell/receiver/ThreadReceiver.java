@@ -1,7 +1,7 @@
 package net.stackoverflow.spectre.shell.receiver;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
+import net.stackoverflow.spectre.common.model.ThreadInfo;
 import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.common.util.FormatUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -38,20 +38,20 @@ public class ThreadReceiver implements Receiver {
         ResponseFuture future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         ResponseFutureContext.getInstance().removeFuture(request.getId());
-        List<ThreadInfoDTO> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfoDTO>>() {
+        List<ThreadInfo> result = serializeManager.deserialize(response.getResponse(), new TypeReference<List<ThreadInfo>>() {
         });
         renderThreads(result);
         return null;
     }
 
-    private void renderThreads(List<ThreadInfoDTO> infos) {
+    private void renderThreads(List<ThreadInfo> infos) {
         ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
         System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-13s  %-10s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
                 "id", "name", "state", "cpu.rate(%)", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",
                 "suspended", "blocked.count", "waited.count", "lock.owner.id");
         ColorUtils.color(ColorUtils.ORIGINAL);
         System.out.println();
-        for (ThreadInfoDTO info : infos) {
+        for (ThreadInfo info : infos) {
             System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-13s  %-10s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s%n",
                     info.getThreadId(), info.getThreadName(), info.getThreadState(), String.format("%.2f", info.getCpuRate()), FormatUtils.formatNanoSecond(info.getCpuTime()),
                     FormatUtils.formatNanoSecond(info.getUserTime()), info.getGroup(), info.getPriority(), info.getActive(), info.getDaemon(), info.getInterrupted(), info.getSuspended(),

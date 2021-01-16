@@ -5,7 +5,7 @@ package net.stackoverflow.spectre.common.model;
  *
  * @author wormhole
  */
-public class OsInfoDTO {
+public class OsInfo {
 
     private String name;
 

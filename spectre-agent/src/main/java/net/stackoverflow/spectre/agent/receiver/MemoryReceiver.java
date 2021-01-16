@@ -1,9 +1,9 @@
 package net.stackoverflow.spectre.agent.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.MemoryInfoDTO;
-import net.stackoverflow.spectre.common.model.MemoryPoolInfoDTO;
-import net.stackoverflow.spectre.common.model.MemoryUsageInfoDTO;
+import net.stackoverflow.spectre.common.model.MemoryInfo;
+import net.stackoverflow.spectre.common.model.MemoryPoolInfo;
+import net.stackoverflow.spectre.common.model.MemoryUsageInfo;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -27,16 +27,17 @@ public class MemoryReceiver implements Receiver {
         MemoryUsage heapUsage = memoryMXBean.getHeapMemoryUsage();
         MemoryUsage noHeapUsage = memoryMXBean.getNonHeapMemoryUsage();
 
-        MemoryInfoDTO dto = new MemoryInfoDTO();
-        MemoryUsageInfoDTO heapUsageDTO = new MemoryUsageInfoDTO(heapUsage.getInit(), heapUsage.getUsed(), heapUsage.getCommitted(), heapUsage.getMax());
-        MemoryUsageInfoDTO noHeapUsageDTO = new MemoryUsageInfoDTO(noHeapUsage.getInit(), noHeapUsage.getUsed(), noHeapUsage.getCommitted(), noHeapUsage.getMax());
+        MemoryInfo dto = new MemoryInfo();
+        MemoryUsageInfo heapUsageDTO = new MemoryUsageInfo(heapUsage.getInit(), heapUsage.getUsed(), heapUsage.getCommitted(), heapUsage.getMax());
+        MemoryUsageInfo noHeapUsageDTO = new MemoryUsageInfo(noHeapUsage.getInit(), noHeapUsage.getUsed(), noHeapUsage.getCommitted(), noHeapUsage.getMax());
         dto.setHeap(heapUsageDTO);
         dto.setNoHeap(noHeapUsageDTO);
 
-        List<MemoryPoolInfoDTO> poolInfoDTOs = new ArrayList<>();
+        List<MemoryPoolInfo> poolInfoDTOs = new ArrayList<>();
         for (MemoryPoolMXBean pool : pools) {
+            pool.getMemoryManagerNames();
             MemoryUsage usage = pool.getUsage();
-            poolInfoDTOs.add(new MemoryPoolInfoDTO(pool.getName(), pool.getType().toString(), usage.getInit(), usage.getUsed(), usage.getCommitted(), usage.getMax()));
+            poolInfoDTOs.add(new MemoryPoolInfo(pool.getName(), pool.getType().toString(), usage.getInit(), usage.getUsed(), usage.getCommitted(), usage.getMax()));
         }
         dto.setPools(poolInfoDTOs);
         return dto;

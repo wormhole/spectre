@@ -1,11 +1,10 @@
 package net.stackoverflow.spectre.agent.receiver;
 
-import net.stackoverflow.spectre.common.model.ThreadInfoDTO;
+import net.stackoverflow.spectre.common.model.ThreadInfo;
 import net.stackoverflow.spectre.common.util.ThreadUtils;
 import net.stackoverflow.spectre.common.command.Receiver;
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.*;
 
@@ -19,7 +18,7 @@ public class ThreadReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-        List<ThreadInfoDTO> result = new ArrayList<>();
+        List<ThreadInfo> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
 
         if (threadMXBean.isThreadCpuTimeSupported()) {
@@ -29,8 +28,8 @@ public class ThreadReceiver implements Receiver {
         }
         long[] threadIds = threadMXBean.getAllThreadIds();
         for (Long threadId : threadIds) {
-            ThreadInfo info = threadMXBean.getThreadInfo(threadId);
-            ThreadInfoDTO dto = new ThreadInfoDTO();
+            java.lang.management.ThreadInfo info = threadMXBean.getThreadInfo(threadId);
+            ThreadInfo dto = new ThreadInfo();
             dto.setThreadId(info.getThreadId());
             dto.setThreadName(info.getThreadName());
             dto.setThreadState(info.getThreadState().name());
@@ -60,13 +59,13 @@ public class ThreadReceiver implements Receiver {
             e.printStackTrace();
         }
         long end = System.currentTimeMillis();
-        for (ThreadInfoDTO dto : result) {
+        for (ThreadInfo dto : result) {
             long cpuEnd = threadMXBean.getThreadCpuTime(dto.getThreadId());
             dto.setCpuRate(((cpuEnd - times.get(dto.getThreadId())) / 1000000.0) / (end - start) * 100);
             dto.setUserTime(threadMXBean.getThreadUserTime(dto.getThreadId()));
             dto.setCpuTime(cpuEnd);
         }
-        Collections.sort(result, Comparator.comparingDouble(ThreadInfoDTO::getCpuRate));
+        Collections.sort(result, Comparator.comparingDouble(ThreadInfo::getCpuRate));
         Collections.reverse(result);
         return result;
     }
