@@ -41,7 +41,7 @@ public class OsReceiver implements Receiver {
     }
 
     private void renderOsInfo(OsInfo dto) {
-        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
+        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-10s  %-10s", "option", "value");
         System.out.println(Ansi.ansi().reset());
         System.out.printf("%-10s  %-10s%n", "name", dto.getName());

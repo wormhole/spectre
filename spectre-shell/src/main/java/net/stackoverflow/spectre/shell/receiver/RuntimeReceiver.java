@@ -43,7 +43,7 @@ public class RuntimeReceiver implements Receiver {
     }
 
     private void renderRuntime(RuntimeInfo info) {
-        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
+        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-20s  %-100s", "option", "value");
         System.out.println(Ansi.ansi().reset());
         System.out.printf("%-20s  %-100s%n", "jvm.name", info.getJvmName());

@@ -45,7 +45,7 @@ public class ThreadReceiver implements Receiver {
     }
 
     private void renderThreads(List<ThreadInfo> infos) {
-        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
+        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-13s  %-10s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s",
                 "id", "name", "state", "cpu.rate(%)", "cpu.time", "user.time", "group", "priority", "active", "daemon", "interrupted",
                 "suspended", "blocked.count", "waited.count", "lock.owner.id");

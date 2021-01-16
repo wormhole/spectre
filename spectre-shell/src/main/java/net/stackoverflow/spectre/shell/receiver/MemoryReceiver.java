@@ -44,7 +44,7 @@ public class MemoryReceiver implements Receiver {
     }
 
     private void renderMemory(MemoryInfo result) {
-        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
+        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s",
                 "name", "type", "init(MB)", "used(MB)", "committed(MB)", "max(MB)", "memory.manager");
         System.out.println(Ansi.ansi().reset());
