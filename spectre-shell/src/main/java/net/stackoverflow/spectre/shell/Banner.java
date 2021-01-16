@@ -26,19 +26,19 @@ public class Banner {
             System.out.print(Ansi.ansi().fgMagenta().bold());
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                System.out.print(Ansi.ansi().fgRed().bold());
+                System.out.print(Ansi.ansi().fgRgb(255, 0, 0).bold());
                 System.out.print(line.substring(0, 8));
-                System.out.print(Ansi.ansi().fgBrightRed().bold());
+                System.out.print(Ansi.ansi().fgRgb(255, 127, 0).bold());
                 System.out.print(line.substring(8, 16));
-                System.out.print(Ansi.ansi().fgBrightYellow().bold());
+                System.out.print(Ansi.ansi().fgRgb(255, 255, 0).bold());
                 System.out.print(line.substring(16, 24));
-                System.out.print(Ansi.ansi().fgBrightGreen().bold());
+                System.out.print(Ansi.ansi().fgRgb(0, 255, 0).bold());
                 System.out.print(line.substring(24, 32));
-                System.out.print(Ansi.ansi().fgBrightCyan().bold());
+                System.out.print(Ansi.ansi().fgRgb(0, 255, 255).bold());
                 System.out.print(line.substring(32, 41));
-                System.out.print(Ansi.ansi().fgBrightBlue().bold());
+                System.out.print(Ansi.ansi().fgRgb(0, 0, 255).bold());
                 System.out.print(line.substring(41, 49));
-                System.out.print(Ansi.ansi().fgBrightMagenta().bold());
+                System.out.print(Ansi.ansi().fgRgb(255, 0, 255).bold());
                 System.out.println(line.substring(49));
             }
             System.out.println(Ansi.ansi().reset());

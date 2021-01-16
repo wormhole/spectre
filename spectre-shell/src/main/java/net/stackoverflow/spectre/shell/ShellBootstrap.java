@@ -36,7 +36,7 @@ public class ShellBootstrap {
     public static void main(String[] args) {
         ShellBootstrap shellBootstrap = new ShellBootstrap();
         try {
-            AnsiConsole.systemInstall();
+            //AnsiConsole.systemInstall();
             shellBootstrap.loop(args[0], "127.0.0.1", 9966);
             AnsiConsole.systemUninstall();
         } catch (Exception e) {
