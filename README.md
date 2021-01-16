@@ -41,3 +41,6 @@
 
 * 输出`help`查看更多所支持的命令及其介绍  
 ![help](image/help.png)
+
+## 三、LICENSE
+SPECTRE software is licenced under the [MIT](LICENSE) License
