@@ -1,4 +1,12 @@
-# SPECTRE
+![logo](image/logo.png)
+
+[![release](https://img.shields.io/github/v/release/wormhole/spectre)](https://github.com/wormhole/spectre/releases)
+[![build status](https://www.travis-ci.org/wormhole/spectre.svg?branch=master)](https://www.travis-ci.org/wormhole/spectre)
+[![license](https://img.shields.io/github/license/wormhole/spectre)](https://github.com/wormhole/spectre/blob/master/LICENSE)
+[![repo size](https://img.shields.io/github/repo-size/wormhole/spectre)](https://github.com/wormhole/spectre/archive/master.zip)
+[![downloads](https://img.shields.io/github/downloads/wormhole/spectre/total)](https://github.com/wormhole/spectre/releases)
+[![forks](https://img.shields.io/github/forks/wormhole/spectre)](https://github.com/wormhole/spectre/network/members)
+[![stars](https://img.shields.io/github/stars/wormhole/spectre)](https://github.com/wormhole/spectre/stargazers)
 
 ## 一、简介
 这是一款`JVM`监控、调优工具（暂时可能只有监控功能吧，哈哈🙃）。你可以认为它是一款低配版的`arthas`，反正`spectre`有的功能，`arthas`都有，`spectre`没有的功能，`arthas`也有。它为什么叫`spectre`呢？
