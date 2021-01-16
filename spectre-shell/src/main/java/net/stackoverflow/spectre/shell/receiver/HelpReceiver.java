@@ -2,8 +2,8 @@ package net.stackoverflow.spectre.shell.receiver;
 
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.shell.ShellCommand;
+import org.fusesource.jansi.Ansi;
 
 import java.util.Collection;
 
@@ -22,10 +22,9 @@ public class HelpReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
+        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
         System.out.printf("%-8s %s", "command", "description");
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.println();
+        System.out.println(Ansi.ansi().reset());
         for (ShellCommand command : commands) {
             System.out.printf("%-8s %s%n", command.command(), command.description());
         }

@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.shell;
 
-import net.stackoverflow.spectre.common.util.ColorUtils;
+import org.fusesource.jansi.Ansi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,35 +23,34 @@ public class Banner {
         try {
             Properties properties = new Properties();
             properties.load(Banner.class.getClassLoader().getResourceAsStream("spectre.properties"));
-            ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
+            System.out.print(Ansi.ansi().fgMagenta().bold());
             System.out.println("==========================================================");
             while ((line = reader.readLine()) != null) {
-                ColorUtils.color(ColorUtils.F_RED, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgRed().bold());
                 System.out.print(line.substring(0, 8));
-                ColorUtils.color(ColorUtils.F_L_RED, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightRed().bold());
                 System.out.print(line.substring(8, 16));
-                ColorUtils.color(ColorUtils.F_L_YELLOW, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightYellow().bold());
                 System.out.print(line.substring(16, 24));
-                ColorUtils.color(ColorUtils.F_L_GREEN, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightGreen().bold());
                 System.out.print(line.substring(24, 32));
-                ColorUtils.color(ColorUtils.F_L_CYAN, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightCyan().bold());
                 System.out.print(line.substring(32, 41));
-                ColorUtils.color(ColorUtils.F_L_BLUE, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightBlue().bold());
                 System.out.print(line.substring(41, 49));
-                ColorUtils.color(ColorUtils.F_L_PURPLE, ColorUtils.BOLD);
+                System.out.print(Ansi.ansi().fgBrightMagenta().bold());
                 System.out.println(line.substring(49));
             }
-            ColorUtils.color(ColorUtils.ORIGINAL);
-            System.out.println();
+            System.out.println(Ansi.ansi().reset());
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                 System.out.printf("%-7s : %s%n", entry.getKey(), entry.getValue());
             }
-            ColorUtils.color(ColorUtils.ORIGINAL, ColorUtils.BOLD);
+            System.out.print(Ansi.ansi().fgMagenta().bold());
             System.out.println("==========================================================");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ColorUtils.color(ColorUtils.ORIGINAL);
+            System.out.print(Ansi.ansi().reset());
             try {
                 reader.close();
             } catch (IOException e) {

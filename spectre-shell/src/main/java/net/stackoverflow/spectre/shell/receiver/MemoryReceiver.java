@@ -3,7 +3,6 @@ package net.stackoverflow.spectre.shell.receiver;
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.MemoryInfo;
 import net.stackoverflow.spectre.common.model.MemoryPoolInfo;
-import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.common.util.FormatUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
@@ -12,6 +11,7 @@ import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
+import org.fusesource.jansi.Ansi;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,11 +44,10 @@ public class MemoryReceiver implements Receiver {
     }
 
     private void renderMemory(MemoryInfo result) {
-        ColorUtils.color(ColorUtils.F_BLACK, ColorUtils.B_GREY, ColorUtils.BOLD);
+        System.out.print(Ansi.ansi().fgBlack().bgDefault().bold());
         System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s",
                 "name", "type", "init(MB)", "used(MB)", "committed(MB)", "max(MB)", "memory.manager");
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.println();
+        System.out.println(Ansi.ansi().reset());
         System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s%n",
                 "Heap total", "Heap memory", FormatUtils.bytesToMB(result.getHeap().getInit()), FormatUtils.bytesToMB(result.getHeap().getUsed()),
                 FormatUtils.bytesToMB(result.getHeap().getCommitted()), FormatUtils.bytesToMB(result.getHeap().getMax()), "-");

@@ -2,10 +2,11 @@ package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
 import net.stackoverflow.spectre.common.command.Invoker;
-import net.stackoverflow.spectre.common.util.ColorUtils;
 import net.stackoverflow.spectre.shell.receiver.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,9 @@ public class ShellBootstrap {
     public static void main(String[] args) {
         ShellBootstrap shellBootstrap = new ShellBootstrap();
         try {
+            AnsiConsole.systemInstall();
             shellBootstrap.loop(args[0], "127.0.0.1", 9966);
+            AnsiConsole.systemUninstall();
         } catch (Exception e) {
             e.printStackTrace();
             shellBootstrap.exit(-1);
@@ -45,14 +48,13 @@ public class ShellBootstrap {
 
     private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
         List<VirtualMachineDescriptor> list = VirtualMachine.list();
-        ColorUtils.color(ColorUtils.F_CYAN);
+        System.out.print(Ansi.ansi().fgCyan());
         for (VirtualMachineDescriptor vmd : list) {
             String id = vmd.id();
             String name = vmd.displayName().split(" ")[0];
             System.out.printf("%-6s %s%n", id, name);
         }
-        ColorUtils.color(ColorUtils.ORIGINAL);
-        System.out.print("input pid: ");
+        System.out.print(Ansi.ansi().reset().a("input pid: "));
         String pid = reader.readLine();
         VirtualMachine vm = VirtualMachine.attach(pid);
         vm.loadAgent(agentJar);
