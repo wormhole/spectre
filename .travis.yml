@@ -15,7 +15,7 @@ scrpit:
   - cd ../spectre-agent
   - mvn clean package
   - cd ../spectre-shell
-  - mvn clean packge
+  - mvn clean package
   - rm -rf build
   - mkdir build
   - cp ./spectre-agent/target/spectre-agent-1.0.0.jar ./build/spectre-agent.jar
