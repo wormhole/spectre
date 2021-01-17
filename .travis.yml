@@ -5,16 +5,17 @@ jdk:
 
 install:
   - cd spectre-parent
-  - mvn clean install -DskipTests=true
+  - mvn clean install
   - cd ../spectre-common
-  - mvn clean install -DskipTests=true
+  - mvn clean install
   - cd ../spectre-transport
-  - mvn clean install -DskipTests=true
+  - mvn clean install
+
+scrpit:
   - cd ../spectre-agent
-  - mvn clean install -DskipTests=true
+  - mvn clean package
   - cd ../spectre-shell
-  - mvn clean install -DskipTests=true
-  - cd ..
+  - mvn clean packge
   - rm -rf build
   - mkdir build
   - cp ./spectre-agent/target/spectre-agent-1.0.0.jar ./build/spectre-agent.jar
