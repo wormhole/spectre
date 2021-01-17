@@ -49,15 +49,7 @@ public class GcReceiver implements Receiver {
         System.out.printf("%-25s  %-6s  %-15s  %-30s", "name", "count", "time", "memory.pool.names");
         System.out.println(Ansi.ansi().reset());
         for (GcInfo info : infos) {
-            System.out.printf("%-25s  %-6s  %-15s  %-30s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), poolNames(info.getPoolNames()));
+            System.out.printf("%-25s  %-6s  %-15s  %-30s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), info.getPoolNames());
         }
-    }
-
-    private String poolNames(List<String> names) {
-        StringBuilder sb = new StringBuilder();
-        for (String name : names) {
-            sb.append(name).append(",");
-        }
-        return sb.substring(0, sb.length() - 1);
     }
 }

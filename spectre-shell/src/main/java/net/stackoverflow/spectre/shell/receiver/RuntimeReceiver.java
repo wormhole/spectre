@@ -12,7 +12,6 @@ import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -55,16 +54,8 @@ public class RuntimeReceiver implements Receiver {
         System.out.printf("%-20s  %-100s%n", "spec.name", info.getSpecName());
         System.out.printf("%-20s  %-100s%n", "start.time", FormatUtils.parseDate(info.getStartTime()));
         System.out.printf("%-20s  %-100s%n", "up.time", FormatUtils.formatMilliSecond(info.getUpTime()));
-        System.out.printf("%-20s  %-100s%n", "arguments", arguments(info.getInputArguments()));
+        System.out.printf("%-20s  %-100s%n", "jvm.option", info.getInputArguments());
         System.out.printf("%-20s  %-100s%n", "classpath", info.getClassPath());
         System.out.printf("%-20s  %-100s%n", "bootclasspath", info.getBootClassPath());
-    }
-
-    private String arguments(List<String> args) {
-        StringBuilder sb = new StringBuilder();
-        for (String arg : args) {
-            sb.append(arg).append(" ");
-        }
-        return sb.toString();
     }
 }

@@ -13,7 +13,6 @@ import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,16 +56,7 @@ public class MemoryReceiver implements Receiver {
         for (MemoryPoolInfo pool : result.getPools()) {
             System.out.printf("%-25s  %-20s  %-15s  %-15s  %-15s  %-15s  %-30s%n",
                     pool.getName(), pool.getType(), FormatUtils.bytesToMB(pool.getInit()), FormatUtils.bytesToMB(pool.getUsed()),
-                    FormatUtils.bytesToMB(pool.getCommitted()), FormatUtils.bytesToMB(pool.getMax()), memoryManager(pool.getManager()));
+                    FormatUtils.bytesToMB(pool.getCommitted()), FormatUtils.bytesToMB(pool.getMax()), pool.getManager());
         }
-    }
-
-    private String memoryManager(List<String> managers) {
-        StringBuilder sb = new StringBuilder();
-        for (String manager : managers) {
-            sb.append(manager).append(",");
-        }
-
-        return sb.substring(0, sb.length() - 1);
     }
 }
