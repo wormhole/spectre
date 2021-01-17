@@ -5,15 +5,15 @@ jdk:
 
 install:
   - cd spectre-parent
-  - mvn clean install
+  - mvn clean install -DskipTests=true
   - cd ../spectre-common
-  - mvn clean install
+  - mvn clean install -DskipTests=true
   - cd ../spectre-transport
-  - mvn clean install
+  - mvn clean install -DskipTests=true
   - cd ../spectre-agent
-  - mvn clean install
+  - mvn clean install -DskipTests=true
   - cd ../spectre-shell
-  - mvn clean install
+  - mvn clean install -DskipTests=true
   - cd ..
   - rm -rf build
   - mkdir build
