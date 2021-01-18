@@ -46,10 +46,10 @@ public class GcReceiver implements Receiver {
 
     private void renderMemory(List<GcInfo> infos) {
         System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-25s  %-6s  %-15s  %-30s", "name", "count", "time", "memory.pool.names");
+        System.out.printf("%-25s  %-6s  %-15s  %-50s", "name", "count", "time", "memory.pool.names");
         System.out.println(Ansi.ansi().reset());
         for (GcInfo info : infos) {
-            System.out.printf("%-25s  %-6s  %-15s  %-30s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), info.getPoolNames());
+            System.out.printf("%-25s  %-6s  %-15s  %-50s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), info.getPoolNames());
         }
     }
 }
