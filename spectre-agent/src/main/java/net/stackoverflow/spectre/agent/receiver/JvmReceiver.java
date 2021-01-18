@@ -7,11 +7,11 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
 /**
- * runtime命令接收者
+ * jvm命令接收者
  *
  * @author wormhole
  */
-public class RuntimeReceiver implements Receiver {
+public class JvmReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
         RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();

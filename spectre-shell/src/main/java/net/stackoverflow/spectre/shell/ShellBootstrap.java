@@ -73,7 +73,7 @@ public class ShellBootstrap {
         invoker.addCommand(new ShellCommand("thread", "Print thread information", new ThreadReceiver(client)));
         invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client)));
         invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client)));
-        invoker.addCommand(new ShellCommand("runtime", "Print runtime information", new RuntimeReceiver(client)));
+        invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client)));
         invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client)));
         invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         return invoker;

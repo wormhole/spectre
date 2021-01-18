@@ -15,17 +15,17 @@ import org.fusesource.jansi.Ansi;
 import java.util.UUID;
 
 /**
- * runtime命令接收者
+ * jvm命令接收者
  *
  * @author wormhole
  */
-public class RuntimeReceiver implements Receiver {
+public class JvmReceiver implements Receiver {
 
     private final TransportClient client;
 
     private SerializeManager serializeManager;
 
-    public RuntimeReceiver(TransportClient client) {
+    public JvmReceiver(TransportClient client) {
         this.client = client;
         this.serializeManager = new JsonSerializeManager();
     }
