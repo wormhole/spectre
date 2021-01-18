@@ -16,7 +16,7 @@ public class SpectreClassLoader extends ClassLoader {
     }
 
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    protected Class<?> findClass(String name) {
         String path = getClassFilePath(name);
         Class<?> c = null;
         try {
