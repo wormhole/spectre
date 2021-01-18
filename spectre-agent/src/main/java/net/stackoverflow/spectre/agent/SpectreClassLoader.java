@@ -2,6 +2,7 @@ package net.stackoverflow.spectre.agent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * 自定义类加载器
@@ -11,36 +12,24 @@ import java.io.InputStream;
 public class SpectreClassLoader extends ClassLoader {
 
     public SpectreClassLoader() {
-        super(ClassLoader.getSystemClassLoader());
+        super(ClassLoader.getSystemClassLoader().getParent());
     }
 
-    protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        Class<?> loadedClass = findLoadedClass(name);
-        if (loadedClass != null)
-            return loadedClass;
-        if (name != null && !name.startsWith("net.stackoverflow.spectre"))
-            return super.loadClass(name, resolve);
-        try {
-            Class<?> aClass = findClass(name);
-            if (resolve)
-                resolveClass(aClass);
-            return aClass;
-        } catch (Exception exception) {
-            return super.loadClass(name, resolve);
-        }
-    }
-
+    @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         String path = getClassFilePath(name);
+        Class<?> c = null;
         try {
             byte[] bytes = getClassBytes(path);
-            Class<?> c = this.defineClass(name, bytes, 0, bytes.length);
-            return c;
+            c = this.defineClass(name, bytes, 0, bytes.length);
         } catch (Exception e) {
-            e.printStackTrace();
         }
+        return c;
+    }
 
-        return super.findClass(name);
+    @Override
+    protected URL findResource(String name) {
+        return getSystemClassLoader().getResource(name);
     }
 
     private String getClassFilePath(String name) {
