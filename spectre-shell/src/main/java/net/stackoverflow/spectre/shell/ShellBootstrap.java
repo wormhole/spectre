@@ -90,7 +90,7 @@ public class ShellBootstrap {
         do {
             System.out.print("[spectre@" + vm.id() + "]# ");
             cmd = reader.readLine();
-            invoker.call(cmd.trim());
+            invoker.call(cmd.trim().split("\\s+"));
         } while (!"exit".equals(cmd));
     }
 

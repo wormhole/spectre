@@ -29,7 +29,7 @@ public class WatchReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
-        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args[0]));
+        BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args));
         ResponseFuture<BusinessResponse> future = client.sendTo(request);
         BusinessResponse response = future.getResponse(-1);
         ResponseFutureContext.getInstance().removeFuture(request.getId());

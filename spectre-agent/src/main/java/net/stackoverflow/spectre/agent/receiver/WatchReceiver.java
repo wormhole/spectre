@@ -25,12 +25,11 @@ public class WatchReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
-        String[] arr = ((String) args[0]).split(" ");
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
-            String className = arr[1];
+            String className = (String) args[1];
             if (className.equals(clazz.getName())) {
-                transformer.watch(arr[1], arr[2]);
+                transformer.watch((String) args[1], (String) args[2]);
                 try {
                     instrumentation.retransformClasses(clazz);
                 } catch (Exception e) {
