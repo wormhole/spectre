@@ -31,7 +31,8 @@ public class ShellInvoker implements Invoker {
     }
 
     public Object call(Object... args) {
-        Command command = commands.get(args[0]);
+        String[] arr = ((String) args[0]).split(" ");
+        Command command = commands.get(arr[0]);
         if (command != null) {
             return command.execute(args);
         } else {

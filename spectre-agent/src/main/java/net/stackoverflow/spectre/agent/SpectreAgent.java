@@ -37,6 +37,7 @@ public class SpectreAgent {
         invoker.addCommand(new AgentCommand("os", new OsReceiver()));
         invoker.addCommand(new AgentCommand("jvm", new JvmReceiver()));
         invoker.addCommand(new AgentCommand("gc", new GcReceiver()));
+        invoker.addCommand(new AgentCommand("watch", new WatchReceiver(instrumentation)));
         TransportServer server = new NettyTransportServer();
         server.start(9966, invoker);
     }

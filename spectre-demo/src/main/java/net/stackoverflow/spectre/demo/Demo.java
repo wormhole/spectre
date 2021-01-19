@@ -5,7 +5,7 @@ public class Demo {
     public static void main(String[] args) {
         Person person = new Person();
         while (true) {
-            person.say("world");
+            System.out.println(person.say("world"));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
