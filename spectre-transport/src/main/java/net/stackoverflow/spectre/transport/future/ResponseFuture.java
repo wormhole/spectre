@@ -1,6 +1,5 @@
 package net.stackoverflow.spectre.transport.future;
 
-import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +8,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author wormhole
  */
-public class ResponseFuture {
+public class ResponseFuture<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ResponseFuture.class);
 
@@ -17,7 +16,7 @@ public class ResponseFuture {
 
     private volatile boolean success = false;
 
-    private volatile BusinessResponse response;
+    private volatile T response;
 
     public ResponseFuture(String requestId) {
         this.requestId = requestId;
@@ -31,7 +30,7 @@ public class ResponseFuture {
         return success;
     }
 
-    public synchronized void setResponse(BusinessResponse response) {
+    public synchronized void setResponse(T response) {
         if (this.response != null) {
             return;
         }
@@ -40,7 +39,7 @@ public class ResponseFuture {
         this.notifyAll();
     }
 
-    public synchronized BusinessResponse getResponse(long milliseconds) {
+    public synchronized T getResponse(long milliseconds) {
         if (!success) {
             try {
                 if (milliseconds == -1) {

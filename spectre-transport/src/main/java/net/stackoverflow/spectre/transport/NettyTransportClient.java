@@ -10,9 +10,10 @@ import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
 import net.stackoverflow.spectre.transport.future.ResponseFuture;
 import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
-import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
+import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
+import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.proto.Message;
 import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import org.slf4j.Logger;
@@ -75,9 +76,9 @@ public class NettyTransportClient implements TransportClient {
     }
 
     @Override
-    public ResponseFuture sendTo(BusinessRequest request) {
+    public ResponseFuture<BusinessResponse> sendTo(BusinessRequest request) {
         ResponseFutureContext context = ResponseFutureContext.getInstance();
-        ResponseFuture future = context.createFuture(request.getId());
+        ResponseFuture<BusinessResponse> future = context.createFuture(request.getId());
         channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
         log.trace("[L:{} R:{}] client send request, responseId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
         return future;

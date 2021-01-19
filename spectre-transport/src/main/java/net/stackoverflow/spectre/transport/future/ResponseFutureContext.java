@@ -1,6 +1,5 @@
 package net.stackoverflow.spectre.transport.future;
 
-import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,9 +50,10 @@ public class ResponseFutureContext {
      * 设置响应结果
      *
      * @param response 响应对象
+     * @parma requestId 请求id
      */
-    public void setResponse(BusinessResponse response) {
-        ResponseFuture future = futurePool.get(response.getId());
+    public void setResponse(String requestId, Object response) {
+        ResponseFuture future = futurePool.get(requestId);
         if (future != null) {
             future.setResponse(response);
         }

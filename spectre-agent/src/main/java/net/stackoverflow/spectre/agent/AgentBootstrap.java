@@ -1,6 +1,5 @@
 package net.stackoverflow.spectre.agent;
 
-import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Constructor;
 

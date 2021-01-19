@@ -17,9 +17,9 @@ public class SpectreAgent {
 
     private static final Logger log = LoggerFactory.getLogger(SpectreAgent.class);
 
-    private String agentArgs;
+    private final String agentArgs;
 
-    private Instrumentation instrumentation;
+    private final Instrumentation instrumentation;
 
     public SpectreAgent(String agentArgs, Instrumentation instrumentation) {
         this.agentArgs = agentArgs;
