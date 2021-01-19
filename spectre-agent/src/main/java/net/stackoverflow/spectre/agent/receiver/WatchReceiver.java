@@ -13,9 +13,9 @@ import java.lang.instrument.Instrumentation;
  */
 public class WatchReceiver implements Receiver {
 
-    private SpectreTransformer transformer;
+    private final SpectreTransformer transformer;
 
-    private Instrumentation instrumentation;
+    private final Instrumentation instrumentation;
 
     public WatchReceiver(Instrumentation instrumentation) {
         this.transformer = new SpectreTransformer();

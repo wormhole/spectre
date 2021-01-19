@@ -28,7 +28,7 @@ public class SpectreTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        Set<String> ms = map.get(className);
+        Set<String> ms = map.get(className.replace("/", "."));
         if (ms != null && ms.size() > 0) {
             byte[] transformed = null;
             ClassPool pool = ClassPool.getDefault();
@@ -40,11 +40,13 @@ public class SpectreTransformer implements ClassFileTransformer {
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
-                            method.insertBefore("System.out.println(Arrays.asList($args));");
-                            method.insertAfter("System.out.println(\"$_\"");
+                            method.insertBefore("System.out.println(java.util.Arrays.asList($args));");
+                            method.insertAfter("System.out.println($_);");
                         }
                     }
+                    System.out.println(classfileBuffer.length);
                     transformed = cl.toBytecode();
+                    System.out.println(transformed.length);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
