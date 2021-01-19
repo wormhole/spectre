@@ -1,6 +1,8 @@
 package net.stackoverflow.spectre.agent;
 
+import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
+import java.lang.reflect.Constructor;
 
 /**
  * 代理类
@@ -25,7 +27,8 @@ public class AgentBootstrap {
         }
         try {
             Class<?> clazz = classLoader.loadClass("net.stackoverflow.spectre.agent.SpectreAgent");
-            Object object = clazz.newInstance();
+            Constructor constructor = clazz.getConstructor(String.class, Instrumentation.class);
+            Object object = constructor.newInstance(agentArgs, inst);
             clazz.getMethod("start").invoke(object);
         } catch (Exception e) {
             e.printStackTrace();

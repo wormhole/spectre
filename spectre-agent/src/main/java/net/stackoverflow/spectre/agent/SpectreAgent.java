@@ -6,6 +6,8 @@ import net.stackoverflow.spectre.transport.TransportServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.instrument.Instrumentation;
+
 /**
  * SpectreAgent代理类
  *
@@ -14,6 +16,15 @@ import org.slf4j.LoggerFactory;
 public class SpectreAgent {
 
     private static final Logger log = LoggerFactory.getLogger(SpectreAgent.class);
+
+    private String agentArgs;
+
+    private Instrumentation instrumentation;
+
+    public SpectreAgent(String agentArgs, Instrumentation instrumentation) {
+        this.agentArgs = agentArgs;
+        this.instrumentation = instrumentation;
+    }
 
     public void start() {
         if (NettyTransportServer.isBind) {
