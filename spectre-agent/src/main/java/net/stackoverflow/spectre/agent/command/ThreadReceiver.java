@@ -17,6 +17,7 @@ public class ThreadReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
+        String[] arguments = (String[]) args[1];
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfo> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
@@ -29,6 +30,9 @@ public class ThreadReceiver implements Receiver {
         long[] threadIds = threadMXBean.getAllThreadIds();
         for (Long threadId : threadIds) {
             java.lang.management.ThreadInfo info = threadMXBean.getThreadInfo(threadId);
+            if (!filter(info, arguments)) {
+                continue;
+            }
             ThreadInfo dto = new ThreadInfo();
             dto.setThreadId(info.getThreadId());
             dto.setThreadName(info.getThreadName());
@@ -68,5 +72,19 @@ public class ThreadReceiver implements Receiver {
         Collections.sort(result, Comparator.comparingDouble(ThreadInfo::getCpuRate));
         Collections.reverse(result);
         return result;
+    }
+
+    private boolean filter(java.lang.management.ThreadInfo info, String... options) {
+        List<String> ops = Arrays.asList(options);
+        Thread.State state = info.getThreadState();
+        if (options.length == 1) {
+            return true;
+        } else if (ops.contains("-b") && state.equals(Thread.State.BLOCKED)) {
+            return true;
+        } else if (ops.contains("-w") && (state.equals(Thread.State.WAITING) || state.equals(Thread.State.TIMED_WAITING))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
