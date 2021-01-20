@@ -46,7 +46,7 @@ git clone https://github.com/wormhole/spectre.git
 ![thread](image/thread.png)
 
 * `watch`命令：监控方法的输入参数与返回值，命令格式`watch className methodName`
-这里准备了一段示例代码
+* 这里准备了一段示例代码
 ```
 package net.stackoverflow.spectre.demo;
 
@@ -78,9 +78,9 @@ public class Math {
     }
 }
 ```
-我们为了监控`add`方法输入以下命令`watch net.stackoverflow.spectre.demo.Math add`，并查看输出
+* 我们为了监控`add`方法输入以下命令`watch net.stackoverflow.spectre.demo.Math add`，并查看输出
 ![watch](image/watch.png)
-对照程序的输出验证
+* 对照程序的输出验证
 ![compare](image/compare.png)
 
 * `memory`命令：查看`jvm`内存信息，包括堆内存，非堆内存等，以及各自使用的垃圾收集器和收集算法  
