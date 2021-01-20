@@ -1,8 +1,9 @@
 package net.stackoverflow.spectre.agent.command;
 
+import io.netty.channel.Channel;
+import net.stackoverflow.spectre.agent.SpectreHack;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.WatchInfo;
 
 import java.lang.instrument.Instrumentation;
 
@@ -25,11 +26,13 @@ public class WatchReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
+        Channel channel = (Channel) args[0];
+        String[] arguments = (String[]) args[1];
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
-            String className = (String) args[1];
-            if (className.equals(clazz.getName())) {
-                transformer.watch((String) args[1], (String) args[2]);
+            if (clazz.getName().equals(arguments[1])) {
+                transformer.watch(arguments[1], arguments[2]);
+                SpectreHack.watches.put(arguments[1] + "." + arguments[2], channel);
                 try {
                     instrumentation.retransformClasses(clazz);
                 } catch (Exception e) {
@@ -37,6 +40,6 @@ public class WatchReceiver implements Receiver {
                 }
             }
         }
-        return new WatchInfo();
+        return null;
     }
 }

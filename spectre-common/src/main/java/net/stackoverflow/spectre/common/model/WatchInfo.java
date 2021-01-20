@@ -13,6 +13,15 @@ public class WatchInfo {
 
     private Object ret;
 
+    public WatchInfo() {
+
+    }
+
+    public WatchInfo(List<Object> arguments, Object ret) {
+        this.arguments = arguments;
+        this.ret = ret;
+    }
+
     public List<Object> getArguments() {
         return arguments;
     }

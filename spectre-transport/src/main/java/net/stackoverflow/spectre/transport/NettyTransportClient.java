@@ -78,7 +78,7 @@ public class NettyTransportClient implements TransportClient {
         ResponseContext context = ResponseContext.getInstance();
         context.watch(request.getId());
         channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
-        log.trace("[L:{} R:{}] client send request, responseId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
+        log.trace("[L:{} R:{}] client send request, requestId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
     }
 
     @Override

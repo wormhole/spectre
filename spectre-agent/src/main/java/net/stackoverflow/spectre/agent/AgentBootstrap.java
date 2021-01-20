@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
  */
 public class AgentBootstrap {
 
-    private static volatile SpectreClassLoader classLoader;
+    public static volatile SpectreClassLoader classLoader;
 
     public static void premain(String agentArgs, Instrumentation inst) {
         main(agentArgs, inst);

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 响应上下文
@@ -69,7 +68,7 @@ public class ResponseContext {
         } else {
             Object response = null;
             try {
-                response = queue.poll(3, TimeUnit.SECONDS);
+                response = queue.take();
             } catch (InterruptedException e) {
                 log.error("ResponseContext fail to get response", e);
             }

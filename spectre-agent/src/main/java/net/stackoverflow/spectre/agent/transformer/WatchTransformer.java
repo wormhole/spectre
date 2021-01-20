@@ -33,7 +33,8 @@ public class WatchTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        Set<String> ms = map.get(className.replace("/", "."));
+        className = className.replace("/", ".");
+        Set<String> ms = map.get(className);
         if (ms != null && ms.size() > 0) {
             byte[] transformed = null;
             ClassPool pool = ClassPool.getDefault();
@@ -45,13 +46,18 @@ public class WatchTransformer implements ClassFileTransformer {
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
-                            method.insertBefore("System.out.println(java.util.Arrays.asList($args));");
-                            method.insertAfter("System.out.println($_);");
+                            String key = className + "." + method.getName();
+                            StringBuilder sb = new StringBuilder("{");
+                            sb.append("ClassLoader classLoader = net.stackoverflow.spectre.agent.AgentBootstrap.classLoader;");
+                            sb.append("System.out.println(classLoader);");
+                            sb.append("Class clazz = classLoader.loadClass(\"net.stackoverflow.spectre.agent.SpectreHack\");");
+                            sb.append("java.lang.reflect.Method method = clazz.getMethod(\"watch\", new Class[]{String.class, Object.class, java.util.List.class});");
+                            sb.append("method.invoke(null, new Object[]{\"").append(key).append("\", $_, java.util.Arrays.asList($args)});");
+                            sb.append("}");
+                            method.insertAfter(sb.toString());
                         }
                     }
-                    System.out.println(classfileBuffer.length);
                     transformed = cl.toBytecode();
-                    System.out.println(transformed.length);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

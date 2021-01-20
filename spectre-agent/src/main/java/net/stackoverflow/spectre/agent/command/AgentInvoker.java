@@ -31,7 +31,8 @@ public class AgentInvoker implements Invoker {
 
     @Override
     public Object call(Object... args) {
-        Command command = commands.get(args[0]);
+        String[] arguments = (String[]) args[1];
+        Command command = commands.get(arguments[0]);
         if (command != null) {
             return command.execute(args);
         } else {
