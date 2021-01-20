@@ -22,13 +22,23 @@ public class WatchTransformer implements ClassFileTransformer {
 
     private Map<String, Set<String>> map = new ConcurrentHashMap<>();
 
-    public void watch(String className, String methodName) {
+    public synchronized void watch(String className, String methodName) {
         Set<String> methods = map.get(className);
         if (methods == null) {
             methods = new HashSet<>();
             map.put(className, methods);
         }
         methods.add(methodName);
+    }
+
+    public synchronized void unwatch(String className, String methodName) {
+        Set<String> methods = map.get(className);
+        if (methods != null) {
+            methods.remove(methodName);
+            if (methods.size() == 0) {
+                map.remove(className);
+            }
+        }
     }
 
     @Override
