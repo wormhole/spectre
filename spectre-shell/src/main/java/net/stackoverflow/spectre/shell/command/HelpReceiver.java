@@ -1,8 +1,7 @@
-package net.stackoverflow.spectre.shell.receiver;
+package net.stackoverflow.spectre.shell.command;
 
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.shell.ShellCommand;
 import org.fusesource.jansi.Ansi;
 
 import java.util.Collection;

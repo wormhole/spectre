@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell.receiver;
+package net.stackoverflow.spectre.shell.command;
 
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.MemoryInfo;

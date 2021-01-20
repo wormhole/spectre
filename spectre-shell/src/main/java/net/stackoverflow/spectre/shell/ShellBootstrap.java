@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.*;
 import net.stackoverflow.spectre.common.command.Invoker;
-import net.stackoverflow.spectre.shell.receiver.*;
+import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import org.fusesource.jansi.Ansi;

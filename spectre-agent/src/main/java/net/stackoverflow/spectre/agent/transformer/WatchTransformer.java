@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent;
+package net.stackoverflow.spectre.agent.transformer;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -13,7 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SpectreTransformer implements ClassFileTransformer {
+/**
+ * watch命令字节码转换
+ *
+ * @author wormhole
+ */
+public class WatchTransformer implements ClassFileTransformer {
 
     private Map<String, Set<String>> map = new ConcurrentHashMap<>();
 

@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell;
+package net.stackoverflow.spectre.shell.command;
 
 import net.stackoverflow.spectre.common.command.Command;
 import net.stackoverflow.spectre.common.command.Invoker;

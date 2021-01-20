@@ -1,7 +1,7 @@
-package net.stackoverflow.spectre.shell.receiver;
+package net.stackoverflow.spectre.shell.command;
 
-import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.common.command.Receiver;
+import net.stackoverflow.spectre.transport.TransportClient;
 
 /**
  * 退出命令接收者

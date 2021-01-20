@@ -1,8 +1,8 @@
-package net.stackoverflow.spectre.agent.receiver;
+package net.stackoverflow.spectre.agent.command;
 
+import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.ThreadInfo;
 import net.stackoverflow.spectre.common.util.ThreadUtils;
-import net.stackoverflow.spectre.common.command.Receiver;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;

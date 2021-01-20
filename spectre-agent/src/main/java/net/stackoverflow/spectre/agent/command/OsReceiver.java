@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.receiver;
+package net.stackoverflow.spectre.agent.command;
 
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.OsInfo;

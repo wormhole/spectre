@@ -1,6 +1,6 @@
-package net.stackoverflow.spectre.agent.receiver;
+package net.stackoverflow.spectre.agent.command;
 
-import net.stackoverflow.spectre.agent.SpectreTransformer;
+import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.WatchInfo;
 
@@ -13,12 +13,12 @@ import java.lang.instrument.Instrumentation;
  */
 public class WatchReceiver implements Receiver {
 
-    private final SpectreTransformer transformer;
+    private final WatchTransformer transformer;
 
     private final Instrumentation instrumentation;
 
     public WatchReceiver(Instrumentation instrumentation) {
-        this.transformer = new SpectreTransformer();
+        this.transformer = new WatchTransformer();
         this.instrumentation = instrumentation;
         instrumentation.addTransformer(transformer, true);
     }

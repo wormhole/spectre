@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.agent;
 
-import net.stackoverflow.spectre.agent.receiver.*;
+import net.stackoverflow.spectre.agent.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
 import org.slf4j.Logger;
