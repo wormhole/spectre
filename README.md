@@ -95,5 +95,7 @@ public class Math {
 * `os`命令：查看操作系统信息  
 ![os](image/os.png)
 
+* `exit`命令：退出`spectre shell`
+
 ## 三、LICENSE
 SPECTRE software is licenced under the [MIT](LICENSE) License
