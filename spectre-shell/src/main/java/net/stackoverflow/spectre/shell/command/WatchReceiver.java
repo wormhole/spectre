@@ -57,6 +57,8 @@ public class WatchReceiver implements Receiver {
     }
 
     private void renderWatchTitle() {
+        System.out.print(Ansi.ansi().fgYellow());
+        System.out.println("输入q按下回车退出watch");
         System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-5s  %-50s  %-50s", "num", "arguments", "return");
         System.out.println(Ansi.ansi().reset());

@@ -22,10 +22,10 @@ public class HelpReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
         System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-8s %s", "command", "description");
+        System.out.printf("%-8s %-50s", "command", "description");
         System.out.println(Ansi.ansi().reset());
         for (ShellCommand command : commands) {
-            System.out.printf("%-8s %s%n", command.command(), command.description());
+            System.out.printf("%-8s %-50s%n", command.command(), command.description());
         }
         return null;
     }

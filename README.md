@@ -12,7 +12,22 @@
 这是一款`JVM`监控、调优工具（暂时可能只有监控功能吧，哈哈🙃）。你可以认为它是一款低配版的`arthas`，反正`spectre`有的功能，`arthas`都有，`spectre`没有的功能，`arthas`也有。它为什么叫`spectre`呢？
 名字来源于`dota2`中我最喜欢的一个英雄幽鬼👻，她有全刀塔最强最无解的切入技能`降临`，我希望这款工具也能够拥有此能力，切入到`JVM`的各个角落⚔。
 
-## 二、使用
+## 二、构建
+* 准备`jdk`和`maven`
+
+* 下载源码
+```
+git clone https://github.com/wormhole/spectre.git
+```
+
+* 执行构建脚本
+```
+# bash build.sh 或 build.bat
+```
+
+* 目录`build`内的为构建好的程序
+
+## 三、使用
 * 下载最新版本  
  [👉点击此链接下载最新版本](https://github.com/wormhole/spectre/releases/download/v1.1.0/spectre-1.1.0.tar.gz)
  
@@ -24,23 +39,61 @@
 * 根据提示输入你需要`attach`的`jvm`进程`id`，显示`logo`说明已经`attach`到`jvm`进程上  
 ![attach](image/attach.png)
 
-* 输入`thread`命令查看`jvm`线程信息，如图所示，我们很容易看出死锁的线程  
+* `help`命令：查看更多所支持的命令及其介绍  
+![help](image/help.png)
+
+* `thread`命令：查看`jvm`线程信息，添加参数`-b`可以过滤出死锁线程，添加参数`-w`可以过滤出等待状态线程  
 ![thread](image/thread.png)
 
-* 输入`memory`命令查看`jvm`内存信息，包括堆内存，非堆内存等，以及各自使用的垃圾收集器和收集算法  
+* `watch`命令：监控方法的输入参数与返回值，命令格式`watch className methodName`
+这里准备了一段示例代码
+```
+package net.stackoverflow.spectre.demo;
+
+import java.util.Random;
+
+public class Math {
+
+    public Double add(Double a, Double b) {
+        return a + b;
+    }
+
+    public Double sub(Double a, Double b) {
+        return a - b;
+    }
+
+    public static void main(String[] args) {
+        Math math = new Math();
+        while (true) {
+            Random random = new Random();
+            Double a = random.nextDouble();
+            Double b = random.nextDouble();
+            System.out.println("a: " + a + ", b: " + b + ", result: " + math.add(a, b));
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+我们为了监控`add`方法输入以下命令`watch net.stackoverflow.spectre.demo.Math add`，并查看输出
+![watch](image/watch.png)
+对照程序的输出验证
+![compare](image/compare.png)
+
+* `memory`命令：查看`jvm`内存信息，包括堆内存，非堆内存等，以及各自使用的垃圾收集器和收集算法  
 ![memory](image/memory.png)
 
-* 输入`runtime`查看`jvm`运行时信息，包括虚拟机的名称版本，标准的名称和版本，类路径，程序输入参数等  
-![runtime](image/runtime.png)
+* `jvm`命令：查看`jvm`信息，包括虚拟机的名称版本，标准的名称和版本，类路径，`jvm`参数等  
+![jvm](image/jvm.png)
 
-* 输入`gc`查看垃圾收集器信息  
+* `gc`命令：查看垃圾收集器信息  
 ![gc](image/gc.png)
 
-* 输入`os`命令，查看操作系统信息  
+* `os`命令：查看操作系统信息  
 ![os](image/os.png)
-
-* 输出`help`查看更多所支持的命令及其介绍  
-![help](image/help.png)
 
 ## 三、LICENSE
 SPECTRE software is licenced under the [MIT](LICENSE) License
