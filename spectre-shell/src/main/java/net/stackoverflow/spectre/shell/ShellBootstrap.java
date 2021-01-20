@@ -71,7 +71,7 @@ public class ShellBootstrap {
     private Invoker initCommand(TransportClient client) {
         ShellInvoker invoker = new ShellInvoker();
         invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
-        invoker.addCommand(new ShellCommand("thread", "Print thread information", new ThreadReceiver(client)));
+        invoker.addCommand(new ShellCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client)));
         invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client)));
         invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client)));
         invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client)));
