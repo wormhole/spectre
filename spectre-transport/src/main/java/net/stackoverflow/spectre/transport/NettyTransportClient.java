@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
-import net.stackoverflow.spectre.transport.future.ResponseContext;
+import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;

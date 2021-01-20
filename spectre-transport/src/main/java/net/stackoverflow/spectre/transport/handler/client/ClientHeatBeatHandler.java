@@ -26,7 +26,7 @@ public class ClientHeatBeatHandler extends ChannelInboundHandlerAdapter {
         if (heartBeatFuture != null) {
             heartBeatFuture.cancel(true);
             ctx.close();
-            log.error("[L:{} R:{}] Client closed and cancel heartbeat", ctx.channel().localAddress(), ctx.channel().remoteAddress());
+            log.error("[L:{} R:{}] client closed and cancel heartbeat", ctx.channel().localAddress(), ctx.channel().remoteAddress());
         }
         super.exceptionCaught(ctx, cause);
     }

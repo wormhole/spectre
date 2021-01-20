@@ -60,6 +60,6 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 
         message.getHeader().setLength(buff.readableBytes() - 14);
         buff.setInt(10, message.getHeader().getLength());
-        log.trace("Send: {}", message);
+        log.trace("send: {}", message);
     }
 }

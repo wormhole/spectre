@@ -7,6 +7,8 @@ import net.stackoverflow.spectre.transport.proto.Message;
 import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -19,9 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SpectreHack {
 
+    private static final Logger log = LoggerFactory.getLogger(SpectreHack.class);
+
     public static Map<String, Channel> watches = new ConcurrentHashMap<>();
 
-    private static SerializeManager serializeManager = new JsonSerializeManager();
+    private static final SerializeManager serializeManager = new JsonSerializeManager();
 
     public static void watch(String key, Object ret, List<Object> args) {
         try {
@@ -29,11 +33,9 @@ public class SpectreHack {
             if (channel != null) {
                 BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(args, ret)));
                 channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
-            } else {
-                System.out.println("channel is null");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("", e);
         }
     }
 }

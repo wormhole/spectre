@@ -3,6 +3,8 @@ package net.stackoverflow.spectre.agent.transformer;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.lang.instrument.ClassFileTransformer;
@@ -20,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class WatchTransformer implements ClassFileTransformer {
 
+    private static final Logger log = LoggerFactory.getLogger(WatchTransformer.class);
+
     private Map<String, Set<String>> map = new ConcurrentHashMap<>();
 
     public synchronized void watch(String className, String methodName) {
@@ -29,6 +33,7 @@ public class WatchTransformer implements ClassFileTransformer {
             map.put(className, methods);
         }
         methods.add(methodName);
+        log.info("WatchTransformer watch {}, {}", className, methodName);
     }
 
     public synchronized void unwatch(String className, String methodName) {
@@ -38,6 +43,7 @@ public class WatchTransformer implements ClassFileTransformer {
             if (methods.size() == 0) {
                 map.remove(className);
             }
+            log.info("WatchTransformer unwatch {}, {}", className, methodName);
         }
     }
 
@@ -56,6 +62,7 @@ public class WatchTransformer implements ClassFileTransformer {
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
+                            log.info("WatcherTransformer transform {}, {}, {}", className, method.getName(), method.getSignature());
                             String key = className + "." + method.getName();
                             StringBuilder sb = new StringBuilder("{");
                             sb.append("ClassLoader classLoader = net.stackoverflow.spectre.agent.AgentBootstrap.classLoader;");
