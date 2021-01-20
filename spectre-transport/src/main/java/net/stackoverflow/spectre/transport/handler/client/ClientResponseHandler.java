@@ -2,7 +2,7 @@ package net.stackoverflow.spectre.transport.handler.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
+import net.stackoverflow.spectre.transport.future.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
@@ -26,12 +26,11 @@ public class ClientResponseHandler extends ChannelInboundHandlerAdapter {
         if (header.getType() == MessageTypeConstant.BUSINESS_RESPONSE) {
             BusinessResponse response = (BusinessResponse) message.getBody();
             if (response != null) {
-                ResponseFutureContext context = ResponseFutureContext.getInstance();
-                context.setResponse(response.getId(), response);
+                ResponseContext context = ResponseContext.getInstance();
+                context.setResponse(response.getId(), response.getResponse());
             }
         }
         super.channelRead(ctx, msg);
     }
-
 
 }

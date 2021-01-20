@@ -8,12 +8,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
-import net.stackoverflow.spectre.transport.future.ResponseFuture;
-import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
+import net.stackoverflow.spectre.transport.future.ResponseContext;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
-import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.proto.Message;
 import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
 import org.slf4j.Logger;
@@ -76,12 +74,11 @@ public class NettyTransportClient implements TransportClient {
     }
 
     @Override
-    public ResponseFuture<BusinessResponse> sendTo(BusinessRequest request) {
-        ResponseFutureContext context = ResponseFutureContext.getInstance();
-        ResponseFuture<BusinessResponse> future = context.createFuture(request.getId());
+    public void sendTo(BusinessRequest request) {
+        ResponseContext context = ResponseContext.getInstance();
+        context.watch(request.getId());
         channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
         log.trace("[L:{} R:{}] client send request, responseId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
-        return future;
     }
 
     @Override

@@ -2,10 +2,8 @@ package net.stackoverflow.spectre.shell.command;
 
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.transport.TransportClient;
-import net.stackoverflow.spectre.transport.future.ResponseFuture;
-import net.stackoverflow.spectre.transport.future.ResponseFutureContext;
+import net.stackoverflow.spectre.transport.future.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
-import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 
@@ -30,9 +28,10 @@ public class WatchReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args));
-        ResponseFuture<BusinessResponse> future = client.sendTo(request);
-        BusinessResponse response = future.getResponse(-1);
-        ResponseFutureContext.getInstance().removeFuture(request.getId());
+        client.sendTo(request);
+        ResponseContext context = ResponseContext.getInstance();
+        byte[] response = (byte[]) context.getResponse(request.getId());
+        ResponseContext.getInstance().unwatch(request.getId());
         return null;
     }
 }
