@@ -1,11 +1,16 @@
 package net.stackoverflow.spectre.demo;
 
+import java.util.Random;
+
 public class Demo {
 
     public static void main(String[] args) {
-        Person person = new Person();
+        Math math = new Math();
         while (true) {
-            System.out.println(person.say("world"));
+            Random random = new Random();
+            Double a = random.nextDouble();
+            Double b = random.nextDouble();
+            System.out.println("a: " + a + ", b: " + b + ", result: " + math.add(a, b));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
