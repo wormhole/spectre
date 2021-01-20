@@ -52,7 +52,7 @@ public class WatchTransformer implements ClassFileTransformer {
             try {
                 cl = pool.makeClass(new ByteArrayInputStream(classfileBuffer));
                 if (!cl.isInterface()) {
-                    CtMethod[] methods = cl.getDeclaredMethods();
+                    CtMethod[] methods = cl.getMethods();
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
