@@ -32,10 +32,14 @@ public class OsReceiver implements Receiver {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args));
         client.sendTo(request);
         ResponseContext context = ResponseContext.getInstance();
-        byte[] response = (byte[]) context.getResponse(request.getId());
-        ResponseContext.getInstance().unwatch(request.getId());
-        OsInfo dto = serializeManager.deserialize(response, OsInfo.class);
-        renderOsInfo(dto);
+        try {
+            byte[] response = (byte[]) context.getResponse(request.getId());
+            context.unwatch(request.getId());
+            OsInfo dto = serializeManager.deserialize(response, OsInfo.class);
+            renderOsInfo(dto);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

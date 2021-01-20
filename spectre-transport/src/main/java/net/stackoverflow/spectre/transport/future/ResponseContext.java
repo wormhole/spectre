@@ -61,18 +61,12 @@ public class ResponseContext {
         }
     }
 
-    public Object getResponse(String requestId) {
+    public Object getResponse(String requestId) throws InterruptedException {
         BlockingQueue<Object> queue = context.get(requestId);
         if (queue == null) {
             return null;
         } else {
-            Object response = null;
-            try {
-                response = queue.take();
-            } catch (InterruptedException e) {
-                log.error("ResponseContext fail to get response", e);
-            }
-            return response;
+            return queue.take();
         }
     }
 }

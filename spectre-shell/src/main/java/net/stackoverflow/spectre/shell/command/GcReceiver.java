@@ -35,11 +35,15 @@ public class GcReceiver implements Receiver {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args));
         client.sendTo(request);
         ResponseContext context = ResponseContext.getInstance();
-        byte[] response = (byte[]) context.getResponse(request.getId());
-        ResponseContext.getInstance().unwatch(request.getId());
-        List<GcInfo> result = serializeManager.deserialize(response, new TypeReference<List<GcInfo>>() {
-        });
-        renderMemory(result);
+        try {
+            byte[] response = (byte[]) context.getResponse(request.getId());
+            context.unwatch(request.getId());
+            List<GcInfo> result = serializeManager.deserialize(response, new TypeReference<List<GcInfo>>() {
+            });
+            renderMemory(result);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
