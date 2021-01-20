@@ -89,7 +89,6 @@ public class WatchReceiver implements Receiver {
             } catch (InterruptedException e) {
 
             } finally {
-                System.out.println("finally");
                 context.unwatch(requestId);
             }
         }
