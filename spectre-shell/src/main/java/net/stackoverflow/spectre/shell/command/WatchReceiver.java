@@ -59,9 +59,7 @@ public class WatchReceiver implements Receiver {
     private void renderWatchTitle() {
         System.out.print(Ansi.ansi().fgYellow());
         System.out.println("输入q按下回车退出watch");
-        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-5s  %-50s  %-50s", "num", "arguments", "return");
-        System.out.println(Ansi.ansi().reset());
+        System.out.print(Ansi.ansi().reset());
     }
 
     static class WatchThread extends Thread {
@@ -85,7 +83,9 @@ public class WatchReceiver implements Receiver {
                     byte[] response = (byte[]) context.getResponse(requestId);
                     if (response != null) {
                         WatchInfo result = serializeManager.deserialize(response, WatchInfo.class);
-                        System.out.printf("%-5s  %-50s  %-50s%n", i, result.getArguments(), result.getRet());
+                        System.out.printf("%10s     %s%n", "arguments", result.getArguments());
+                        System.out.printf("%10s     %s%n", "return", result.getRet());
+                        System.out.println();
                     }
                 }
             } catch (InterruptedException e) {
