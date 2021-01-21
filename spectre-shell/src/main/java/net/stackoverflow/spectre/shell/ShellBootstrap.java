@@ -99,7 +99,7 @@ public class ShellBootstrap {
                 invoker.call(cmd.trim().split("\\s+"));
             } while (!"exit".equals(cmd));
         } catch (InActiveException e) {
-            System.out.println(Ansi.ansi().fgRed().a("connection inactivate..."));
+            System.out.println(Ansi.ansi().fgRed().a("connection is closed..."));
         }
     }
 
