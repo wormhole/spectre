@@ -9,6 +9,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
+import net.stackoverflow.spectre.transport.exception.InActiveException;
 import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
@@ -75,10 +76,14 @@ public class NettyTransportClient implements TransportClient {
 
     @Override
     public void sendTo(BusinessRequest request) {
-        ResponseContext context = ResponseContext.getInstance();
-        context.watch(request.getId());
-        channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
-        log.trace("[L:{} R:{}] client send request, requestId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
+        if (channel != null && channel.isActive()) {
+            ResponseContext context = ResponseContext.getInstance();
+            context.watch(request.getId());
+            channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
+            log.trace("[L:{} R:{}] client send request, requestId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
+        } else {
+            throw new InActiveException();
+        }
     }
 
     @Override

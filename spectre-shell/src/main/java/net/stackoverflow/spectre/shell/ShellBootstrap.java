@@ -5,6 +5,7 @@ import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
+import net.stackoverflow.spectre.transport.exception.InActiveException;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.slf4j.Logger;
@@ -77,6 +78,7 @@ public class ShellBootstrap {
         invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client)));
         invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client)));
         invoker.addCommand(new ShellCommand("watch", "Watch variable", new WatchReceiver(client)));
+        invoker.addCommand(new ShellCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client)));
         invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         log.info("shell init commands");
         return invoker;
@@ -89,12 +91,16 @@ public class ShellBootstrap {
 
         new Banner().render();
         String cmd = null;
-        do {
-            System.out.print("[spectre@" + vm.id() + "]# ");
-            cmd = reader.readLine();
-            log.info("shell call command {}", cmd);
-            invoker.call(cmd.trim().split("\\s+"));
-        } while (!"exit".equals(cmd));
+        try {
+            do {
+                System.out.print("[spectre@" + vm.id() + "]# ");
+                cmd = reader.readLine();
+                log.info("shell call command {}", cmd);
+                invoker.call(cmd.trim().split("\\s+"));
+            } while (!"exit".equals(cmd));
+        } catch (InActiveException e) {
+            System.out.println(Ansi.ansi().fgRed().a("connection inactivate..."));
+        }
     }
 
     private void exit(int status) {
