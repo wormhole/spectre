@@ -1,7 +1,6 @@
 package net.stackoverflow.spectre.agent.command;
 
 import io.netty.channel.Channel;
-import net.stackoverflow.spectre.agent.SpectreHack;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.common.command.Receiver;
 
@@ -31,8 +30,7 @@ public class WatchReceiver implements Receiver {
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
             if (clazz.getName().equals(arguments[1])) {
-                transformer.watch(arguments[1], arguments[2]);
-                SpectreHack.watches.put(arguments[1] + "." + arguments[2], channel);
+                transformer.watch(arguments[1], arguments[2], channel);
                 try {
                     instrumentation.retransformClasses(clazz);
                 } catch (Exception e) {

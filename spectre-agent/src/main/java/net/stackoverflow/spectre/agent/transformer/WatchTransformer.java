@@ -1,8 +1,10 @@
 package net.stackoverflow.spectre.agent.transformer;
 
+import io.netty.channel.Channel;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import net.stackoverflow.spectre.agent.SpectreHack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +28,8 @@ public class WatchTransformer implements ClassFileTransformer {
 
     private Map<String, Set<String>> map = new ConcurrentHashMap<>();
 
-    public synchronized void watch(String className, String methodName) {
+    public synchronized void watch(String className, String methodName, Channel channel) {
+        SpectreHack.listen(className + "." + methodName, channel);
         Set<String> methods = map.get(className);
         if (methods == null) {
             methods = new HashSet<>();
@@ -36,15 +39,19 @@ public class WatchTransformer implements ClassFileTransformer {
         log.info("WatchTransformer watch {}, {}", className, methodName);
     }
 
-    public synchronized void unwatch(String className, String methodName) {
-        Set<String> methods = map.get(className);
-        if (methods != null) {
-            methods.remove(methodName);
-            if (methods.size() == 0) {
-                map.remove(className);
+    public synchronized boolean unwatch(String className, String methodName, Channel channel) {
+        boolean result = SpectreHack.unListen(className + "." + methodName, channel);
+        if (result) {
+            Set<String> methods = map.get(className);
+            if (methods != null) {
+                methods.remove(methodName);
+                if (methods.size() == 0) {
+                    map.remove(className);
+                }
+                log.info("WatchTransformer unwatch {}, {}", className, methodName);
             }
-            log.info("WatchTransformer unwatch {}, {}", className, methodName);
         }
+        return result;
     }
 
     @Override

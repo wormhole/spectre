@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.agent.command;
 
-import net.stackoverflow.spectre.agent.SpectreHack;
+import io.netty.channel.Channel;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.common.command.Receiver;
 
@@ -23,16 +23,18 @@ public class UnwatchReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
+        Channel channel = (Channel) args[0];
         String[] arguments = (String[]) args[1];
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
             if (clazz.getName().equals(arguments[1])) {
-                transformer.unwatch(arguments[1], arguments[2]);
-                SpectreHack.watches.remove(arguments[1] + "." + arguments[2]);
-                try {
-                    instrumentation.retransformClasses(clazz);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                boolean result = transformer.unwatch(arguments[1], arguments[2], channel);
+                if (result) {
+                    try {
+                        instrumentation.retransformClasses(clazz);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

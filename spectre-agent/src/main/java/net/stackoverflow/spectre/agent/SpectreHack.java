@@ -10,8 +10,10 @@ import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -23,16 +25,47 @@ public class SpectreHack {
 
     private static final Logger log = LoggerFactory.getLogger(SpectreHack.class);
 
-    public static Map<String, Channel> watches = new ConcurrentHashMap<>();
+    private static Map<String, Set<Channel>> listener = new ConcurrentHashMap<>();
 
     private static final SerializeManager serializeManager = new JsonSerializeManager();
 
+    public static synchronized void listen(String key, Channel channel) {
+        Set<Channel> channels = listener.get(key);
+        if (channels == null) {
+            channels = new HashSet<>();
+            listener.put(key, channels);
+        }
+        channels.add(channel);
+    }
+
+    /**
+     * @param key
+     * @param channel
+     * @return key所指向的监听列表是否为空
+     */
+    public static synchronized boolean unListen(String key, Channel channel) {
+        Set<Channel> channels = listener.get(key);
+        boolean flag = false;
+        if (channels != null) {
+            channels.remove(channel);
+            if (channels.size() == 0) {
+                listener.remove(key);
+                flag = true;
+            }
+        } else {
+            flag = true;
+        }
+        return flag;
+    }
+
     public static void watch(String key, Object ret, List<Object> args) {
         try {
-            Channel channel = watches.get(key);
-            if (channel != null) {
-                BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(args, ret)));
-                channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
+            Set<Channel> channels = listener.get(key);
+            if (channels != null) {
+                for (Channel channel : channels) {
+                    BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(args, ret)));
+                    channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
+                }
             }
         } catch (Exception e) {
             log.error("", e);
