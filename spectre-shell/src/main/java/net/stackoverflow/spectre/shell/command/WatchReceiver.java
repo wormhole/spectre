@@ -75,16 +75,24 @@ public class WatchReceiver implements Receiver {
 
         @Override
         public void run() {
-            int i = 0;
             ResponseContext context = ResponseContext.getInstance();
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    i++;
                     byte[] response = (byte[]) context.getResponse(requestId);
                     if (response != null) {
                         WatchInfo result = serializeManager.deserialize(response, WatchInfo.class);
-                        System.out.printf("%10s     %s%n", "arguments", result.getArguments());
-                        System.out.printf("%10s     %s%n", "return", result.getRet());
+                        for (int i = 0; i < result.getArguments().size(); i++) {
+                            System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
+                            System.out.print("argument[" + i + "]");
+                            System.out.print(Ansi.ansi().reset());
+                            System.out.print("   ");
+                            System.out.println(result.getArguments().get(i));
+                        }
+                        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
+                        System.out.print("     return");
+                        System.out.print(Ansi.ansi().reset());
+                        System.out.print("   ");
+                        System.out.println(result.getRet());
                         System.out.println();
                     }
                 }
