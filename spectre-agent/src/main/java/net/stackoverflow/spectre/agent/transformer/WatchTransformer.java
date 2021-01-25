@@ -69,7 +69,7 @@ public class WatchTransformer implements ClassFileTransformer {
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
-                            log.info("WatcherTransformer transform {}, {}, {}", className, method.getName(), method.getSignature());
+                            log.info("WatchTransformer transform {}, {}, {}", className, method.getName(), method.getSignature());
                             String key = className + "." + method.getName();
                             StringBuilder sb = new StringBuilder("{");
                             sb.append("ClassLoader classLoader = net.stackoverflow.spectre.agent.AgentBootstrap.classLoader;");
