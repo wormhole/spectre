@@ -7,7 +7,6 @@ import net.stackoverflow.spectre.common.util.FormatUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
-import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -26,9 +25,9 @@ public class ThreadReceiver implements Receiver {
 
     private final SerializeManager serializeManager;
 
-    public ThreadReceiver(TransportClient client) {
+    public ThreadReceiver(TransportClient client, SerializeManager serializeManager) {
         this.client = client;
-        this.serializeManager = new JsonSerializeManager();
+        this.serializeManager = serializeManager;
     }
 
     @Override

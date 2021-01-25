@@ -4,7 +4,6 @@ import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
-import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 
 import java.util.UUID;
@@ -19,9 +18,9 @@ public class ShutdownReceiver implements Receiver {
 
     private final SerializeManager serializeManager;
 
-    public ShutdownReceiver(TransportClient client) {
+    public ShutdownReceiver(TransportClient client, SerializeManager serializeManager) {
         this.client = client;
-        this.serializeManager = new JsonSerializeManager();
+        this.serializeManager = serializeManager;
     }
 
     @Override

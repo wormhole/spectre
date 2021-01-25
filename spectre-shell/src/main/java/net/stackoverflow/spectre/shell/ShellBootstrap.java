@@ -6,6 +6,8 @@ import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.exception.InActiveException;
+import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
+import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.slf4j.Logger;
@@ -27,11 +29,14 @@ public class ShellBootstrap {
 
     private final BufferedReader reader;
 
+    private final SerializeManager serializeManager;
+
     private VirtualMachine vm;
 
     public ShellBootstrap() {
         InputStreamReader isr = new InputStreamReader(System.in);
         this.reader = new BufferedReader(isr);
+        this.serializeManager = new JsonSerializeManager();
     }
 
     public static void main(String[] args) {
@@ -72,13 +77,13 @@ public class ShellBootstrap {
     private Invoker initCommand(TransportClient client) {
         ShellInvoker invoker = new ShellInvoker();
         invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
-        invoker.addCommand(new ShellCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client)));
-        invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client)));
-        invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client)));
-        invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client)));
-        invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client)));
-        invoker.addCommand(new ShellCommand("watch", "Watch variable", new WatchReceiver(client)));
-        invoker.addCommand(new ShellCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client)));
+        invoker.addCommand(new ShellCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("watch", "Watch variable", new WatchReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         log.info("shell init commands");
         return invoker;
