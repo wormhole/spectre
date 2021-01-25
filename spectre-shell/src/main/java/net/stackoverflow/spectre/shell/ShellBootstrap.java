@@ -1,6 +1,7 @@
 package net.stackoverflow.spectre.shell;
 
-import com.sun.tools.attach.*;
+import com.sun.tools.attach.VirtualMachine;
+import com.sun.tools.attach.VirtualMachineDescriptor;
 import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
@@ -31,8 +32,6 @@ public class ShellBootstrap {
 
     private final SerializeManager serializeManager;
 
-    private VirtualMachine vm;
-
     public ShellBootstrap() {
         InputStreamReader isr = new InputStreamReader(System.in);
         this.reader = new BufferedReader(isr);
@@ -46,26 +45,40 @@ public class ShellBootstrap {
             shellBootstrap.loop(args[0], "127.0.0.1", 9966);
             AnsiConsole.systemUninstall();
         } catch (Exception e) {
-            e.printStackTrace();
-            shellBootstrap.exit(-1);
+            log.error("", e);
+            System.exit(-1);
         }
-        shellBootstrap.exit(0);
+        System.exit(0);
     }
 
-    private VirtualMachine attach(String agentJar) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
-        List<VirtualMachineDescriptor> list = VirtualMachine.list();
-        System.out.print(Ansi.ansi().fgCyan());
-        for (VirtualMachineDescriptor vmd : list) {
-            String id = vmd.id();
-            String name = vmd.displayName().split(" ")[0];
-            System.out.printf("%-6s %s%n", id, name);
+    private String attach(String agentJar) {
+        VirtualMachine vm = null;
+        String pid = null;
+        try {
+            List<VirtualMachineDescriptor> list = VirtualMachine.list();
+            System.out.print(Ansi.ansi().fgCyan());
+            for (VirtualMachineDescriptor vmd : list) {
+                String id = vmd.id();
+                String name = vmd.displayName().split(" ")[0];
+                System.out.printf("%-6s %s%n", id, name);
+            }
+            System.out.print(Ansi.ansi().reset().a("input pid: "));
+            pid = reader.readLine();
+            vm = VirtualMachine.attach(pid);
+            vm.loadAgent(agentJar);
+            log.info("attach jvm pid:{}", pid);
+        } catch (Exception e) {
+            log.error("attach fail");
+        } finally {
+            if (vm != null) {
+                try {
+                    vm.detach();
+                } catch (IOException e) {
+                    log.error("detach fail");
+                }
+            }
         }
-        System.out.print(Ansi.ansi().reset().a("input pid: "));
-        String pid = reader.readLine();
-        VirtualMachine vm = VirtualMachine.attach(pid);
-        vm.loadAgent(agentJar);
-        log.info("attach jvm pid:{}", pid);
-        return vm;
+        return pid;
     }
 
     private TransportClient connect(String ip, int port) {
@@ -89,8 +102,8 @@ public class ShellBootstrap {
         return invoker;
     }
 
-    public void loop(String agentJar, String ip, int port) throws AgentInitializationException, AgentLoadException, AttachNotSupportedException, IOException {
-        this.vm = attach(agentJar);
+    public void loop(String agentJar, String ip, int port) throws IOException {
+        String pid = attach(agentJar);
         TransportClient client = connect(ip, port);
         Invoker invoker = initCommand(client);
 
@@ -98,7 +111,7 @@ public class ShellBootstrap {
         String cmd = null;
         try {
             do {
-                System.out.print("[spectre@" + vm.id() + "]# ");
+                System.out.print("[spectre@" + pid + "]# ");
                 cmd = reader.readLine();
                 log.info("shell call command {}", cmd);
                 invoker.call(cmd.trim().split("\\s+"));
@@ -106,17 +119,5 @@ public class ShellBootstrap {
         } catch (InActiveException e) {
             System.out.println(Ansi.ansi().fgRed().a("connection is closed..."));
         }
-    }
-
-    private void exit(int status) {
-        if (this.vm != null) {
-            try {
-                this.vm.detach();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
-        }
-        System.exit(status);
     }
 }
