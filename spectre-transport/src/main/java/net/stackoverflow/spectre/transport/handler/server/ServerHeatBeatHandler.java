@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +21,8 @@ public class ServerHeatBeatHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
         Header header = message.getHeader();
-        if (header.getType() == MessageTypeConstant.HEARTBEAT_PING) {
-            ctx.writeAndFlush(new Message(MessageTypeConstant.HEARTBEAT_PONG));
+        if (header.getType() == MessageType.HEARTBEAT_PONG.value()) {
+            ctx.writeAndFlush(Message.from(MessageType.HEARTBEAT_PONG));
         }
         super.channelRead(ctx, msg);
     }

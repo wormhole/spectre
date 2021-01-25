@@ -31,14 +31,14 @@ public class ServerCommandHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
         Header header = message.getHeader();
-        if (header.getType() == MessageTypeConstant.BUSINESS_REQUEST) {
+        if (header.getType() == MessageType.BUSINESS_REQUEST.value()) {
             BusinessRequest request = (BusinessRequest) message.getBody();
             String[] commands = serializeManager.deserialize(request.getRequest(), String[].class);
             log.info("agent call command {}", commands);
             Object result = invoker.call(ctx.channel(), commands);
             if (result != null) {
                 BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));
-                ctx.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
+                ctx.writeAndFlush(Message.from(MessageType.BUSINESS_RESPONSE).body(response));
             }
         }
         super.channelRead(ctx, msg);

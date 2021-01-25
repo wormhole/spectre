@@ -4,7 +4,7 @@ import io.netty.channel.Channel;
 import net.stackoverflow.spectre.common.model.WatchInfo;
 import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.MessageType;
 import net.stackoverflow.spectre.transport.serialize.JsonSerializeManager;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public class SpectreHack {
             if (channels != null) {
                 for (Channel channel : channels) {
                     BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(args, ret)));
-                    channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_RESPONSE, response));
+                    channel.writeAndFlush(Message.from(MessageType.BUSINESS_RESPONSE).body(response));
                 }
             }
         } catch (Exception e) {

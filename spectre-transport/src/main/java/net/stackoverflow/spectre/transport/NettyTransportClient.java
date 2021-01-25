@@ -14,7 +14,7 @@ import net.stackoverflow.spectre.transport.handler.client.ClientHeatBeatHandler;
 import net.stackoverflow.spectre.transport.handler.client.ClientResponseHandler;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public class NettyTransportClient implements TransportClient {
         if (channel != null && channel.isActive()) {
             ResponseContext context = ResponseContext.getInstance();
             context.watch(request.getId());
-            channel.writeAndFlush(new Message(MessageTypeConstant.BUSINESS_REQUEST, request));
+            channel.writeAndFlush(Message.from(MessageType.BUSINESS_REQUEST).body(request));
             log.trace("[L:{} R:{}] client send request, requestId:{}", channel.localAddress(), channel.remoteAddress(), request.getId());
         } else {
             throw new InActiveException();

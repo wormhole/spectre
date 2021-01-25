@@ -6,7 +6,7 @@ import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessResponse;
 import net.stackoverflow.spectre.transport.proto.Header;
 import net.stackoverflow.spectre.transport.proto.Message;
-import net.stackoverflow.spectre.transport.proto.MessageTypeConstant;
+import net.stackoverflow.spectre.transport.proto.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class ClientResponseHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
         Header header = message.getHeader();
-        if (header.getType() == MessageTypeConstant.BUSINESS_RESPONSE) {
+        if (header.getType() == MessageType.BUSINESS_RESPONSE.value()) {
             BusinessResponse response = (BusinessResponse) message.getBody();
             if (response != null) {
                 ResponseContext context = ResponseContext.getInstance();
