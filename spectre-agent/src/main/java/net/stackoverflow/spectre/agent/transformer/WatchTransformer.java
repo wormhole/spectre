@@ -83,7 +83,7 @@ public class WatchTransformer implements ClassFileTransformer {
                     transformed = cl.toBytecode();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("", e);
             } finally {
                 if (cl != null) {
                     cl.detach();
