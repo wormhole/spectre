@@ -10,10 +10,7 @@ import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -63,7 +60,11 @@ public class SpectreHack {
             Set<Channel> channels = listener.get(key);
             if (channels != null) {
                 for (Channel channel : channels) {
-                    BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(args, ret)));
+                    List<String> arguments = new ArrayList<>();
+                    for (Object arg : args) {
+                        arguments.add(arg.toString());
+                    }
+                    BusinessResponse response = new BusinessResponse(key, serializeManager.serialize(new WatchInfo(arguments, ret.toString())));
                     channel.writeAndFlush(Message.from(MessageType.BUSINESS_RESPONSE).body(response));
                 }
             }
