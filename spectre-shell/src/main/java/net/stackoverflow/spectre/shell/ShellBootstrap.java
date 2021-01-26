@@ -51,9 +51,8 @@ public class ShellBootstrap {
         System.exit(0);
     }
 
-    private String attach(String agentJar) {
+    private VirtualMachine attach(String agentJar) {
         VirtualMachine vm = null;
-        String pid = null;
         try {
             List<VirtualMachineDescriptor> list = VirtualMachine.list();
             System.out.print(Ansi.ansi().fgCyan());
@@ -63,22 +62,14 @@ public class ShellBootstrap {
                 System.out.printf("%-6s %s%n", id, name);
             }
             System.out.print(Ansi.ansi().reset().a("input pid: "));
-            pid = reader.readLine();
+            String pid = reader.readLine();
             vm = VirtualMachine.attach(pid);
             vm.loadAgent(agentJar);
             log.info("attach jvm pid:{}", pid);
         } catch (Exception e) {
             log.error("attach fail");
-        } finally {
-            if (vm != null) {
-                try {
-                    vm.detach();
-                } catch (IOException e) {
-                    log.error("detach fail");
-                }
-            }
         }
-        return pid;
+        return vm;
     }
 
     private TransportClient connect(String ip, int port) {
@@ -87,7 +78,7 @@ public class ShellBootstrap {
         return client;
     }
 
-    private Invoker initCommand(TransportClient client) {
+    private Invoker initCommand(TransportClient client, VirtualMachine vm) {
         ShellInvoker invoker = new ShellInvoker();
         invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
         invoker.addCommand(new ShellCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client, serializeManager)));
@@ -97,6 +88,7 @@ public class ShellBootstrap {
         invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("watch", "Watch variable", new WatchReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("stack", "Print thread stack", new StackReceiver(client, serializeManager)));
+        invoker.addCommand(new ShellCommand("dump", "Save dump file", new DumpReceiver(vm)));
         invoker.addCommand(new ShellCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         log.info("shell init commands");
@@ -104,21 +96,26 @@ public class ShellBootstrap {
     }
 
     public void loop(String agentJar, String ip, int port) throws IOException {
-        String pid = attach(agentJar);
+        VirtualMachine vm = attach(agentJar);
         TransportClient client = connect(ip, port);
-        Invoker invoker = initCommand(client);
+        Invoker invoker = initCommand(client, vm);
 
         new Banner().render();
         String cmd = null;
         try {
             do {
-                System.out.print("[spectre@" + pid + "]# ");
+                System.out.print("[spectre@" + vm.id() + "]# ");
                 cmd = reader.readLine();
                 log.info("shell call command {}", cmd);
                 invoker.call(cmd.trim().split("\\s+"));
             } while (!"exit".equals(cmd));
         } catch (InActiveException e) {
             System.out.println(Ansi.ansi().fgRed().a("connection is closed..."));
+        } finally {
+            if (vm != null) {
+                vm.detach();
+                log.info("vm detached success");
+            }
         }
     }
 }
