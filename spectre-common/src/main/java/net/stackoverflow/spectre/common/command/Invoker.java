@@ -9,5 +9,5 @@ public interface Invoker {
 
     void addCommand(Command command);
 
-    Object call(Object... args);
+    Object call(String... args);
 }

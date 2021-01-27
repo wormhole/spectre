@@ -21,7 +21,7 @@ import java.util.List;
 public class MemoryReceiver implements Receiver {
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
         List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
 

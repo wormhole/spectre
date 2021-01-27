@@ -16,7 +16,7 @@ import java.util.*;
 public class ThreadReceiver implements Receiver {
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfo> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
@@ -73,8 +73,8 @@ public class ThreadReceiver implements Receiver {
         return result;
     }
 
-    private boolean filter(java.lang.management.ThreadInfo info, Object... options) {
-        List<Object> ops = Arrays.asList(options);
+    private boolean filter(java.lang.management.ThreadInfo info, String... options) {
+        List<String> ops = Arrays.asList(options);
         Thread.State state = info.getThreadState();
         if (options.length == 0) {
             return true;

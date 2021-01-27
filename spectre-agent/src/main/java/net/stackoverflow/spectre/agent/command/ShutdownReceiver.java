@@ -9,7 +9,7 @@ import net.stackoverflow.spectre.common.command.Receiver;
  */
 public class ShutdownReceiver implements Receiver {
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         Channel channel = ChannelHolder.get();
         channel.parent().close();
         return null;

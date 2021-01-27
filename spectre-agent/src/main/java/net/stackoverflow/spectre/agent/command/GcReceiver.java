@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class GcReceiver implements Receiver {
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         List<GarbageCollectorMXBean> gcMXBeans = ManagementFactory.getGarbageCollectorMXBeans();
         List<GcInfo> gcInfos = new ArrayList<>();
         for (GarbageCollectorMXBean gcMXBean : gcMXBeans) {

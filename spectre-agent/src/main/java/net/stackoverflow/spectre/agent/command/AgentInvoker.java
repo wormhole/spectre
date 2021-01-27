@@ -30,10 +30,10 @@ public class AgentInvoker implements Invoker {
     }
 
     @Override
-    public Object call(Object... args) {
+    public Object call(String... args) {
         Command command = commands.get(args[0]);
         if (command != null) {
-            Object[] options = new Object[args.length - 1];
+            String[] options = new String[args.length - 1];
             for (int i = 1; i < args.length; i++) {
                 options[i - 1] = args[i];
             }

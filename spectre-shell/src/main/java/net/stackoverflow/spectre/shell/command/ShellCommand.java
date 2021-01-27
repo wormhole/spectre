@@ -30,7 +30,7 @@ public class ShellCommand implements Command {
         return this.description;
     }
 
-    public Object execute(Object... args) {
+    public Object execute(String... args) {
         return receiver.action(args);
     }
 }

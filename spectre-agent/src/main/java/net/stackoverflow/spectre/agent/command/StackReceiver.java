@@ -12,8 +12,8 @@ public class StackReceiver implements Receiver {
 
 
     @Override
-    public Object action(Object... args) {
-        Thread thread = ThreadUtils.findThread(Long.parseLong((String) args[0]));
+    public Object action(String... args) {
+        Thread thread = ThreadUtils.findThread(Long.parseLong(args[0]));
         if (thread != null) {
             return thread.getStackTrace();
         } else {

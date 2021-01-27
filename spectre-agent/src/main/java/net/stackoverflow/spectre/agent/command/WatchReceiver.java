@@ -23,7 +23,7 @@ public class WatchReceiver implements Receiver {
     }
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
             if (clazz.getName().equals(args[0])) {

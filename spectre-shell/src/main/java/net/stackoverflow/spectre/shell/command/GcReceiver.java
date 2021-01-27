@@ -30,7 +30,7 @@ public class GcReceiver implements Receiver {
     }
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         BusinessRequest request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(args));
         client.sendTo(request);
         ResponseContext context = ResponseContext.getInstance();

@@ -13,7 +13,7 @@ import java.lang.management.RuntimeMXBean;
  */
 public class JvmReceiver implements Receiver {
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
         RuntimeInfo info = new RuntimeInfo();
         info.setJvmName(runtime.getVmName());

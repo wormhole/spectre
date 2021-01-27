@@ -23,7 +23,7 @@ public class AgentCommand implements Command {
         return this.command;
     }
 
-    public Object execute(Object... args) {
+    public Object execute(String... args) {
         return receiver.action(args);
     }
 }

@@ -17,7 +17,7 @@ public class ExitReceiver implements Receiver {
     }
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         client.close();
         return null;
     }

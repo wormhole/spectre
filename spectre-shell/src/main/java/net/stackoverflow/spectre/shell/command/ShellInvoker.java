@@ -30,7 +30,7 @@ public class ShellInvoker implements Invoker {
         return commands.values();
     }
 
-    public Object call(Object... args) {
+    public Object call(String... args) {
         Command command = commands.get(args[0]);
         if (command != null) {
             return command.execute(args);

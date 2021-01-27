@@ -29,9 +29,8 @@ public class WatchReceiver implements Receiver {
     }
 
     @Override
-    public Object action(Object... args) {
-        String[] arguments = (String[]) args;
-        BusinessRequest request = new BusinessRequest(arguments[1] + "." + arguments[2], serializeManager.serialize(args));
+    public Object action(String... args) {
+        BusinessRequest request = new BusinessRequest(args[1] + "." + args[2], serializeManager.serialize(args));
         client.sendTo(request);
         renderWatchTitle();
         Thread thread = new WatchThread(request.getId(), serializeManager);
@@ -48,7 +47,7 @@ public class WatchReceiver implements Receiver {
         } finally {
             thread.interrupt();
         }
-        request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(new String[]{"unwatch", arguments[1], arguments[2]}));
+        request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(new String[]{"unwatch", args[1], args[2]}));
         client.sendTo(request);
         ResponseContext context = ResponseContext.getInstance();
         context.unwatch(request.getId());

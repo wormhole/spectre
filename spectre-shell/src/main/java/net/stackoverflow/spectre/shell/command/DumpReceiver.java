@@ -24,7 +24,7 @@ public class DumpReceiver implements Receiver {
     }
 
     @Override
-    public Object action(Object... args) {
+    public Object action(String... args) {
         if (vm instanceof HotSpotVirtualMachine) {
             HotSpotVirtualMachine hsvm = (HotSpotVirtualMachine) vm;
             try {
