@@ -1,6 +1,7 @@
 package net.stackoverflow.spectre.agent.command;
 
 import io.netty.channel.Channel;
+import net.stackoverflow.spectre.agent.transport.ChannelHolder;
 import net.stackoverflow.spectre.common.command.Receiver;
 
 /**
@@ -9,7 +10,7 @@ import net.stackoverflow.spectre.common.command.Receiver;
 public class ShutdownReceiver implements Receiver {
     @Override
     public Object action(Object... args) {
-        Channel channel = (Channel) args[0];
+        Channel channel = ChannelHolder.get();
         channel.parent().close();
         return null;
     }

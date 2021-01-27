@@ -17,7 +17,6 @@ public class ThreadReceiver implements Receiver {
 
     @Override
     public Object action(Object... args) {
-        String[] arguments = (String[]) args[1];
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         List<ThreadInfo> result = new ArrayList<>();
         Map<Long, Long> times = new HashMap<>();
@@ -30,7 +29,7 @@ public class ThreadReceiver implements Receiver {
         long[] threadIds = threadMXBean.getAllThreadIds();
         for (Long threadId : threadIds) {
             java.lang.management.ThreadInfo info = threadMXBean.getThreadInfo(threadId);
-            if (!filter(info, arguments)) {
+            if (!filter(info, args)) {
                 continue;
             }
             ThreadInfo dto = new ThreadInfo();
@@ -74,10 +73,10 @@ public class ThreadReceiver implements Receiver {
         return result;
     }
 
-    private boolean filter(java.lang.management.ThreadInfo info, String... options) {
-        List<String> ops = Arrays.asList(options);
+    private boolean filter(java.lang.management.ThreadInfo info, Object... options) {
+        List<Object> ops = Arrays.asList(options);
         Thread.State state = info.getThreadState();
-        if (options.length == 1) {
+        if (options.length == 0) {
             return true;
         } else if (ops.contains("-b") && state.equals(Thread.State.BLOCKED)) {
             return true;

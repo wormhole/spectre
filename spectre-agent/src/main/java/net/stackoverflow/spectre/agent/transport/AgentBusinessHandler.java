@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent;
+package net.stackoverflow.spectre.agent.transport;
 
 import io.netty.channel.ChannelHandlerContext;
 import net.stackoverflow.spectre.common.command.Invoker;
@@ -20,7 +20,7 @@ public class AgentBusinessHandler implements BusinessHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AgentBusinessHandler.class);
 
-    private Invoker invoker;
+    private final Invoker invoker;
 
     public AgentBusinessHandler(Invoker invoker) {
         this.invoker = invoker;
@@ -30,7 +30,8 @@ public class AgentBusinessHandler implements BusinessHandler {
     public void handle(ChannelHandlerContext ctx, BusinessRequest request, SerializeManager serializeManager) {
         String[] commands = serializeManager.deserialize(request.getRequest(), String[].class);
         log.info("agent call command {}", Arrays.asList(commands));
-        Object result = invoker.call(ctx.channel(), commands);
+        ChannelHolder.set(ctx.channel());
+        Object result = invoker.call(commands);
         if (result != null) {
             BusinessResponse response = new BusinessResponse(request.getId(), serializeManager.serialize(result));
             ctx.writeAndFlush(Message.from(MessageType.BUSINESS_RESPONSE).body(response));
