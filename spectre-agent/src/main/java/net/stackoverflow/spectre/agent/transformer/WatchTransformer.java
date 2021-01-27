@@ -76,8 +76,13 @@ public class WatchTransformer implements ClassFileTransformer {
                             sb.append("Class clazz = classLoader.loadClass(\"net.stackoverflow.spectre.agent.SpectreHack\");");
                             sb.append("java.lang.reflect.Method method = clazz.getMethod(\"watch\", new Class[]{String.class, String.class, java.util.List.class});");
                             sb.append("java.util.List arguments = new java.util.ArrayList();");
-                            sb.append("for(int i=0;i<$args.length;i++){arguments.add($args[i].toString());}");
-                            sb.append("method.invoke(null, new Object[]{\"").append(key).append("\", $_.toString(), arguments});");
+                            sb.append("String ret = $_ == null ? null : $_.toString();");
+                            sb.append("for(int i=0;i<$args.length;i++){");
+                            sb.append("if($args[i]!=null){");
+                            sb.append("arguments.add($args[i].toString());");
+                            sb.append("}else{");
+                            sb.append("arguments.add(null);}}");
+                            sb.append("method.invoke(null, new Object[]{\"").append(key).append("\", ret, arguments});");
                             sb.append("}");
                             method.insertAfter(sb.toString());
                         }
