@@ -3,6 +3,8 @@ package net.stackoverflow.spectre.shell;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
 import net.stackoverflow.spectre.common.command.Invoker;
+import net.stackoverflow.spectre.common.command.ShellCommand;
+import net.stackoverflow.spectre.common.command.ShellInvoker;
 import net.stackoverflow.spectre.shell.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;

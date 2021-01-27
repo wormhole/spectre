@@ -76,7 +76,7 @@ public class ThreadReceiver implements Receiver {
     private boolean filter(java.lang.management.ThreadInfo info, String... options) {
         List<String> ops = Arrays.asList(options);
         Thread.State state = info.getThreadState();
-        if (options.length == 0) {
+        if (options.length == 1) {
             return true;
         } else if (ops.contains("-b") && state.equals(Thread.State.BLOCKED)) {
             return true;

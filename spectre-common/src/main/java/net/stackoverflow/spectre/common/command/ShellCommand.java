@@ -1,15 +1,11 @@
-package net.stackoverflow.spectre.shell.command;
-
-import net.stackoverflow.spectre.common.command.Command;
-import net.stackoverflow.spectre.common.command.Receiver;
+package net.stackoverflow.spectre.common.command;
 
 /**
- * 命令抽象类
+ * shell命令
  *
  * @author wormhole
  */
 public class ShellCommand implements Command {
-
     protected String command;
 
     protected String description;

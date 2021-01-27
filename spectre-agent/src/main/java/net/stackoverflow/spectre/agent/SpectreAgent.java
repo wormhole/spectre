@@ -3,6 +3,8 @@ package net.stackoverflow.spectre.agent;
 import net.stackoverflow.spectre.agent.command.*;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.agent.transport.AgentBusinessHandler;
+import net.stackoverflow.spectre.common.command.ShellCommand;
+import net.stackoverflow.spectre.common.command.ShellInvoker;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
 import net.stackoverflow.spectre.transport.handler.BusinessHandler;
@@ -34,17 +36,17 @@ public class SpectreAgent {
             log.info("spectre server already bind");
             return;
         }
-        AgentInvoker invoker = new AgentInvoker();
+        ShellInvoker invoker = new ShellInvoker();
         WatchTransformer transformer = new WatchTransformer();
-        invoker.addCommand(new AgentCommand("thread", new ThreadReceiver()));
-        invoker.addCommand(new AgentCommand("memory", new MemoryReceiver()));
-        invoker.addCommand(new AgentCommand("os", new OsReceiver()));
-        invoker.addCommand(new AgentCommand("jvm", new JvmReceiver()));
-        invoker.addCommand(new AgentCommand("gc", new GcReceiver()));
-        invoker.addCommand(new AgentCommand("watch", new WatchReceiver(transformer, instrumentation)));
-        invoker.addCommand(new AgentCommand("unwatch", new UnwatchReceiver(transformer, instrumentation)));
-        invoker.addCommand(new AgentCommand("stack", new StackReceiver()));
-        invoker.addCommand(new AgentCommand("shutdown", new ShutdownReceiver()));
+        invoker.addCommand(new ShellCommand("thread", null, new ThreadReceiver()));
+        invoker.addCommand(new ShellCommand("memory", null, new MemoryReceiver()));
+        invoker.addCommand(new ShellCommand("os", null, new OsReceiver()));
+        invoker.addCommand(new ShellCommand("jvm", null, new JvmReceiver()));
+        invoker.addCommand(new ShellCommand("gc", null, new GcReceiver()));
+        invoker.addCommand(new ShellCommand("watch", null, new WatchReceiver(transformer, instrumentation)));
+        invoker.addCommand(new ShellCommand("unwatch", null, new UnwatchReceiver(transformer, instrumentation)));
+        invoker.addCommand(new ShellCommand("stack", null, new StackReceiver()));
+        invoker.addCommand(new ShellCommand("shutdown", null, new ShutdownReceiver()));
         log.info("agent init command");
 
         BusinessHandler handler = new AgentBusinessHandler(invoker);

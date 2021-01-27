@@ -1,14 +1,11 @@
-package net.stackoverflow.spectre.shell.command;
-
-import net.stackoverflow.spectre.common.command.Command;
-import net.stackoverflow.spectre.common.command.Invoker;
+package net.stackoverflow.spectre.common.command;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 调用者抽象类
+ * 命令调用者
  *
  * @author wormhole
  */
@@ -30,6 +27,7 @@ public class ShellInvoker implements Invoker {
         return commands.values();
     }
 
+    @Override
     public Object call(String... args) {
         Command command = commands.get(args[0]);
         if (command != null) {

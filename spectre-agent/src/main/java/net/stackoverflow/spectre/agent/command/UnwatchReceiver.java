@@ -24,8 +24,8 @@ public class UnwatchReceiver implements Receiver {
     public Object action(String... args) {
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
-            if (clazz.getName().equals(args[0])) {
-                boolean result = transformer.unwatch(args[0], args[1]);
+            if (clazz.getName().equals(args[1])) {
+                boolean result = transformer.unwatch(args[1], args[2]);
                 if (result) {
                     try {
                         instrumentation.retransformClasses(clazz);
