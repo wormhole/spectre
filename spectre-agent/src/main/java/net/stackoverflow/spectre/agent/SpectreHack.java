@@ -58,7 +58,7 @@ public class SpectreHack {
         return flag;
     }
 
-    public static void watch(String key, String ret, List<String> args) {
+    public static void watch(String key, Object ret, List<Object> args) {
         try {
             Set<Channel> channels = listener.get(key);
             if (channels != null) {

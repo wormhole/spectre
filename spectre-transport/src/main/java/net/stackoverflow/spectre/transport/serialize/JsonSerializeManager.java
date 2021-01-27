@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.transport.serialize;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -25,6 +27,7 @@ public class JsonSerializeManager implements SerializeManager {
         byte[] bytes = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
             bytes = mapper.writeValueAsBytes(object);
         } catch (Exception e) {
             log.error("SerializeManager fail to serialize", e);

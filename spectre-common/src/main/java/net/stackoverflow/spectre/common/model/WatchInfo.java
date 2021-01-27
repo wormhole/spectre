@@ -9,32 +9,32 @@ import java.util.List;
  */
 public class WatchInfo {
 
-    private List<String> arguments;
+    private List<Object> arguments;
 
-    private String ret;
+    private Object ret;
 
     public WatchInfo() {
 
     }
 
-    public WatchInfo(List<String> arguments, String ret) {
+    public WatchInfo(List<Object> arguments, Object ret) {
         this.arguments = arguments;
         this.ret = ret;
     }
 
-    public List<String> getArguments() {
+    public List<Object> getArguments() {
         return arguments;
     }
 
-    public void setArguments(List<String> arguments) {
+    public void setArguments(List<Object> arguments) {
         this.arguments = arguments;
     }
 
-    public String getRet() {
+    public Object getRet() {
         return ret;
     }
 
-    public void setRet(String ret) {
+    public void setRet(Object ret) {
         this.ret = ret;
     }
 }

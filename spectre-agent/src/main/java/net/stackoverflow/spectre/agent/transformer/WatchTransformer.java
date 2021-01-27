@@ -77,15 +77,15 @@ public class WatchTransformer implements ClassFileTransformer {
                             StringBuilder sb = new StringBuilder("{");
                             sb.append("ClassLoader classLoader = net.stackoverflow.spectre.agent.AgentBootstrap.classLoader;");
                             sb.append("Class clazz = classLoader.loadClass(\"net.stackoverflow.spectre.agent.SpectreHack\");");
-                            sb.append("java.lang.reflect.Method method = clazz.getMethod(\"watch\", new Class[]{String.class, String.class, java.util.List.class});");
-                            sb.append("java.util.List arguments = new java.util.ArrayList();");
+                            sb.append("java.lang.reflect.Method method = clazz.getMethod(\"watch\", new Class[]{String.class, Object.class, java.util.List.class});");
+                            /*sb.append("java.util.List arguments = new java.util.ArrayList();");
                             sb.append("String ret = $_ == null ? null : $_.toString();");
                             sb.append("for(int i=0;i<$args.length;i++){");
                             sb.append("if($args[i]!=null){");
                             sb.append("arguments.add($args[i].toString());");
                             sb.append("}else{");
-                            sb.append("arguments.add(null);}}");
-                            sb.append("method.invoke(null, new Object[]{\"").append(key).append("\", ret, arguments});");
+                            sb.append("arguments.add(null);}}");*/
+                            sb.append("method.invoke(null, new Object[]{\"").append(key).append("\", $_, java.util.Arrays.asList($args)});");
                             sb.append("}");
                             method.insertAfter(sb.toString());
                         }
