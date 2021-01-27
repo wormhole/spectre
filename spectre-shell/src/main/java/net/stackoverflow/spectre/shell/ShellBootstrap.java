@@ -67,7 +67,8 @@ public class ShellBootstrap {
             vm.loadAgent(agentJar);
             log.info("attach jvm pid:{}", pid);
         } catch (Exception e) {
-            log.error("attach fail");
+            log.error("attach fail", e);
+            System.exit(-1);
         }
         return vm;
     }
