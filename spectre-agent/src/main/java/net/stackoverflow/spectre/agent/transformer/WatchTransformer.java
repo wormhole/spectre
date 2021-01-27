@@ -1,6 +1,7 @@
 package net.stackoverflow.spectre.agent.transformer;
 
 import io.netty.channel.Channel;
+import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -61,6 +62,7 @@ public class WatchTransformer implements ClassFileTransformer {
         if (ms != null && ms.size() > 0) {
             byte[] transformed = null;
             ClassPool pool = ClassPool.getDefault();
+            pool.insertClassPath(new ClassClassPath(classBeingRedefined));
             CtClass cl = null;
             try {
                 cl = pool.makeClass(new ByteArrayInputStream(classfileBuffer));
@@ -69,6 +71,7 @@ public class WatchTransformer implements ClassFileTransformer {
                     for (int i = 0; i < methods.length; i++) {
                         CtMethod method = methods[i];
                         if (ms.contains(method.getName())) {
+                            log.info("ClassLoader {}", loader);
                             log.info("WatchTransformer transform {}, {}, {}", className, method.getName(), method.getSignature());
                             String key = className + "." + method.getName();
                             StringBuilder sb = new StringBuilder("{");
