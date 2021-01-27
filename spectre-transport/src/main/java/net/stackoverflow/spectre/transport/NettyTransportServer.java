@@ -8,8 +8,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.stackoverflow.spectre.transport.codec.MessageDecoder;
 import net.stackoverflow.spectre.transport.codec.MessageEncoder;
-import net.stackoverflow.spectre.common.command.Invoker;
-import net.stackoverflow.spectre.transport.handler.server.ServerCommandHandler;
+import net.stackoverflow.spectre.transport.handler.BusinessHandler;
+import net.stackoverflow.spectre.transport.handler.server.ServerBusinessHandler;
 import net.stackoverflow.spectre.transport.handler.server.ServerHeatBeatHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,17 @@ public class NettyTransportServer implements TransportServer {
 
     public static Boolean isBind = false;
 
+    private final BusinessHandler handler;
+
+    private final int port;
+
+    public NettyTransportServer(int port, BusinessHandler handler) {
+        this.port = port;
+        this.handler = handler;
+    }
+
     @Override
-    public void start(int port, Invoker invoker) {
+    public void start() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Thread thread = new Thread(() -> {
             EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -47,7 +56,7 @@ public class NettyTransportServer implements TransportServer {
                                 pipeline.addLast(new MessageEncoder());
                                 pipeline.addLast(new ReadTimeoutHandler(60));
                                 pipeline.addLast(new ServerHeatBeatHandler());
-                                pipeline.addLast(new ServerCommandHandler(invoker));
+                                pipeline.addLast(new ServerBusinessHandler(handler));
                             }
                         });
                 ChannelFuture future = bootstrap.bind(port).sync();

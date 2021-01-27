@@ -4,6 +4,7 @@ import net.stackoverflow.spectre.agent.command.*;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
+import net.stackoverflow.spectre.transport.handler.BusinessHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,9 @@ public class SpectreAgent {
         invoker.addCommand(new AgentCommand("stack", new StackReceiver()));
         invoker.addCommand(new AgentCommand("shutdown", new ShutdownReceiver()));
         log.info("agent init command");
-        TransportServer server = new NettyTransportServer();
-        server.start(9966, invoker);
+
+        BusinessHandler handler = new AgentBusinessHandler(invoker);
+        TransportServer server = new NettyTransportServer(9966, handler);
+        server.start();
     }
 }
