@@ -5,6 +5,7 @@ import com.sun.tools.attach.VirtualMachineDescriptor;
 import net.stackoverflow.spectre.common.command.Invoker;
 import net.stackoverflow.spectre.common.command.ShellCommand;
 import net.stackoverflow.spectre.common.command.ShellInvoker;
+import net.stackoverflow.spectre.common.command.ThreadCommand;
 import net.stackoverflow.spectre.shell.receiver.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -84,7 +85,7 @@ public class ShellBootstrap {
     private Invoker initCommand(TransportClient client, VirtualMachine vm) {
         ShellInvoker invoker = new ShellInvoker();
         invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
-        invoker.addCommand(new ShellCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client, serializeManager)));
+        invoker.addCommand(new ThreadCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client, serializeManager)));
         invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client, serializeManager)));

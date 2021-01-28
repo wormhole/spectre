@@ -5,6 +5,7 @@ import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.agent.transport.AgentBusinessHandler;
 import net.stackoverflow.spectre.common.command.ShellCommand;
 import net.stackoverflow.spectre.common.command.ShellInvoker;
+import net.stackoverflow.spectre.common.command.ThreadCommand;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
 import net.stackoverflow.spectre.transport.handler.BusinessHandler;
@@ -38,7 +39,7 @@ public class SpectreAgent {
         }
         ShellInvoker invoker = new ShellInvoker();
         WatchTransformer transformer = new WatchTransformer();
-        invoker.addCommand(new ShellCommand("thread", null, new ThreadReceiver()));
+        invoker.addCommand(new ThreadCommand("thread", null, new ThreadReceiver()));
         invoker.addCommand(new ShellCommand("memory", null, new MemoryReceiver()));
         invoker.addCommand(new ShellCommand("os", null, new OsReceiver()));
         invoker.addCommand(new ShellCommand("jvm", null, new JvmReceiver()));
