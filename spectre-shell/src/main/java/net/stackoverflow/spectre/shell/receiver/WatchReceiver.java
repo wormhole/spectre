@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
 import net.stackoverflow.spectre.common.model.WatchInfo;

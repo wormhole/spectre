@@ -1,6 +1,6 @@
 package net.stackoverflow.spectre.agent;
 
-import net.stackoverflow.spectre.agent.command.*;
+import net.stackoverflow.spectre.agent.receiver.*;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.agent.transport.AgentBusinessHandler;
 import net.stackoverflow.spectre.common.command.ShellCommand;

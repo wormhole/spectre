@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.command;
+package net.stackoverflow.spectre.agent.receiver;
 
 import io.netty.channel.Channel;
 import net.stackoverflow.spectre.agent.transport.ChannelHolder;

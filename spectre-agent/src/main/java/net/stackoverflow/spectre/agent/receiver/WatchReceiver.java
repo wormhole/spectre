@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.agent.command;
+package net.stackoverflow.spectre.agent.receiver;
 
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.common.command.Receiver;

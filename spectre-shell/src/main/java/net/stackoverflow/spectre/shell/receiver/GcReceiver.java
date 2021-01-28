@@ -1,25 +1,30 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import net.stackoverflow.spectre.common.command.Receiver;
+import net.stackoverflow.spectre.common.model.GcInfo;
+import net.stackoverflow.spectre.common.util.FormatUtils;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
+import org.fusesource.jansi.Ansi;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
- * 打印线程堆栈
+ * gc命令接收者
  *
- * @author wormhole
+ * @author wormhole;
  */
-public class StackReceiver implements Receiver {
+public class GcReceiver implements Receiver {
 
     private final TransportClient client;
 
     private final SerializeManager serializeManager;
 
-    public StackReceiver(TransportClient client, SerializeManager serializeManager) {
+    public GcReceiver(TransportClient client, SerializeManager serializeManager) {
         this.client = client;
         this.serializeManager = serializeManager;
     }
@@ -32,20 +37,21 @@ public class StackReceiver implements Receiver {
         try {
             byte[] response = (byte[]) context.getResponse(request.getId());
             context.unwatch(request.getId());
-            StackTraceElement[] stackTraceElements = serializeManager.deserialize(response, StackTraceElement[].class);
-            renderStackTrace(stackTraceElements);
+            List<GcInfo> result = serializeManager.deserialize(response, new TypeReference<List<GcInfo>>() {
+            });
+            renderMemory(result);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private void renderStackTrace(StackTraceElement[] stackTraceElements) {
-        if (stackTraceElements.length > 0) {
-            System.out.println(stackTraceElements[0]);
-        }
-        for (int i = 1; i < stackTraceElements.length; i++) {
-            System.out.println("\tat " + stackTraceElements[i]);
+    private void renderMemory(List<GcInfo> infos) {
+        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
+        System.out.printf("%-25s  %-6s  %-15s  %-50s", "name", "count", "time", "memory.pool.names");
+        System.out.println(Ansi.ansi().reset());
+        for (GcInfo info : infos) {
+            System.out.printf("%-25s  %-6s  %-15s  %-50s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), info.getPoolNames());
         }
     }
 }

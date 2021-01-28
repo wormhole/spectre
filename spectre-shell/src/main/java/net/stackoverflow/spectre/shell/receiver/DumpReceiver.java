@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
 import com.sun.tools.attach.VirtualMachine;
 import net.stackoverflow.spectre.common.command.Receiver;

@@ -1,4 +1,4 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import net.stackoverflow.spectre.common.command.Receiver;

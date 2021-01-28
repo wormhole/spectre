@@ -1,30 +1,27 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.GcInfo;
-import net.stackoverflow.spectre.common.util.FormatUtils;
+import net.stackoverflow.spectre.common.model.OsInfo;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
- * gc命令接收者
+ * 查询os命令接收者
  *
- * @author wormhole;
+ * @author wormhole
  */
-public class GcReceiver implements Receiver {
+public class OsReceiver implements Receiver {
 
     private final TransportClient client;
 
     private final SerializeManager serializeManager;
 
-    public GcReceiver(TransportClient client, SerializeManager serializeManager) {
+    public OsReceiver(TransportClient client, SerializeManager serializeManager) {
         this.client = client;
         this.serializeManager = serializeManager;
     }
@@ -37,21 +34,21 @@ public class GcReceiver implements Receiver {
         try {
             byte[] response = (byte[]) context.getResponse(request.getId());
             context.unwatch(request.getId());
-            List<GcInfo> result = serializeManager.deserialize(response, new TypeReference<List<GcInfo>>() {
-            });
-            renderMemory(result);
+            OsInfo dto = serializeManager.deserialize(response, OsInfo.class);
+            renderOsInfo(dto);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private void renderMemory(List<GcInfo> infos) {
+    private void renderOsInfo(OsInfo dto) {
         System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-25s  %-6s  %-15s  %-50s", "name", "count", "time", "memory.pool.names");
+        System.out.printf("%-10s  %-10s", "option", "value");
         System.out.println(Ansi.ansi().reset());
-        for (GcInfo info : infos) {
-            System.out.printf("%-25s  %-6s  %-15s  %-50s%n", info.getName(), info.getCount(), FormatUtils.formatMilliSecond(info.getTime()), info.getPoolNames());
-        }
+        System.out.printf("%-10s  %-10s%n", "name", dto.getName());
+        System.out.printf("%-10s  %-10s%n", "version", dto.getVersion());
+        System.out.printf("%-10s  %-10s%n", "arch", dto.getArch());
+        System.out.printf("%-10s  %-10s%n", "cores", dto.getCores());
     }
 }

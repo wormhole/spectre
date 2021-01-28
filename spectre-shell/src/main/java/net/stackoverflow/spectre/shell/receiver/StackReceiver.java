@@ -1,27 +1,25 @@
-package net.stackoverflow.spectre.shell.command;
+package net.stackoverflow.spectre.shell.receiver;
 
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.model.OsInfo;
 import net.stackoverflow.spectre.transport.TransportClient;
 import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
-import org.fusesource.jansi.Ansi;
 
 import java.util.UUID;
 
 /**
- * 查询os命令接收者
+ * 打印线程堆栈
  *
  * @author wormhole
  */
-public class OsReceiver implements Receiver {
+public class StackReceiver implements Receiver {
 
     private final TransportClient client;
 
     private final SerializeManager serializeManager;
 
-    public OsReceiver(TransportClient client, SerializeManager serializeManager) {
+    public StackReceiver(TransportClient client, SerializeManager serializeManager) {
         this.client = client;
         this.serializeManager = serializeManager;
     }
@@ -34,21 +32,20 @@ public class OsReceiver implements Receiver {
         try {
             byte[] response = (byte[]) context.getResponse(request.getId());
             context.unwatch(request.getId());
-            OsInfo dto = serializeManager.deserialize(response, OsInfo.class);
-            renderOsInfo(dto);
+            StackTraceElement[] stackTraceElements = serializeManager.deserialize(response, StackTraceElement[].class);
+            renderStackTrace(stackTraceElements);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private void renderOsInfo(OsInfo dto) {
-        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-10s  %-10s", "option", "value");
-        System.out.println(Ansi.ansi().reset());
-        System.out.printf("%-10s  %-10s%n", "name", dto.getName());
-        System.out.printf("%-10s  %-10s%n", "version", dto.getVersion());
-        System.out.printf("%-10s  %-10s%n", "arch", dto.getArch());
-        System.out.printf("%-10s  %-10s%n", "cores", dto.getCores());
+    private void renderStackTrace(StackTraceElement[] stackTraceElements) {
+        if (stackTraceElements.length > 0) {
+            System.out.println(stackTraceElements[0]);
+        }
+        for (int i = 1; i < stackTraceElements.length; i++) {
+            System.out.println("\tat " + stackTraceElements[i]);
+        }
     }
 }
