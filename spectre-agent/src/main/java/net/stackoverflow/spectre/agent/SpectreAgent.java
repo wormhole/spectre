@@ -36,7 +36,7 @@ public class SpectreAgent {
             return;
         }
         ShellInvoker invoker = new ShellInvoker();
-        WatchTransformer transformer = new WatchTransformer();
+        WatchTransformer transformer = new WatchTransformer(instrumentation);
         invoker.addCommand(new ThreadCommand("thread", null, new ThreadReceiver()));
         invoker.addCommand(new NoOptionCommand("memory", null, new MemoryReceiver()));
         invoker.addCommand(new NoOptionCommand("os", null, new OsReceiver()));
@@ -45,7 +45,7 @@ public class SpectreAgent {
         invoker.addCommand(new WatchCommand("watch", null, new WatchReceiver(transformer, instrumentation)));
         invoker.addCommand(new UnWatchCommand("unwatch", null, new UnwatchReceiver(transformer, instrumentation)));
         invoker.addCommand(new StackCommand("stack", null, new StackReceiver()));
-        invoker.addCommand(new NoOptionCommand("shutdown", null, new ShutdownReceiver()));
+        invoker.addCommand(new NoOptionCommand("shutdown", null, new ShutdownReceiver(transformer)));
         log.info("agent init command");
 
         BusinessHandler handler = new AgentBusinessHandler(invoker);

@@ -27,12 +27,7 @@ public class WatchReceiver implements Receiver {
         Class[] classes = instrumentation.getAllLoadedClasses();
         for (Class clazz : classes) {
             if (clazz.getName().equals(args[2])) {
-                transformer.watch(args[2], args[3]);
-                try {
-                    instrumentation.retransformClasses(clazz);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                transformer.watch(clazz, args[2], args[3]);
             }
         }
         return null;

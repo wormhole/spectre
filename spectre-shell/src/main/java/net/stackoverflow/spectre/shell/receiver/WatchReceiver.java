@@ -51,7 +51,7 @@ public class WatchReceiver implements Receiver {
         } finally {
             thread.interrupt();
         }
-        request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(new String[]{"unwatch", args[2], args[3]}));
+        request = new BusinessRequest(UUID.randomUUID().toString(), serializeManager.serialize(new String[]{"unwatch", "-t", args[2], args[3]}));
         client.sendTo(request);
         ResponseContext context = ResponseContext.getInstance();
         context.unwatch(request.getId());

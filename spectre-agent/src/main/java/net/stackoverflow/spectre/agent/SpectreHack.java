@@ -58,6 +58,13 @@ public class SpectreHack {
         return flag;
     }
 
+    /**
+     * 清空所有监听队列
+     */
+    public static synchronized void unListenAll() {
+        listener.clear();
+    }
+
     public static void watch(String key, Object ret, List<Object> args) {
         try {
             Set<Channel> channels = listener.get(key);
