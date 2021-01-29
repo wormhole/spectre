@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.tools.attach.HotSpotVirtualMachine;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -28,7 +29,10 @@ public class DumpReceiver implements Receiver {
         if (vm instanceof HotSpotVirtualMachine) {
             HotSpotVirtualMachine hsvm = (HotSpotVirtualMachine) vm;
             try {
-                hsvm.dumpHeap("./spectre-output/" + args[1]);
+                String currentDir = System.getProperty("user.dir");
+                File file = new File(currentDir, "spectre-output/" + args[2]);
+                hsvm.dumpHeap(file.getAbsolutePath());
+                System.out.println("filepath: " + file.getAbsolutePath());
             } catch (IOException e) {
                 log.error("", e);
             }
