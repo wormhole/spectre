@@ -1,5 +1,7 @@
 package net.stackoverflow.spectre.common.command;
 
+import org.fusesource.jansi.Ansi;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +35,7 @@ public class ShellInvoker implements Invoker {
         if (command != null) {
             return command.execute(args);
         } else {
+            System.out.println(Ansi.ansi().fgRed().a("unknown command：" + args[0]).reset());
             return null;
         }
     }

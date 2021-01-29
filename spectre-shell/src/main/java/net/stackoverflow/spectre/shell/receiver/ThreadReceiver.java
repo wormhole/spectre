@@ -9,7 +9,6 @@ import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +53,7 @@ public class ThreadReceiver implements Receiver {
                 "suspended", "blocked.count", "waited.count", "lock.owner.id", "state");
         System.out.println(Ansi.ansi().reset());
         for (ThreadInfo info : infos) {
-            AnsiConsole.out().printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-15.15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s  %-13s%n",
+            System.out.printf("%-5s  %-24.24s  %-13s  %-13s  %-13s  %-15.15s  %-8s  %-6s  %-6s  %-11s  %-9s  %-13s  %-12s  %-13s  %-13s%n",
                     info.getThreadId(), info.getThreadName(), String.format("%.2f", info.getCpuRate()), FormatUtils.formatNanoSecond(info.getCpuTime()),
                     FormatUtils.formatNanoSecond(info.getUserTime()), info.getGroup(), info.getPriority(), info.getActive(), info.getDaemon(), info.getInterrupted(), info.getSuspended(),
                     info.getBlockedCount(), info.getWaitedCount(), info.getLockOwnerId(), threadState(info.getThreadState()));
