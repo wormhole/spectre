@@ -88,7 +88,7 @@ public class ShellBootstrap {
         invoker.addCommand(new NoOptionCommand("jvm", "Print jvm information", new JvmReceiver(client, serializeManager)));
         invoker.addCommand(new NoOptionCommand("gc", "Print gc information", new GcReceiver(client, serializeManager)));
         invoker.addCommand(new WatchCommand("watch", "Watch method arguments and return", new WatchReceiver(client, serializeManager)));
-        invoker.addCommand(new NoOptionCommand("stack", "Print thread stacktrace", new StackReceiver(client, serializeManager)));
+        invoker.addCommand(new StackCommand("stack", "Print thread stacktrace", new StackReceiver(client, serializeManager)));
         invoker.addCommand(new NoOptionCommand("dump", "Save dump file", new DumpReceiver(vm)));
         invoker.addCommand(new NoOptionCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client, serializeManager)));
         invoker.addCommand(new NoOptionCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));

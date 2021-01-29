@@ -13,7 +13,7 @@ public class StackReceiver implements Receiver {
 
     @Override
     public Object action(String... args) {
-        Thread thread = ThreadUtils.findThread(Long.parseLong(args[1]));
+        Thread thread = ThreadUtils.findThread(Long.parseLong(args[2]));
         if (thread != null) {
             return thread.getStackTrace();
         } else {

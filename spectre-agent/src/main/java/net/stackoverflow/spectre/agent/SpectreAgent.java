@@ -3,10 +3,7 @@ package net.stackoverflow.spectre.agent;
 import net.stackoverflow.spectre.agent.receiver.*;
 import net.stackoverflow.spectre.agent.transformer.WatchTransformer;
 import net.stackoverflow.spectre.agent.transport.AgentBusinessHandler;
-import net.stackoverflow.spectre.common.command.NoOptionCommand;
-import net.stackoverflow.spectre.common.command.ShellInvoker;
-import net.stackoverflow.spectre.common.command.ThreadCommand;
-import net.stackoverflow.spectre.common.command.WatchCommand;
+import net.stackoverflow.spectre.common.command.*;
 import net.stackoverflow.spectre.transport.NettyTransportServer;
 import net.stackoverflow.spectre.transport.TransportServer;
 import net.stackoverflow.spectre.transport.handler.BusinessHandler;
@@ -47,7 +44,7 @@ public class SpectreAgent {
         invoker.addCommand(new NoOptionCommand("gc", null, new GcReceiver()));
         invoker.addCommand(new WatchCommand("watch", null, new WatchReceiver(transformer, instrumentation)));
         invoker.addCommand(new NoOptionCommand("unwatch", null, new UnwatchReceiver(transformer, instrumentation)));
-        invoker.addCommand(new NoOptionCommand("stack", null, new StackReceiver()));
+        invoker.addCommand(new StackCommand("stack", null, new StackReceiver()));
         invoker.addCommand(new NoOptionCommand("shutdown", null, new ShutdownReceiver()));
         log.info("agent init command");
 
