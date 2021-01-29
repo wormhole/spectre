@@ -82,7 +82,9 @@ public class WatchTransformer implements ClassFileTransformer {
         SpectreHack.unListenAll();
         methodMap.clear();
         try {
-            instrumentation.retransformClasses(classSet.toArray(new Class<?>[0]));
+            if (classSet.size() > 0) {
+                instrumentation.retransformClasses(classSet.toArray(new Class<?>[0]));
+            }
         } catch (UnmodifiableClassException e) {
             log.error("", e);
         }

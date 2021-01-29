@@ -63,6 +63,8 @@ public class NettyTransportClient implements TransportClient {
                 eventLoopGroup.shutdownGracefully();
                 channel = null;
                 log.info("[R:{}] client closed", ip + ":" + port);
+                System.out.println("session closed...");
+                System.exit(0);
             }
         });
         thread.setDaemon(true);

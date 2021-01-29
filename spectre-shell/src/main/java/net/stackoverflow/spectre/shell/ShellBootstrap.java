@@ -108,7 +108,9 @@ public class ShellBootstrap {
                 System.out.print("[spectre@" + vm.id() + "]# ");
                 cmd = reader.readLine();
                 log.info("shell call command {}", cmd);
-                invoker.call(cmd.trim().split("\\s+"));
+                if (!cmd.trim().equals("")) {
+                    invoker.call(cmd.trim().split("\\s+"));
+                }
             } while (!"exit".equals(cmd));
         } catch (InActiveException e) {
             System.out.println(Ansi.ansi().fgRed().a("connection is closed..."));
