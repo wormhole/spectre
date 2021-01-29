@@ -51,5 +51,9 @@ public abstract class AbstractCommand implements Command {
         return result;
     }
 
+    public void usage() {
+        formatter.printHelp(command, options, true);
+    }
+
     abstract protected void initOption();
 }

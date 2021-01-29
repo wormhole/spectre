@@ -15,7 +15,7 @@ public class WatchCommand extends NoOptionCommand {
 
     @Override
     protected void initOption() {
-        Option classname = new Option("t", "target", true, "the target class name and method name");
+        Option classname = new Option("t", "target", true, "the target className and methodName");
         classname.setRequired(true);
         classname.setArgName("className methodName");
         classname.setArgs(2);

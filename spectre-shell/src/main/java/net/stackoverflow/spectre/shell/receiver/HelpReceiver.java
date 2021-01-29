@@ -22,11 +22,23 @@ public class HelpReceiver implements Receiver {
 
     @Override
     public Object action(String... args) {
-        System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
-        System.out.printf("%-8s %-50s", "command", "description");
-        System.out.println(Ansi.ansi().reset());
-        for (AbstractCommand command : commands) {
-            System.out.printf("%-8s %-50s%n", command.command(), command.description());
+        if (args.length == 1) {
+            System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
+            System.out.printf("%-8s %-50s", "command", "description");
+            System.out.println(Ansi.ansi().reset());
+            for (AbstractCommand command : commands) {
+                System.out.printf("%-8s %-50s%n", command.command(), command.description());
+            }
+        } else if (args.length == 2) {
+            for (AbstractCommand command : commands) {
+                if (command.command().equals(args[1])) {
+                    command.usage();
+                    return null;
+                }
+            }
+            System.out.println(Ansi.ansi().fgRed().a("unknown command: " + args[1]).reset());
+        } else {
+            System.out.println(Ansi.ansi().fgRed().a("unmatch arguments size").reset());
         }
         return null;
     }
