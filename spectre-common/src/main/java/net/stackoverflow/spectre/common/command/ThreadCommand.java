@@ -7,7 +7,7 @@ import org.apache.commons.cli.Option;
  *
  * @author wormhole
  */
-public class ThreadCommand extends ShellCommand {
+public class ThreadCommand extends AbstractCommand {
 
     public ThreadCommand(String command, String description, Receiver receiver) {
         super(command, description, receiver);

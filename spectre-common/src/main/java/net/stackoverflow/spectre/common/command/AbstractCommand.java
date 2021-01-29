@@ -7,7 +7,7 @@ import org.apache.commons.cli.*;
  *
  * @author wormhole
  */
-public class ShellCommand implements Command {
+public abstract class AbstractCommand implements Command {
 
     protected String command;
 
@@ -21,7 +21,7 @@ public class ShellCommand implements Command {
 
     protected HelpFormatter formatter = new HelpFormatter();
 
-    public ShellCommand(String command, String description, Receiver receiver) {
+    public AbstractCommand(String command, String description, Receiver receiver) {
         this.command = command;
         this.description = description;
         this.receiver = receiver;
@@ -51,7 +51,5 @@ public class ShellCommand implements Command {
         return result;
     }
 
-    protected void initOption() {
-
-    }
+    abstract protected void initOption();
 }

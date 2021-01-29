@@ -2,10 +2,7 @@ package net.stackoverflow.spectre.shell;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
-import net.stackoverflow.spectre.common.command.Invoker;
-import net.stackoverflow.spectre.common.command.ShellCommand;
-import net.stackoverflow.spectre.common.command.ShellInvoker;
-import net.stackoverflow.spectre.common.command.ThreadCommand;
+import net.stackoverflow.spectre.common.command.*;
 import net.stackoverflow.spectre.shell.receiver.*;
 import net.stackoverflow.spectre.transport.NettyTransportClient;
 import net.stackoverflow.spectre.transport.TransportClient;
@@ -84,17 +81,17 @@ public class ShellBootstrap {
 
     private Invoker initCommand(TransportClient client, VirtualMachine vm) {
         ShellInvoker invoker = new ShellInvoker();
-        invoker.addCommand(new ShellCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
-        invoker.addCommand(new ThreadCommand("thread", "Print thread information, options [-b, -w]", new ThreadReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("memory", "Print memory information", new MemoryReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("os", "Print operating system information", new OsReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("jvm", "Print jvm information", new JvmReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("gc", "Print gc information", new GcReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("watch", "Watch variable, usage: watch className methodName", new WatchReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("stack", "Print thread stack, usage: stack tid", new StackReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("dump", "Save dump file, usage: dump filename", new DumpReceiver(vm)));
-        invoker.addCommand(new ShellCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client, serializeManager)));
-        invoker.addCommand(new ShellCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
+        invoker.addCommand(new NoOptionCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
+        invoker.addCommand(new ThreadCommand("thread", "Print thread information", new ThreadReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("memory", "Print memory information", new MemoryReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("os", "Print operating system information", new OsReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("jvm", "Print jvm information", new JvmReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("gc", "Print gc information", new GcReceiver(client, serializeManager)));
+        invoker.addCommand(new WatchCommand("watch", "Watch method arguments and return", new WatchReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("stack", "Print thread stacktrace", new StackReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("dump", "Save dump file", new DumpReceiver(vm)));
+        invoker.addCommand(new NoOptionCommand("shutdown", "Close spectre agent", new ShutdownReceiver(client, serializeManager)));
+        invoker.addCommand(new NoOptionCommand("exit", "Close session and exit spectre", new ExitReceiver(client)));
         log.info("shell init commands");
         return invoker;
     }

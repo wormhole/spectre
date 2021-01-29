@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ShellInvoker implements Invoker {
 
-    private final Map<String, ShellCommand> commands;
+    private final Map<String, AbstractCommand> commands;
 
     public ShellInvoker() {
         commands = new ConcurrentHashMap<>();
@@ -19,11 +19,11 @@ public class ShellInvoker implements Invoker {
 
     @Override
     public void addCommand(Command command) {
-        ShellCommand shellCommand = (ShellCommand) command;
-        commands.put(shellCommand.command, shellCommand);
+        AbstractCommand abstractCommand = (AbstractCommand) command;
+        commands.put(abstractCommand.command, abstractCommand);
     }
 
-    public Collection<ShellCommand> getCommands() {
+    public Collection<AbstractCommand> getCommands() {
         return commands.values();
     }
 

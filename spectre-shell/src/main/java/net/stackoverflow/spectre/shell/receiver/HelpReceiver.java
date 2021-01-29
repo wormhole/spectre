@@ -1,8 +1,8 @@
 package net.stackoverflow.spectre.shell.receiver;
 
 
+import net.stackoverflow.spectre.common.command.AbstractCommand;
 import net.stackoverflow.spectre.common.command.Receiver;
-import net.stackoverflow.spectre.common.command.ShellCommand;
 import org.fusesource.jansi.Ansi;
 
 import java.util.Collection;
@@ -14,9 +14,9 @@ import java.util.Collection;
  */
 public class HelpReceiver implements Receiver {
 
-    private final Collection<ShellCommand> commands;
+    private final Collection<AbstractCommand> commands;
 
-    public HelpReceiver(Collection<ShellCommand> commands) {
+    public HelpReceiver(Collection<AbstractCommand> commands) {
         this.commands = commands;
     }
 
@@ -25,7 +25,7 @@ public class HelpReceiver implements Receiver {
         System.out.print(Ansi.ansi().fgBlack().bg(Ansi.Color.WHITE).bold());
         System.out.printf("%-8s %-50s", "command", "description");
         System.out.println(Ansi.ansi().reset());
-        for (ShellCommand command : commands) {
+        for (AbstractCommand command : commands) {
             System.out.printf("%-8s %-50s%n", command.command(), command.description());
         }
         return null;
