@@ -7,6 +7,8 @@ import net.stackoverflow.spectre.transport.context.ResponseContext;
 import net.stackoverflow.spectre.transport.proto.BusinessRequest;
 import net.stackoverflow.spectre.transport.serialize.SerializeManager;
 import org.fusesource.jansi.Ansi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,6 +20,8 @@ import java.util.UUID;
  * @author wormhole
  */
 public class WatchReceiver implements Receiver {
+
+    private static final Logger log = LoggerFactory.getLogger(WatchReceiver.class);
 
     private final TransportClient client;
 
@@ -43,7 +47,7 @@ public class WatchReceiver implements Receiver {
                 command = reader.readLine().trim();
             } while (!"q".equals(command));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("", e);
         } finally {
             thread.interrupt();
         }

@@ -43,7 +43,7 @@ public class SpectreAgent {
         invoker.addCommand(new NoOptionCommand("jvm", null, new JvmReceiver()));
         invoker.addCommand(new NoOptionCommand("gc", null, new GcReceiver()));
         invoker.addCommand(new WatchCommand("watch", null, new WatchReceiver(transformer, instrumentation)));
-        invoker.addCommand(new NoOptionCommand("unwatch", null, new UnwatchReceiver(transformer, instrumentation)));
+        invoker.addCommand(new UnWatchCommand("unwatch", null, new UnwatchReceiver(transformer, instrumentation)));
         invoker.addCommand(new StackCommand("stack", null, new StackReceiver()));
         invoker.addCommand(new NoOptionCommand("shutdown", null, new ShutdownReceiver()));
         log.info("agent init command");
