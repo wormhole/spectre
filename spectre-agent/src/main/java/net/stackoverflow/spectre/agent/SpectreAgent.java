@@ -49,7 +49,7 @@ public class SpectreAgent {
         log.info("agent init command");
 
         BusinessHandler handler = new AgentBusinessHandler(invoker);
-        TransportServer server = new NettyTransportServer(9966, handler);
-        server.start();
+        TransportServer server = new NettyTransportServer(handler);
+        server.bind(9966);
     }
 }

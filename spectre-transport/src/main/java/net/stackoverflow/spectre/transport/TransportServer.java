@@ -7,7 +7,7 @@ package net.stackoverflow.spectre.transport;
  */
 public interface TransportServer {
 
-    void start();
+    void bind(int port);
 
     void close();
 }

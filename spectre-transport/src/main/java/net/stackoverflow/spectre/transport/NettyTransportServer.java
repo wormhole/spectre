@@ -31,15 +31,12 @@ public class NettyTransportServer implements TransportServer {
 
     private final BusinessHandler handler;
 
-    private final int port;
-
-    public NettyTransportServer(int port, BusinessHandler handler) {
-        this.port = port;
+    public NettyTransportServer(BusinessHandler handler) {
         this.handler = handler;
     }
 
     @Override
-    public void start() {
+    public void bind(int port) {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Thread thread = new Thread(() -> {
             EventLoopGroup bossGroup = new NioEventLoopGroup();
