@@ -21,19 +21,19 @@ public class Message {
 
     }
 
-    public Message(byte type) {
+    public Message(MessageType type) {
         header = new Header();
-        header.setType(type);
+        header.setType(type.value());
     }
 
-    public Message(byte type, Object body) {
+    public Message(MessageType type, Object body) {
         this.header = new Header();
-        this.header.setType(type);
+        this.header.setType(type.value());
         this.body = body;
     }
 
     public static Message from(MessageType type) {
-        return new Message(type.value());
+        return new Message(type);
     }
 
     public Message body(Object body) {
