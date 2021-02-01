@@ -29,9 +29,9 @@ public class HelpReceiver implements Receiver {
             for (AbstractCommand command : commands) {
                 System.out.printf("%-8s %-50s%n", command.command(), command.description());
             }
-        } else if (args.length == 2) {
+        } else if (args.length == 3) {
             for (AbstractCommand command : commands) {
-                if (command.command().equals(args[1])) {
+                if (command.command().equals(args[2])) {
                     command.usage();
                     return null;
                 }

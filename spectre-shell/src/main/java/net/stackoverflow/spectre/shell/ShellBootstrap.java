@@ -81,7 +81,7 @@ public class ShellBootstrap {
 
     private Invoker initCommand(TransportClient client, VirtualMachine vm) {
         ShellInvoker invoker = new ShellInvoker();
-        invoker.addCommand(new NoOptionCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
+        invoker.addCommand(new HelpCommand("help", "Print help information", new HelpReceiver(invoker.getCommands())));
         invoker.addCommand(new ThreadCommand("thread", "Print thread information", new ThreadReceiver(client, serializeManager)));
         invoker.addCommand(new NoOptionCommand("memory", "Print memory information", new MemoryReceiver(client, serializeManager)));
         invoker.addCommand(new NoOptionCommand("os", "Print operating system information", new OsReceiver(client, serializeManager)));
