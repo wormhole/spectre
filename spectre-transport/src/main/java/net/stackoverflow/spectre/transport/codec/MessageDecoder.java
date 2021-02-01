@@ -63,7 +63,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         if (bodySize > 0) {
             byte[] bodyBytes = new byte[bodySize];
             frame.readBytes(bodyBytes, 0, bodySize);
-            switch (MessageType.from(header.getType())) {
+            switch (MessageType.valueOf(header.getType())) {
                 case BUSINESS_REQUEST:
                     BusinessRequest request = serializeManager.deserialize(bodyBytes, BusinessRequest.class);
                     message.setBody(request);

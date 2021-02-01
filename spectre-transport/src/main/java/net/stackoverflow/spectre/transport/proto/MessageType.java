@@ -24,7 +24,7 @@ public enum MessageType {
         return this.value;
     }
 
-    public static MessageType from(byte value) {
+    public static MessageType valueOf(byte value) {
         for (MessageType type : MessageType.values()) {
             if (type.value == value) {
                 return type;
