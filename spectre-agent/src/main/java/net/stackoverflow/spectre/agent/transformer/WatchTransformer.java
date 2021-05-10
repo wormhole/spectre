@@ -111,7 +111,6 @@ public class WatchTransformer implements ClassFileTransformer {
                             log.info("WatchTransformer transform {}, {}, {}", className, method.getName(), method.getSignature());
                             String key = className + "." + method.getName();
                             StringBuilder sb = new StringBuilder("{");
-                            sb.append("System.out.println(\"test\");");
                             sb.append("ClassLoader classLoader = net.stackoverflow.spectre.agent.AgentBootstrap.classLoader;");
                             sb.append("Class clazz = classLoader.loadClass(\"net.stackoverflow.spectre.agent.SpectreHack\");");
                             sb.append("java.lang.reflect.Method method = clazz.getMethod(\"watch\", new Class[]{String.class, Object.class, java.util.List.class});");
